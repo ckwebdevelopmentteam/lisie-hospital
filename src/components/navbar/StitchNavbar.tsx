@@ -29,7 +29,6 @@ export default function StitchNavbar() {
 
   const navLinks = [
     { label: "About Us", href: "#about" },
-    { label: "Campuses", href: "#campuses" },
     { label: "Centres of Excellence", href: "#specialties" },
     { label: "Patient Services", href: "#services" },
     { label: "Stories", href: "#testimonials" },
@@ -37,20 +36,19 @@ export default function StitchNavbar() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 py-3 sm:py-4 px-3 sm:px-8 transition-all duration-300">
-      <div className="max-w-7xl mx-auto">
+    <header className="fixed top-0 left-0 right-0 z-50 py-2 sm:py-2.5 px-4 sm:px-8 lg:px-[120px] transition-all duration-300">
+      <div className="w-full">
         <nav
-          className={`frosted-glass bg-white/80 border border-white/70 shadow-xs rounded-full px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between transition-all duration-300 ${
-            scrolled ? "shadow-md bg-white/90" : "hover:shadow-md"
-          }`}
+          className={`frosted-glass bg-white/85 border border-white/70 shadow-xs rounded-full px-4 sm:px-5 py-1.5 sm:py-2 flex items-center justify-between transition-all duration-300 ${scrolled ? "shadow-md bg-white/95" : "hover:shadow-md"
+            }`}
         >
           {/* Lisie Brand Identity */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-burgundy-700 flex items-center justify-center text-white font-serif font-bold text-lg sm:text-xl tracking-tighter shadow-xs group-hover:scale-105 transition-transform">
+          <Link href="/" className="flex items-center space-x-2.5 group">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-burgundy-700 flex items-center justify-center text-white font-serif font-bold text-base sm:text-lg tracking-tighter shadow-xs group-hover:scale-105 transition-transform">
               LH
             </div>
             <div className="flex flex-col">
-              <span className="text-burgundy-900 font-bold text-base sm:text-lg leading-tight tracking-tight font-serif">
+              <span className="text-burgundy-900 font-bold text-sm sm:text-base leading-tight tracking-tight font-serif">
                 Lisie Hospital
               </span>
               <span className="text-[9px] sm:text-[10px] text-burgundy-700/80 font-medium tracking-widest uppercase font-sans">

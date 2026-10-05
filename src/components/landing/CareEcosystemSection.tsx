@@ -67,13 +67,13 @@ export default function CareEcosystemSection() {
 
   return (
     <section
-      className="relative py-24 px-4 sm:px-8 bg-burgundy-900 text-white overflow-hidden"
+      className="relative w-full py-10 sm:py-12 px-4 sm:px-8 lg:px-[120px] bg-gradient-to-b from-burgundy-950 via-burgundy-900 to-burgundy-950 text-white overflow-hidden"
       id="services"
     >
       <div id="specialties" className="absolute -top-12 left-0" />
 
       {/* Subtle background image tint */}
-      <div className="absolute inset-0 opacity-15 mix-blend-luminosity pointer-events-none">
+      <div className="absolute inset-0 opacity-10 mix-blend-luminosity pointer-events-none">
         <Image
           src="/images/stitch/lisie-campus-kaloor.jpg"
           alt="Lisie Hospital Architecture"
@@ -83,47 +83,45 @@ export default function CareEcosystemSection() {
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <div className="relative z-10 w-full">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="inline-block px-4 py-1 rounded-full bg-white/10 frosted-glass text-burgundy-100 text-xs font-semibold uppercase tracking-wider mb-3 font-sans">
+        <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8">
+          <span className="inline-block px-3 py-0.5 rounded-full bg-white/10 frosted-glass text-burgundy-100 text-[11px] font-semibold uppercase tracking-wider mb-2 font-sans">
             Holistic Healthcare
           </span>
-          <h2 className="text-3xl sm:text-4xl font-serif font-medium text-white tracking-tight">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-medium text-white tracking-tight">
             Comprehensive Medical Ecosystem
           </h2>
-          <p className="text-burgundy-100/80 text-sm mt-3 font-sans leading-relaxed">
-            From preventative screenings to complex heart transplants,
-            experience coordinated patient journeys backed by compassionate
-            experts.
+          <p className="text-burgundy-100/80 text-xs sm:text-sm mt-1.5 font-sans leading-relaxed">
+            From preventative screenings to complex heart transplants, experience coordinated patient journeys backed by compassionate experts.
           </p>
         </div>
 
-        {/* 6-Feature Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-sans">
+        {/* 6-Feature Grid with compact rounded-2xl cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 font-sans">
           {services.map((service) => {
             const Icon = service.icon;
             return (
               <div
                 key={service.id}
                 onClick={service.action}
-                className="group bg-white/10 frosted-glass p-8 rounded-3xl border border-white/15 hover:bg-white/15 hover:border-white/25 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                className="group bg-white/10 frosted-glass p-4 sm:p-5 rounded-2xl border border-white/15 hover:bg-white/15 hover:border-white/25 transition-all duration-200 cursor-pointer flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-burgundy-200 mb-5 group-hover:scale-110 group-hover:bg-burgundy-700 transition-all duration-200">
-                    <Icon className="w-6 h-6 text-white" />
+                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-burgundy-200 mb-2.5 group-hover:scale-105 group-hover:bg-burgundy-700 transition-all duration-200">
+                    <Icon className="w-4 h-4 text-white" />
                   </div>
-                  <h3 className="text-lg font-serif font-semibold text-white mb-2">
+                  <h3 className="text-sm font-serif font-semibold text-white mb-1 leading-snug">
                     {service.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-burgundy-100/80 leading-relaxed mb-4">
+                  <p className="text-xs text-burgundy-100/80 leading-relaxed mb-2.5">
                     {service.description}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs text-burgundy-200 group-hover:text-white transition-colors">
+                <div className="pt-2.5 border-t border-white/10 flex items-center justify-between text-xs text-burgundy-200 group-hover:text-white transition-colors">
                   <span>{service.actionLabel}</span>
-                  <span className="transform group-hover:translate-x-1 transition-transform">
+                  <span className="transform group-hover:translate-x-1 transition-transform text-xs">
                     →
                   </span>
                 </div>
@@ -133,11 +131,11 @@ export default function CareEcosystemSection() {
         </div>
 
         {/* Centered Consultation CTA */}
-        <div className="mt-14 text-center font-sans">
+        <div className="mt-7 sm:mt-8 text-center font-sans">
           <button
             type="button"
             onClick={() => openModal("doctor-search")}
-            className="inline-flex items-center space-x-2 bg-white text-burgundy-900 hover:bg-burgundy-50 text-sm font-semibold px-8 py-4 rounded-full shadow-lg transition-transform hover:scale-105 duration-200 active:scale-95"
+            className="inline-flex items-center space-x-2 bg-white text-burgundy-900 hover:bg-stone-100 text-xs sm:text-sm font-semibold px-5 py-2.5 sm:py-3 rounded-full shadow-md transition-transform hover:scale-105 duration-200 active:scale-95"
           >
             <span>Consult Our Senior Specialists</span>
             <span className="font-bold">↗</span>

@@ -32,46 +32,45 @@ export default function BookingConsultationSection() {
 
   return (
     <section
-      className="py-16 sm:py-20 px-4 sm:px-8 bg-warmgray-50 font-sans"
+      className="relative w-full py-10 sm:py-14 px-4 sm:px-8 lg:px-[120px] bg-gradient-to-br from-stone-950 via-burgundy-950 to-stone-900 text-white overflow-hidden font-sans"
       id="contact"
     >
-      <div className="max-w-7xl mx-auto">
-        <div className="relative bg-gradient-to-br from-stone-950 via-burgundy-950 to-stone-900 rounded-[2.5rem] p-8 sm:p-14 text-white shadow-2xl overflow-hidden border border-white/10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left Info Column */}
-            <div className="lg:col-span-5">
-              <span className="inline-block px-4 py-1 rounded-full bg-white/10 frosted-glass text-burgundy-200 text-xs font-semibold uppercase tracking-wider mb-4">
+      <div className="w-full relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
+          {/* Left Info Column */}
+          <div className="lg:col-span-5">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 frosted-glass text-burgundy-200 text-xs font-semibold uppercase tracking-wider mb-3">
                 Priority Consultation
               </span>
-              <h2 className="text-3xl sm:text-4xl font-serif font-medium tracking-tight mb-4 text-white leading-tight">
+              <h2 className="text-2xl sm:text-3xl font-serif font-medium tracking-tight mb-3 text-white leading-tight">
                 Schedule Your Appointment with a Specialist
               </h2>
-              <p className="text-stone-300 text-sm leading-relaxed mb-8">
+              <p className="text-stone-300 text-xs sm:text-sm leading-relaxed mb-6">
                 Have questions regarding specialized treatments, surgery second
                 opinions, or bed admissions? Our clinical coordinators are on
                 duty 24/7.
               </p>
 
-              <ul className="space-y-4 text-xs sm:text-sm text-stone-200">
-                <li className="flex items-center space-x-3">
+              <ul className="space-y-3 text-xs sm:text-sm text-stone-200">
+                <li className="flex items-center space-x-2.5">
                   <div className="w-5 h-5 rounded-full bg-burgundy-700/80 flex items-center justify-center shrink-0">
                     <ShieldCheck className="w-3.5 h-3.5 text-white" />
                   </div>
                   <span>NABH &amp; NABL accredited healthcare standards</span>
                 </li>
-                <li className="flex items-center space-x-3">
+                <li className="flex items-center space-x-2.5">
                   <div className="w-5 h-5 rounded-full bg-burgundy-700/80 flex items-center justify-center shrink-0">
                     <Clock className="w-3.5 h-3.5 text-white" />
                   </div>
                   <span>Fast response within 30 minutes for emergency triage</span>
                 </li>
-                <li className="flex items-center space-x-3">
+                <li className="flex items-center space-x-2.5">
                   <div className="w-5 h-5 rounded-full bg-burgundy-700/80 flex items-center justify-center shrink-0">
                     <CheckCircle2 className="w-3.5 h-3.5 text-white" />
                   </div>
                   <span>Transparent billing with no hidden institutional charges</span>
                 </li>
-                <li className="flex items-center space-x-3 pt-2">
+                <li className="flex items-center space-x-2.5 pt-1">
                   <button
                     type="button"
                     onClick={() => openModal("emergency")}
@@ -94,31 +93,31 @@ export default function BookingConsultationSection() {
             {/* Right Booking Form Column */}
             <div className="lg:col-span-7">
               {submitted ? (
-                <div className="bg-white/10 frosted-glass border border-white/20 rounded-3xl p-8 sm:p-12 text-center animate-in fade-in zoom-in-95 duration-300">
-                  <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle2 className="w-8 h-8" />
+                <div className="bg-white/10 frosted-glass border border-white/20 rounded-2xl p-6 sm:p-8 text-center animate-in fade-in zoom-in-95 duration-300">
+                  <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-3">
+                    <CheckCircle2 className="w-6 h-6" />
                   </div>
-                  <h3 className="text-2xl font-serif font-bold text-white mb-2">
+                  <h3 className="text-xl font-serif font-bold text-white mb-1.5">
                     Consultation Request Received
                   </h3>
-                  <p className="text-stone-300 text-sm max-w-md mx-auto mb-6 leading-relaxed">
+                  <p className="text-stone-300 text-xs sm:text-sm max-w-md mx-auto mb-5 leading-relaxed">
                     Thank you, {formData.firstName || "valued patient"}. Our
                     clinical coordination desk at Lisie Hospital will contact you
                     within 30 minutes to confirm your appointment time and
                     specialist.
                   </p>
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5">
                     <button
                       type="button"
                       onClick={() => setSubmitted(false)}
-                      className="px-6 py-2.5 rounded-full bg-white/20 hover:bg-white/30 text-white text-xs font-semibold transition"
+                      className="px-5 py-2 rounded-full bg-white/20 hover:bg-white/30 text-white text-xs font-semibold transition"
                     >
                       Book Another Request
                     </button>
                     <button
                       type="button"
                       onClick={() => openModal("appointment")}
-                      className="px-6 py-2.5 rounded-full bg-burgundy-700 hover:bg-burgundy-600 text-white text-xs font-semibold transition"
+                      className="px-5 py-2 rounded-full bg-burgundy-700 hover:bg-burgundy-600 text-white text-xs font-semibold transition"
                     >
                       Open Full Appointment System ↗
                     </button>
@@ -127,11 +126,11 @@ export default function BookingConsultationSection() {
               ) : (
                 <form
                   onSubmit={handleSubmit}
-                  className="bg-white/5 frosted-glass border border-white/10 rounded-3xl p-6 sm:p-8 space-y-4 shadow-inner"
+                  className="bg-white/5 frosted-glass border border-white/10 rounded-2xl p-5 sm:p-6 space-y-3.5 shadow-inner"
                 >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-medium uppercase tracking-wider text-stone-300 mb-1.5">
+                      <label className="block text-[10px] font-medium uppercase tracking-wider text-stone-300 mb-1">
                         First Name
                       </label>
                       <input
@@ -142,11 +141,11 @@ export default function BookingConsultationSection() {
                           setFormData({ ...formData, firstName: e.target.value })
                         }
                         placeholder="e.g. Anand"
-                        className="w-full bg-white text-stone-900 placeholder-stone-400 text-xs sm:text-sm rounded-xl px-4 py-3 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
+                        className="w-full bg-white text-stone-900 placeholder-stone-400 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-medium uppercase tracking-wider text-stone-300 mb-1.5">
+                      <label className="block text-[10px] font-medium uppercase tracking-wider text-stone-300 mb-1">
                         Last Name
                       </label>
                       <input
@@ -157,14 +156,14 @@ export default function BookingConsultationSection() {
                           setFormData({ ...formData, lastName: e.target.value })
                         }
                         placeholder="e.g. Varma"
-                        className="w-full bg-white text-stone-900 placeholder-stone-400 text-xs sm:text-sm rounded-xl px-4 py-3 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
+                        className="w-full bg-white text-stone-900 placeholder-stone-400 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-medium uppercase tracking-wider text-stone-300 mb-1.5">
+                      <label className="block text-[10px] font-medium uppercase tracking-wider text-stone-300 mb-1">
                         Email Address
                       </label>
                       <input
@@ -175,11 +174,11 @@ export default function BookingConsultationSection() {
                           setFormData({ ...formData, email: e.target.value })
                         }
                         placeholder="anand@example.com"
-                        className="w-full bg-white text-stone-900 placeholder-stone-400 text-xs sm:text-sm rounded-xl px-4 py-3 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
+                        className="w-full bg-white text-stone-900 placeholder-stone-400 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-medium uppercase tracking-wider text-stone-300 mb-1.5">
+                      <label className="block text-[10px] font-medium uppercase tracking-wider text-stone-300 mb-1">
                         Contact Number
                       </label>
                       <input
@@ -190,14 +189,14 @@ export default function BookingConsultationSection() {
                           setFormData({ ...formData, phone: e.target.value })
                         }
                         placeholder="+91 98470 00000"
-                        className="w-full bg-white text-stone-900 placeholder-stone-400 text-xs sm:text-sm rounded-xl px-4 py-3 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
+                        className="w-full bg-white text-stone-900 placeholder-stone-400 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
                       />
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-medium uppercase tracking-wider text-stone-300 mb-1.5">
+                      <label className="block text-[10px] font-medium uppercase tracking-wider text-stone-300 mb-1">
                         Preferred Date
                       </label>
                       <input
@@ -206,11 +205,11 @@ export default function BookingConsultationSection() {
                         onChange={(e) =>
                           setFormData({ ...formData, date: e.target.value })
                         }
-                        className="w-full bg-white text-stone-900 text-xs sm:text-sm rounded-xl px-4 py-3 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
+                        className="w-full bg-white text-stone-900 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
                       />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-medium uppercase tracking-wider text-stone-300 mb-1.5">
+                      <label className="block text-[10px] font-medium uppercase tracking-wider text-stone-300 mb-1">
                         Department
                       </label>
                       <select
@@ -221,7 +220,7 @@ export default function BookingConsultationSection() {
                             department: e.target.value,
                           })
                         }
-                        className="w-full bg-white text-stone-900 text-xs sm:text-sm rounded-xl px-4 py-3 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
+                        className="w-full bg-white text-stone-900 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
                       >
                         <option>Lisie Heart Institute (Cardiology)</option>
                         <option>Neurosciences &amp; Stroke Unit</option>
@@ -235,20 +234,19 @@ export default function BookingConsultationSection() {
 
                   {/* Campus Selection Pills */}
                   <div>
-                    <label className="block text-[11px] font-medium uppercase tracking-wider text-stone-300 mb-2">
+                    <label className="block text-[10px] font-medium uppercase tracking-wider text-stone-300 mb-1.5">
                       Preferred Campus
                     </label>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5">
                       {campusesList.map((campus) => (
                         <button
                           key={campus}
                           type="button"
                           onClick={() => setSelectedCampus(campus)}
-                          className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
-                            selectedCampus === campus
-                              ? "bg-burgundy-700 text-white shadow-sm ring-1 ring-white/30"
+                          className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${selectedCampus === campus
+                              ? "bg-burgundy-700 text-white shadow-xs ring-1 ring-white/30"
                               : "bg-white/10 hover:bg-white/20 text-stone-200"
-                          }`}
+                            }`}
                         >
                           {campus}
                         </button>
@@ -257,11 +255,11 @@ export default function BookingConsultationSection() {
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-medium uppercase tracking-wider text-stone-300 mb-1.5">
+                    <label className="block text-[10px] font-medium uppercase tracking-wider text-stone-300 mb-1">
                       Clinical Note / Medical History (Optional)
                     </label>
                     <textarea
-                      rows={3}
+                      rows={2.5}
                       value={formData.clinicalNote}
                       onChange={(e) =>
                         setFormData({
@@ -270,7 +268,7 @@ export default function BookingConsultationSection() {
                         })
                       }
                       placeholder="Briefly describe your symptoms or reason for visit..."
-                      className="w-full bg-white text-stone-900 placeholder-stone-400 text-xs sm:text-sm rounded-xl px-4 py-2.5 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
+                      className="w-full bg-white text-stone-900 placeholder-stone-400 text-xs sm:text-sm rounded-xl px-3.5 py-2 border-0 focus:ring-2 focus:ring-burgundy-600 outline-none"
                     />
                   </div>
 
@@ -304,7 +302,6 @@ export default function BookingConsultationSection() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
+      </section>
+    );
+  }

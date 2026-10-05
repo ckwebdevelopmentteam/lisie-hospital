@@ -9,9 +9,9 @@ export default function StitchFooter() {
   const { openModal } = useModal();
 
   return (
-    <footer className="pt-16 pb-12 px-4 sm:px-8 bg-warmgray-50 border-t border-stone-200 font-sans">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-16 border-b border-stone-200/80">
+    <footer className="pt-10 pb-6 px-4 sm:px-8 lg:px-[120px] bg-warmgray-50 border-t border-stone-200 font-sans">
+      <div className="w-full">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pb-8 border-b border-stone-200/80">
           {/* Brand Info Column */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center space-x-3">
@@ -34,10 +34,10 @@ export default function StitchFooter() {
             </p>
             <div className="flex items-center space-x-3 pt-2">
               <a
-                href="#campuses"
+                href="#services"
                 className="inline-flex items-center space-x-1.5 bg-burgundy-700 text-white text-xs font-semibold px-4 py-2 rounded-full hover:bg-burgundy-800 transition"
               >
-                <span>Explore Campuses</span>
+                <span>Explore Departments</span>
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </a>
               <a
@@ -62,8 +62,8 @@ export default function StitchFooter() {
                 </a>
               </li>
               <li>
-                <a href="#campuses" className="hover:text-burgundy-700 transition">
-                  Our 3 Campuses
+                <a href="#services" className="hover:text-burgundy-700 transition">
+                  Centres of Excellence
                 </a>
               </li>
               <li>

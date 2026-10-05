@@ -69,87 +69,86 @@ export default function PatientStoriesSection() {
 
   return (
     <section
-      className="py-20 sm:py-28 px-4 sm:px-8 bg-warmgray-50"
+      className="py-8 sm:py-10 px-4 sm:px-8 lg:px-[120px] bg-warmgray-50"
       id="testimonials"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="inline-block px-4 py-1 rounded-full bg-burgundy-50 text-burgundy-700 text-xs font-semibold uppercase tracking-wider mb-2 font-sans">
+        <div className="text-center max-w-xl mx-auto mb-5 sm:mb-6">
+          <span className="inline-block px-3 py-0.5 rounded-full bg-stone-200/70 text-stone-700 text-[11px] font-semibold uppercase tracking-wider mb-2 font-sans">
             Patient Stories
           </span>
-          <h2 className="text-3xl sm:text-4xl font-serif font-medium text-stone-900 tracking-tight">
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-medium text-stone-900 tracking-tight">
             Words of Hope and Healing
           </h2>
-          <p className="text-stone-500 text-xs sm:text-sm mt-2 font-sans">
-            Real experiences shared by patients and their families from across
-            India and abroad.
+          <p className="text-stone-500 text-xs mt-1 font-sans">
+            Real experiences shared by patients and their families from across India and abroad.
           </p>
 
           {/* Carousel navigation buttons */}
-          <div className="flex items-center justify-center space-x-2 mt-6">
+          <div className="flex items-center justify-center space-x-1.5 mt-3.5">
             <button
               type="button"
               onClick={handlePrev}
               aria-label="Previous review"
-              className="w-9 h-9 rounded-full border border-stone-300 bg-white flex items-center justify-center text-stone-600 hover:bg-burgundy-700 hover:text-white hover:border-burgundy-700 transition-colors shadow-xs"
+              className="w-7 h-7 rounded-full border border-stone-300 bg-white flex items-center justify-center text-stone-600 hover:bg-stone-900 hover:text-white transition-colors shadow-xs"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-3.5 h-3.5" />
             </button>
             <button
               type="button"
               onClick={handleNext}
               aria-label="Next review"
-              className="w-9 h-9 rounded-full bg-stone-900 text-white flex items-center justify-center hover:bg-burgundy-700 transition-colors shadow-xs"
+              className="w-7 h-7 rounded-full bg-stone-900 text-white flex items-center justify-center hover:bg-burgundy-700 transition-colors shadow-xs"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
 
         {/* 4 Testimonial Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 font-sans">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5 font-sans">
           {stories.map((story, idx) => {
             const isSelected = idx === activeStoryIndex;
             return (
               <div
                 key={story.id}
                 onClick={() => setActiveStoryIndex(idx)}
-                className={`bg-white p-6 rounded-3xl border transition-all duration-300 flex flex-col justify-between cursor-pointer ${
+                className={`bg-white p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between cursor-pointer ${
                   isSelected
-                    ? "ring-2 ring-burgundy-700/60 border-burgundy-200 shadow-md"
-                    : "border-stone-200/80 shadow-xs hover:shadow-md hover:border-stone-300"
+                    ? "ring-2 ring-burgundy-700/60 border-burgundy-200 shadow-sm"
+                    : "border-stone-200/80 shadow-xs hover:shadow-sm hover:border-stone-300"
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-full bg-burgundy-100 text-burgundy-700 font-bold flex items-center justify-center text-sm">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-2.5">
+                      <div className="w-8 h-8 rounded-full bg-burgundy-100 text-burgundy-700 font-bold flex items-center justify-center text-xs">
                         {story.initials}
                       </div>
                       <div>
-                        <h4 className="text-sm font-semibold text-stone-900">
+                        <h4 className="text-xs sm:text-sm font-semibold text-stone-900">
                           {story.name}
                         </h4>
                         <div className="flex items-center space-x-0.5 text-amber-400">
                           {Array.from({ length: story.rating }).map((_, i) => (
                             <Star
                               key={i}
-                              className="w-3 h-3 fill-amber-400 text-amber-400"
+                              className="w-2.5 h-2.5 fill-amber-400 text-amber-400"
                             />
                           ))}
                         </div>
                       </div>
                     </div>
-                    <Quote className="w-5 h-5 text-stone-300" />
+                    <Quote className="w-4 h-4 text-stone-300" />
                   </div>
 
-                  <p className="text-stone-600 text-xs leading-relaxed mb-6">
+                  <p className="text-stone-600 text-xs leading-relaxed mb-4">
                     &ldquo;{story.quote}&rdquo;
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-400">
+                <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-400">
                   <span className="font-medium text-stone-600">{story.department}</span>
                   <span className="font-medium text-stone-500">
                     {story.location}
