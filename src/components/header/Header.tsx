@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Search, Calendar, ChevronDown, Stethoscope, PhoneCall } from "lucide-react";
+import { Search, Calendar, ChevronDown } from "lucide-react";
 import MobileHeader from "./MobileHeader";
 import DepartmentsMegaMenu from "./megamenus/DepartmentsMegaMenu";
 import DoctorsMegaMenu from "./megamenus/DoctorsMegaMenu";
@@ -109,104 +109,75 @@ export default function Header() {
         onMouseLeave={handleMouseLeave}
         className="hidden lg:block w-full relative"
       >
-        {/* Section 1: Logo (Left) and Search + Book Appointment (Right) */}
-        <div className="w-full border-b border-gray-100">
-          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            {/* Left: Lisie Hospital Logo */}
-            <a
-              href="/"
-              className="flex items-center space-x-2 shrink-0 group focus:outline-none focus:ring-2 focus:ring-[#1677B8] rounded"
-              aria-label="Lisie Hospital Home"
-            >
-              <img
-                src="/images/lisie-hospital-logo.png"
-                alt="Lisie Hospital"
-                className="h-8 w-auto object-contain"
-              />
-            </a>
+        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          {/* Left: Lisie Hospital Logo */}
+          <a
+            href="/"
+            className="flex items-center space-x-2 shrink-0 group focus:outline-none focus:ring-2 focus:ring-[#1677B8] rounded"
+            aria-label="Lisie Hospital Home"
+          >
+            <img
+              src="/images/lisie-hospital-logo.png"
+              alt="Lisie Hospital"
+              className="h-8 w-auto object-contain"
+            />
+          </a>
 
-            {/* Right: Necessary Hospital Action Buttons */}
-            <div className="flex items-center space-x-2.5 sm:space-x-3">
-              {/* Emergency Hotline Button */}
-              <button
-                type="button"
-                onClick={() => setActiveModal("emergency")}
-                className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-rose-50 hover:bg-rose-100 border border-rose-200/80 text-[#C5221F] text-xs xl:text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-rose-400"
-                title="24/7 Emergency & Ambulance: 0484 2402044"
-              >
-                <PhoneCall className="w-3.5 h-3.5 text-[#C5221F]" />
-                <span>24/7 Emergency</span>
-              </button>
-
-              {/* Find a Doctor Button */}
-              <button
-                type="button"
-                onClick={() => setActiveModal("doctor-search")}
-                className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-slate-50 hover:bg-blue-50/70 border border-slate-200 hover:border-[#1677B8] text-slate-700 hover:text-[#1677B8] text-xs xl:text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-[#1677B8]"
-                title="Find Doctors by Specialty or Name"
-              >
-                <Stethoscope className="w-3.5 h-3.5 text-[#1677B8]" />
-                <span>Find a Doctor</span>
-              </button>
-
-              {/* Search Button */}
-              <button
-                type="button"
-                onClick={() => setActiveModal("search")}
-                aria-label="Search"
-                className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-[#1677B8] flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-[#1677B8]"
-                title="Search"
-              >
-                <Search className="w-4 h-4" />
-              </button>
-
-              {/* Book Appointment CTA Button */}
-              <button
-                type="button"
-                onClick={() => setActiveModal("appointment")}
-                className="inline-flex items-center space-x-1.5 px-5 py-2 rounded-full bg-[#1677B8] hover:bg-[#125F94] active:bg-[#0E4A74] text-white text-xs xl:text-sm font-semibold shadow-xs hover:shadow transition-colors focus:outline-none focus:ring-2 focus:ring-[#1677B8] focus:ring-offset-2"
-              >
-                <Calendar className="w-4 h-4 text-white" />
-                <span>Book Appointment</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Section 2: Dropdown Section (Navigation Items) */}
-        <div className="w-full bg-white">
-          <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-11 flex items-center justify-start">
-            <nav
-              aria-label="Main Navigation"
-              className="flex items-center space-x-1 -ml-3"
-            >
-              {navItems.map((item) => {
-                const isActive = activeMenu === item.id;
-                return (
-                  <div
-                    key={item.id}
-                    className="relative"
-                    onMouseEnter={() => handleMouseEnter(item.id)}
+          {/* Center: Navigation Items */}
+          <nav
+            aria-label="Main Navigation"
+            className="flex-1 flex items-center justify-center space-x-1"
+          >
+            {navItems.map((item) => {
+              const isActive = activeMenu === item.id;
+              return (
+                <div
+                  key={item.id}
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(item.id)}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setActiveMenu(isActive ? null : item.id)}
+                    aria-expanded={isActive}
+                    className={`flex items-center space-x-1 px-3.5 py-2 text-xs xl:text-sm font-semibold rounded-md transition-colors ${
+                      isActive
+                        ? "text-[#1677B8] bg-blue-50"
+                        : "text-gray-700 hover:text-[#1677B8] hover:bg-gray-50"
+                    }`}
                   >
-                    <button
-                      type="button"
-                      onClick={() => setActiveMenu(isActive ? null : item.id)}
-                      aria-expanded={isActive}
-                      className={`flex items-center space-x-1 px-3 py-1.5 text-xs xl:text-sm font-semibold rounded-md transition-colors ${isActive
-                          ? "text-[#1677B8] bg-blue-50"
-                          : "text-gray-700 hover:text-[#1677B8] hover:bg-gray-50"
-                        }`}
-                    >
-                      <span>{item.label}</span>
-                      <ChevronDown
-                        className={`w-3.5 h-3.5 transition-transform duration-200 ${isActive ? "rotate-180 text-[#1677B8]" : "text-gray-400"
-                          }`}
-                      />
-                    </button>
-                  </div>
-                );
-              })}
-            </nav>
+                    <span>{item.label}</span>
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                        isActive ? "rotate-180 text-[#1677B8]" : "text-gray-400"
+                      }`}
+                    />
+                  </button>
+                </div>
+              );
+            })}
+          </nav>
+
+          {/* Right: Search & Book Appointment */}
+          <div className="flex items-center space-x-3">
+            <button
+              type="button"
+              onClick={() => setActiveModal("search")}
+              aria-label="Search"
+              className="p-2 rounded-md text-gray-500 hover:text-[#123B63] hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#1677B8]"
+              title="Search"
+            >
+              <Search className="w-4.5 h-4.5" />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveModal("appointment")}
+              className="inline-flex items-center space-x-1.5 px-4.5 py-2 rounded-full bg-[#1677B8] hover:bg-[#125F94] active:bg-[#0E4A74] text-white text-xs xl:text-sm font-semibold shadow-xs hover:shadow transition-colors focus:outline-none focus:ring-2 focus:ring-[#1677B8] focus:ring-offset-2"
+            >
+              <Calendar className="w-4 h-4 text-white" />
+              <span>Book Appointment</span>
+            </button>
           </div>
         </div>
 
