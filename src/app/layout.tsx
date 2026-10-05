@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header/Header";
+import TopBar from "@/components/hero/TopBar";
 
 export const metadata: Metadata = {
   title: "Lisie Hospital | Care with Love | Ernakulam, Kerala",
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col bg-white text-[#17202A] antialiased selection:bg-[#1677B8] selection:text-white">
+        <TopBar />
         <Header />
         <div className="flex-1 flex flex-col">{children}</div>
       </body>
