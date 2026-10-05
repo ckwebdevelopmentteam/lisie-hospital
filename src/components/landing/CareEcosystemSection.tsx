@@ -67,7 +67,7 @@ export default function CareEcosystemSection() {
 
   return (
     <section
-      className="relative w-full py-10 sm:py-12 px-4 sm:px-8 lg:px-[120px] bg-gradient-to-b from-burgundy-950 via-burgundy-900 to-burgundy-950 text-white overflow-hidden"
+      className="relative w-full py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-burgundy-950 via-burgundy-900 to-burgundy-950 text-white overflow-hidden"
       id="services"
     >
       <div id="specialties" className="absolute -top-12 left-0" />
@@ -83,7 +83,7 @@ export default function CareEcosystemSection() {
         />
       </div>
 
-      <div className="relative z-10 w-full">
+      <div className="relative z-10 w-full max-w-[1536px] mx-auto">
         {/* Section Header */}
         <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8">
           <span className="inline-block px-3 py-0.5 rounded-full bg-white/10 frosted-glass text-burgundy-100 text-[11px] font-semibold uppercase tracking-wider mb-2 font-sans">

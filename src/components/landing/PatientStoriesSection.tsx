@@ -69,10 +69,10 @@ export default function PatientStoriesSection() {
 
   return (
     <section
-      className="py-8 sm:py-10 px-4 sm:px-8 lg:px-[120px] bg-warmgray-50"
+      className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-warmgray-50"
       id="testimonials"
     >
-      <div className="w-full">
+      <div className="w-full max-w-[1536px] mx-auto">
         {/* Section Header */}
         <div className="text-center max-w-xl mx-auto mb-5 sm:mb-6">
           <span className="inline-block px-3 py-0.5 rounded-full bg-stone-200/70 text-stone-700 text-[11px] font-semibold uppercase tracking-wider mb-2 font-sans">
