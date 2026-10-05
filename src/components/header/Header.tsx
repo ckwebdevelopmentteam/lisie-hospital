@@ -100,9 +100,7 @@ export default function Header() {
     <header className="sticky top-0 z-40 w-full bg-white/98 backdrop-blur-md border-b border-gray-100 font-sans">
       {/* ========================================================
           DESKTOP HEADER (≥ 1024px)
-          Two-Tier Header:
-          Section 1: Logo (left) + Search & Appointment button (right)
-          Section 2: Navigation Items / Dropdown triggers (below Section 1)
+          Clean Single-Tier Header
           ======================================================== */}
       <div
         ref={navContainerRef}
