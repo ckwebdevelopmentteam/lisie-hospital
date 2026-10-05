@@ -1,1 +1,68 @@
 @import "tailwindcss";
+
+@layer base {
+  :root {
+    --lisie-navy: #123B63;
+    --lisie-navy-dark: #0E2A47;
+    --lisie-navy-light: #1D4E7E;
+    --lisie-blue: #1677B8;
+    --lisie-blue-hover: #125F94;
+    --lisie-blue-light: #EEF6FC;
+    --lisie-red: #C5221F;
+    --lisie-red-hover: #A51A18;
+    --lisie-red-light: #FEF2F2;
+    --lisie-text: #17202A;
+    --lisie-muted: #5A6A7E;
+    --lisie-border: #E2E8F0;
+    --lisie-bg-subtle: #F8FAFC;
+  }
+
+  html {
+    font-size: 16px;
+    color: var(--lisie-text);
+    background-color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html[data-text-size="sm"] {
+    font-size: 14.5px;
+  }
+
+  html[data-text-size="md"] {
+    font-size: 16px;
+  }
+
+  html[data-text-size="lg"] {
+    font-size: 18px;
+  }
+
+  html[data-high-contrast="true"] {
+    filter: contrast(1.15);
+  }
+
+  html[data-reduce-motion="true"] *,
+  html[data-reduce-motion="true"] *::before,
+  html[data-reduce-motion="true"] *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom scrollbar for dropdown menus & panels */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}

@@ -1,0 +1,87 @@
+"use client";
+
+import React from "react";
+import { ACADEMICS_RESEARCH_SECTIONS } from "../data/hospitalData";
+import { ArrowRight, ChevronRight, GraduationCap, Microscope } from "lucide-react";
+
+interface AcademicsMegaMenuProps {
+  onClose: () => void;
+}
+
+export default function AcademicsMegaMenu({ onClose }: AcademicsMegaMenuProps) {
+  return (
+    <div
+      role="region"
+      aria-label="Academics and Research Mega Menu"
+      className="w-full bg-white py-6 animate-in fade-in duration-150"
+    >
+      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Top Header */}
+        <div className="pb-4 border-b border-gray-100 flex items-center justify-between">
+          <div className="flex items-center space-x-2.5">
+            <GraduationCap className="w-5 h-5 text-[#1677B8]" />
+            <div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-[#123B63]">
+                Academics, Medical Education & Research
+              </h2>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Nurturing next-generation healthcare professionals through DNB programs, Nursing, Allied Sciences & Pharmacy.
+              </p>
+            </div>
+          </div>
+
+          <a
+            href="/academics"
+            onClick={onClose}
+            className="hidden sm:inline-flex items-center space-x-1 text-xs font-semibold text-[#1677B8] hover:text-[#125F94]"
+          >
+            <span>Explore All Programs</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </a>
+        </div>
+
+        {/* 5 Column Layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 pt-5">
+          {ACADEMICS_RESEARCH_SECTIONS.map((section) => (
+            <div key={section.title} className="space-y-3">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-gray-900 pb-1.5 border-b border-gray-100">
+                {section.title}
+              </h3>
+              <ul className="space-y-1">
+                {section.items.map((item) => (
+                  <li key={item.name}>
+                    <a
+                      href={item.href}
+                      onClick={onClose}
+                      className="group flex items-center justify-between py-1.5 px-2 rounded text-xs text-gray-700 hover:text-[#1677B8] hover:bg-slate-50 transition-colors font-medium"
+                    >
+                      <span>{item.name}</span>
+                      <ChevronRight className="w-3 h-3 text-gray-300 group-hover:text-[#1677B8] group-hover:translate-x-0.5 transition-all" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom CTA Bar */}
+        <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-xs">
+          <div className="flex items-center space-x-2 text-gray-500">
+            <Microscope className="w-4 h-4 text-emerald-600" />
+            <span>Recognized by National Board of Examinations (NBE) & KUHS</span>
+          </div>
+
+          <a
+            href="/academics"
+            onClick={onClose}
+            className="inline-flex items-center space-x-1 font-semibold text-[#1677B8] hover:text-[#125F94] transition-colors"
+          >
+            <span>Explore Academics</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
