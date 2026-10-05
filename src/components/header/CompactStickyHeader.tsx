@@ -116,7 +116,7 @@ export default function CompactStickyHeader({
             type="button"
             onClick={onOpenSearch}
             aria-label="Search"
-            className="p-2 rounded-md text-gray-500 hover:text-[#123B63] hover:bg-gray-100 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-md bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-[#1677B8] border border-slate-200 hover:border-blue-200 transition-colors shadow-2xs"
           >
             <Search className="w-4 h-4" />
           </button>

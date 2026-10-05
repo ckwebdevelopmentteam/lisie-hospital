@@ -116,7 +116,7 @@ export default function MainBrandBar({
             type="button"
             onClick={onOpenSearch}
             aria-label="Open search"
-            className="p-2 rounded-lg text-gray-500 hover:text-[#123B63] hover:bg-gray-100 border border-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-[#1677B8]"
+            className="w-9 h-9 sm:w-[38px] sm:h-[38px] flex items-center justify-center rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-[#1677B8] border border-slate-200 hover:border-blue-200 transition-all shadow-2xs focus:outline-none focus:ring-2 focus:ring-[#1677B8]"
             title="Search doctors, departments, services..."
           >
             <Search className="w-4 h-4" />
