@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+@theme {
+  --color-burgundy-50: #fdf2f4;
+  --color-burgundy-100: #fbe6e9;
+  --color-burgundy-200: #f6d0d7;
+  --color-burgundy-600: #a71946;
+  --color-burgundy-700: #8C1138;
+  --color-burgundy-800: #730d2e;
+  --color-burgundy-900: #5c0b25;
+  --color-burgundy-950: #340313;
+
+  --color-warmgray-50: #FAFAF8;
+  --color-warmgray-100: #F5F5F0;
+  --color-warmgray-200: #EBEBE6;
+  --color-warmgray-800: #2A2927;
+  --color-warmgray-900: #1C1B1A;
+
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: var(--font-serif), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-script: var(--font-script), cursive;
+}
+
 @layer base {
   :root {
     --lisie-navy: #123B63;
@@ -11,6 +32,7 @@
     --lisie-red: #C5221F;
     --lisie-red-hover: #A51A18;
     --lisie-red-light: #FEF2F2;
+    --lisie-burgundy: #8C1138;
     --lisie-text: #17202A;
     --lisie-muted: #5A6A7E;
     --lisie-border: #E2E8F0;
@@ -20,9 +42,10 @@
   html {
     font-size: 16px;
     color: var(--lisie-text);
-    background-color: #FFFFFF;
+    background-color: #FAFAF8;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
   }
 
   html[data-text-size="sm"] {
@@ -49,6 +72,20 @@
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Custom Stitch design utility classes */
+.text-shadow-hero {
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.55);
+}
+
+.frosted-glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.subtle-ring {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15) inset;
 }
 
 /* Custom scrollbar for dropdown menus & panels */
