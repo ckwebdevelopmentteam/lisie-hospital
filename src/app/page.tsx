@@ -1,4 +1,4 @@
-import HeroSection from "@/components/landing/HeroSection";
+import HeroSection from "@/components/hero/HeroSection";
 import LegacyStorySection from "@/components/landing/LegacyStorySection";
 import CareEcosystemSection from "@/components/landing/CareEcosystemSection";
 import PatientStoriesSection from "@/components/landing/PatientStoriesSection";
@@ -6,7 +6,7 @@ import BookingConsultationSection from "@/components/landing/BookingConsultation
 
 export default function Home() {
   return (
-    <main className="w-full overflow-hidden">
+    <main className="w-full overflow-hidden bg-white">
       <HeroSection />
       <LegacyStorySection />
       <CareEcosystemSection />

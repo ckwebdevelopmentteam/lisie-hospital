@@ -98,7 +98,7 @@ export default function MobileHeader({
             type="button"
             onClick={onOpenSearch}
             aria-label="Search"
-            className="p-2 rounded-lg text-gray-600 hover:text-[#123B63] hover:bg-gray-100 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-[#1677B8] border border-slate-200 transition-colors shadow-2xs"
           >
             <Search className="w-4 h-4" />
           </button>
@@ -141,9 +141,9 @@ export default function MobileHeader({
             type="button"
             onClick={onOpenSearch}
             aria-label="Search site"
-            className="p-2 text-gray-600 hover:text-[#123B63] rounded-md hover:bg-gray-100 transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-[#1677B8] border border-slate-200 transition-colors shadow-2xs"
           >
-            <Search className="w-4.5 h-4.5" />
+            <Search className="w-4 h-4" />
           </button>
 
           <button

@@ -179,10 +179,10 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Dropdown / Mega Menu under header */}
+        {/* Dropdown / Mega Menu under the header */}
         {activeMenu && (
           <div
-            className="absolute top-full left-0 w-full z-50 bg-white border-b border-gray-100 animate-in fade-in slide-in-from-top-1 duration-150"
+            className="absolute top-full left-0 w-full z-50 bg-white border-b border-gray-100 border-t-[3px] border-[#E31C59] shadow-lg animate-in fade-in slide-in-from-top-1 duration-150"
             onMouseEnter={() => {
               if (timeoutRef.current) clearTimeout(timeoutRef.current);
             }}
