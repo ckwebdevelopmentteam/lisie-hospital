@@ -57,15 +57,8 @@ export default function QuickFeaturesBar({
     },
   ];
 
-  const highlights = [
-    { value: "Since 1956", label: "Care with Love", sub: "68+ Years of Healing Excellence" },
-    { value: "1,000+", label: "Inpatient Bed Capacity", sub: "NABH & NABL Accredited Tertiary Care" },
-    { value: "14,000+", label: "Open Heart Surgeries", sub: "Lisie Heart Institute Milestone" },
-    { value: "30,000+", label: "Yearly Emergency Patients", sub: "24/7 Level 1 Trauma Care" },
-  ];
-
   return (
-    <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-16">
+    <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-8 sm:pb-12">
       {/* 4 Quick Action Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {quickActions.map((action, idx) => {
@@ -97,21 +90,6 @@ export default function QuickFeaturesBar({
             </button>
           );
         })}
-      </div>
-
-      {/* Hospital Trust Statistics Row */}
-      <div className="mt-12 pt-10 border-t border-gray-200/80 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-        {highlights.map((h, i) => (
-          <div key={i} className="flex flex-col items-center">
-            <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#123B63] tracking-tight">
-              {h.value}
-            </span>
-            <span className="text-xs sm:text-sm font-bold text-gray-800 mt-1">
-              {h.label}
-            </span>
-            <span className="text-[11px] text-gray-500 mt-0.5">{h.sub}</span>
-          </div>
-        ))}
       </div>
     </div>
   );
