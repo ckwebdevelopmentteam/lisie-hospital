@@ -10,16 +10,11 @@ import AboutMegaMenu from "./megamenus/AboutMegaMenu";
 import AcademicsMegaMenu from "./megamenus/AcademicsMegaMenu";
 import QualitySafetyMenu from "./megamenus/QualitySafetyMenu";
 import MoreMenu from "./megamenus/MoreMenu";
-import DoctorSearchModal from "./modals/DoctorSearchModal";
-import AppointmentModal from "./modals/AppointmentModal";
-import EmergencyPanel from "./modals/EmergencyPanel";
-import SearchOverlay from "./modals/SearchOverlay";
-import OPTimingsModal from "./modals/OPTimingsModal";
-import PatientHelpModal from "./modals/PatientHelpModal";
-import { ActiveModal, ActiveMegaMenu, Language, TextSize } from "./types";
+import { useModal } from "@/context/ModalContext";
+import { ActiveMegaMenu, Language, TextSize } from "./types";
 
 export default function Header() {
-  const [activeModal, setActiveModal] = useState<ActiveModal>(null);
+  const { openModal, closeModal } = useModal();
   const [activeMenu, setActiveMenu] = useState<ActiveMegaMenu>(null);
   const [language, setLanguage] = useState<Language>("en");
   const [textSize, setTextSize] = useState<TextSize>("md");
@@ -46,7 +41,7 @@ export default function Header() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setActiveMenu(null);
-        setActiveModal(null);
+        closeModal();
       }
     };
 
@@ -140,14 +135,14 @@ export default function Header() {
                     aria-expanded={isActive}
                     className={`flex items-center space-x-1 px-3.5 py-2 text-xs xl:text-sm font-semibold rounded-md transition-colors ${
                       isActive
-                        ? "text-[#1677B8] bg-blue-50"
-                        : "text-gray-700 hover:text-[#1677B8] hover:bg-gray-50"
+                        ? "text-[#E31C59] bg-[#E31C59]/10"
+                        : "text-gray-700 hover:text-[#E31C59] hover:bg-[#E31C59]/5"
                     }`}
                   >
                     <span>{item.label}</span>
                     <ChevronDown
                       className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                        isActive ? "rotate-180 text-[#1677B8]" : "text-gray-400"
+                        isActive ? "rotate-180 text-[#E31C59]" : "text-gray-400"
                       }`}
                     />
                   </button>
@@ -160,7 +155,7 @@ export default function Header() {
           <div className="flex items-center space-x-3">
             <button
               type="button"
-              onClick={() => setActiveModal("search")}
+              onClick={() => openModal("search")}
               aria-label="Search"
               className="p-2 rounded-md text-gray-500 hover:text-[#123B63] hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-[#1677B8]"
               title="Search"
@@ -170,7 +165,7 @@ export default function Header() {
 
             <button
               type="button"
-              onClick={() => setActiveModal("appointment")}
+              onClick={() => openModal("appointment")}
               className="inline-flex items-center space-x-1.5 px-4.5 py-2 rounded-full bg-[#1677B8] hover:bg-[#125F94] active:bg-[#0E4A74] text-white text-xs xl:text-sm font-semibold shadow-xs hover:shadow transition-colors focus:outline-none focus:ring-2 focus:ring-[#1677B8] focus:ring-offset-2"
             >
               <Calendar className="w-4 h-4 text-white" />
@@ -182,7 +177,7 @@ export default function Header() {
         {/* Dropdown / Mega Menu under the header */}
         {activeMenu && (
           <div
-            className="absolute top-full left-0 w-full z-50 bg-white border-b border-gray-100 border-t-[3px] border-[#E31C59] shadow-lg animate-in fade-in slide-in-from-top-1 duration-150"
+            className="absolute top-full left-0 w-full z-50 bg-white border-b border-gray-100 border-t-[3px] border-[#E31C59] shadow-lg animate-in fade-in slide-in-from-top-1 duration-150 max-h-[calc(100vh-5rem)] overflow-y-auto custom-scrollbar"
             onMouseEnter={() => {
               if (timeoutRef.current) clearTimeout(timeoutRef.current);
             }}
@@ -193,14 +188,14 @@ export default function Header() {
             {activeMenu === "doctors" && (
               <DoctorsMegaMenu
                 onClose={() => setActiveMenu(null)}
-                onOpenDoctorModal={() => setActiveModal("doctor-search")}
+                onOpenDoctorModal={() => openModal("doctor-search")}
               />
             )}
             {activeMenu === "patient-info" && (
               <PatientInfoMegaMenu
                 onClose={() => setActiveMenu(null)}
-                onOpenAppointmentModal={() => setActiveModal("appointment")}
-                onOpenOPTimingsModal={() => setActiveModal("op-timings")}
+                onOpenAppointmentModal={() => openModal("appointment")}
+                onOpenOPTimingsModal={() => openModal("op-timings")}
               />
             )}
             {activeMenu === "about" && (
@@ -223,12 +218,12 @@ export default function Header() {
           TABLET & MOBILE HEADER (< 1024px)
           ======================================================== */}
       <MobileHeader
-        onOpenDoctorSearch={() => setActiveModal("doctor-search")}
-        onOpenAppointment={() => setActiveModal("appointment")}
-        onOpenEmergency={() => setActiveModal("emergency")}
-        onOpenSearch={() => setActiveModal("search")}
-        onOpenOPTimings={() => setActiveModal("op-timings")}
-        onOpenPatientHelp={() => setActiveModal("patient-help")}
+        onOpenDoctorSearch={() => openModal("doctor-search")}
+        onOpenAppointment={() => openModal("appointment")}
+        onOpenEmergency={() => openModal("emergency")}
+        onOpenSearch={() => openModal("search")}
+        onOpenOPTimings={() => openModal("op-timings")}
+        onOpenPatientHelp={() => openModal("patient-help")}
         language={language}
         setLanguage={setLanguage}
         textSize={textSize}
@@ -237,55 +232,6 @@ export default function Header() {
         setHighContrast={setHighContrast}
         reduceMotion={reduceMotion}
         setReduceMotion={setReduceMotion}
-      />
-
-      {/* ========================================================
-          GLOBAL MODALS & OVERLAYS
-          ======================================================== */}
-      {/* 1. Doctor Search Modal */}
-      <DoctorSearchModal
-        isOpen={activeModal === "doctor-search"}
-        onClose={() => setActiveModal(null)}
-        onSelectDoctor={(name) => {
-          setActiveModal("appointment");
-        }}
-      />
-
-      {/* 2. Book Appointment Modal */}
-      <AppointmentModal
-        isOpen={activeModal === "appointment"}
-        onClose={() => setActiveModal(null)}
-        onFindDoctorClick={() => setActiveModal("doctor-search")}
-      />
-
-      {/* 3. Emergency & Ambulance Panel */}
-      <EmergencyPanel
-        isOpen={activeModal === "emergency"}
-        onClose={() => setActiveModal(null)}
-      />
-
-      {/* 4. Full-Width Search Overlay */}
-      <SearchOverlay
-        isOpen={activeModal === "search"}
-        onClose={() => setActiveModal(null)}
-        onOpenDoctorModal={() => setActiveModal("doctor-search")}
-        onOpenAppointmentModal={() => setActiveModal("appointment")}
-        onOpenEmergencyModal={() => setActiveModal("emergency")}
-        onOpenOPTimingsModal={() => setActiveModal("op-timings")}
-      />
-
-      {/* 5. OP Timings Modal */}
-      <OPTimingsModal
-        isOpen={activeModal === "op-timings"}
-        onClose={() => setActiveModal(null)}
-        onBookAppointment={() => setActiveModal("appointment")}
-      />
-
-      {/* 6. Patient Help Modal */}
-      <PatientHelpModal
-        isOpen={activeModal === "patient-help"}
-        onClose={() => setActiveModal(null)}
-        onEmergencyClick={() => setActiveModal("emergency")}
       />
     </header>
   );

@@ -17,9 +17,12 @@ export default function MoreMenu({ onClose }: MoreMenuProps) {
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="pb-3 border-b border-gray-100">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-[#123B63]">
-            More Hospital Resources & Links
-          </h2>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#E31C59]" />
+            <h2 className="text-sm font-bold uppercase tracking-wider text-[#123B63]">
+              More Hospital Resources & Links
+            </h2>
+          </div>
           <p className="text-xs text-gray-500 mt-0.5">
             Quick links to careers, tenders, patient forms, downloads, and general hospital communication.
           </p>
@@ -31,17 +34,17 @@ export default function MoreMenu({ onClose }: MoreMenuProps) {
               key={item.name}
               href={item.href}
               onClick={onClose}
-              className="p-3 rounded-lg border border-gray-100 hover:border-blue-200 hover:bg-blue-50/20 transition-all group flex items-start justify-between"
+              className="p-3 rounded-lg border border-gray-100 hover:border-[#E31C59]/30 hover:bg-[#E31C59]/5 transition-all group flex items-start justify-between"
             >
               <div>
-                <span className="text-xs font-bold text-gray-900 group-hover:text-[#1677B8] transition-colors">
+                <span className="text-xs font-bold text-gray-900 group-hover:text-[#E31C59] transition-colors">
                   {item.name}
                 </span>
                 <p className="text-[11px] text-gray-500 mt-0.5">
                   {item.description}
                 </p>
               </div>
-              <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#1677B8] group-hover:translate-x-0.5 transition-all mt-0.5 shrink-0 ml-2" />
+              <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#E31C59] group-hover:translate-x-0.5 transition-all mt-0.5 shrink-0 ml-2" />
             </a>
           ))}
         </div>

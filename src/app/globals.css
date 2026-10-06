@@ -89,17 +89,36 @@
 }
 
 /* Custom scrollbar for dropdown menus & panels */
-.custom-scrollbar::-webkit-scrollbar {
+.custom-scrollbar,
+[role="region"][aria-label*="Mega Menu"] *,
+[role="region"][aria-label*="Menu"] * {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(227, 28, 89) #F1F5F9;
+}
+
+.custom-scrollbar::-webkit-scrollbar,
+[role="region"][aria-label*="Mega Menu"] *::-webkit-scrollbar,
+[role="region"][aria-label*="Menu"] *::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-.custom-scrollbar::-webkit-scrollbar-track {
+
+.custom-scrollbar::-webkit-scrollbar-track,
+[role="region"][aria-label*="Mega Menu"] *::-webkit-scrollbar-track,
+[role="region"][aria-label*="Menu"] *::-webkit-scrollbar-track {
   background: #F1F5F9;
+  border-radius: 9999px;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 3px;
+
+.custom-scrollbar::-webkit-scrollbar-thumb,
+[role="region"][aria-label*="Mega Menu"] *::-webkit-scrollbar-thumb,
+[role="region"][aria-label*="Menu"] *::-webkit-scrollbar-thumb {
+  background: rgb(227, 28, 89);
+  border-radius: 9999px;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover,
+[role="region"][aria-label*="Mega Menu"] *::-webkit-scrollbar-thumb:hover,
+[role="region"][aria-label*="Menu"] *::-webkit-scrollbar-thumb:hover {
+  background: rgb(196, 20, 75);
 }

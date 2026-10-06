@@ -219,7 +219,7 @@ export default function MobileHeader({
                   }}
                   placeholder="Search doctors, departments, services..."
                   aria-label="Search"
-                  className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#1677B8]"
+                  className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#E31C59]"
                 />
               </div>
             </div>
@@ -244,7 +244,7 @@ export default function MobileHeader({
                   closeDrawer();
                   onOpenAppointment();
                 }}
-                className="p-2 rounded-lg bg-[#1677B8] text-white flex flex-col items-center justify-center text-center shadow-xs"
+                className="p-2 rounded-lg bg-[#E31C59] text-white flex flex-col items-center justify-center text-center shadow-xs"
               >
                 <Calendar className="w-4 h-4 text-white mb-1" />
                 <span className="text-[11px] font-bold leading-tight">Book Appt</span>
@@ -270,12 +270,12 @@ export default function MobileHeader({
                 <button
                   type="button"
                   onClick={() => toggleSection("departments")}
-                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#1677B8] text-left"
+                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#E31C59] text-left"
                 >
                   <span>Departments & Specialties</span>
                   <ChevronDown
                     className={`w-4 h-4 text-gray-400 transition-transform ${
-                      expandedSection === "departments" ? "rotate-180 text-[#1677B8]" : ""
+                      expandedSection === "departments" ? "rotate-180 text-[#E31C59]" : ""
                     }`}
                   />
                 </button>
@@ -290,7 +290,7 @@ export default function MobileHeader({
                           key={dept.name}
                           href={dept.href}
                           onClick={closeDrawer}
-                          className="py-1 px-2 rounded text-gray-700 hover:text-[#1677B8] hover:bg-gray-50 flex items-center justify-between"
+                          className="py-1 px-2 rounded text-gray-700 hover:text-[#E31C59] hover:bg-[#E31C59]/5 flex items-center justify-between"
                         >
                           <span>{dept.name}</span>
                           <ChevronRight className="w-3 h-3 text-gray-300" />
@@ -306,7 +306,7 @@ export default function MobileHeader({
                           key={dept.name}
                           href={dept.href}
                           onClick={closeDrawer}
-                          className="py-1 px-2 rounded text-gray-700 hover:text-[#1677B8] hover:bg-gray-50 flex items-center justify-between"
+                          className="py-1 px-2 rounded text-gray-700 hover:text-[#E31C59] hover:bg-[#E31C59]/5 flex items-center justify-between"
                         >
                           <span>{dept.name}</span>
                           <ChevronRight className="w-3 h-3 text-gray-300" />
@@ -316,7 +316,7 @@ export default function MobileHeader({
                     <a
                       href="/departments"
                       onClick={closeDrawer}
-                      className="block text-center py-2 mt-2 bg-blue-50 text-[#1677B8] font-bold rounded"
+                      className="block text-center py-2 mt-2 bg-[#E31C59]/10 text-[#E31C59] font-bold rounded"
                     >
                       View All Departments →
                     </a>
@@ -329,12 +329,12 @@ export default function MobileHeader({
                 <button
                   type="button"
                   onClick={() => toggleSection("doctors")}
-                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#1677B8] text-left"
+                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#E31C59] text-left"
                 >
                   <span>Doctors Directory</span>
                   <ChevronDown
                     className={`w-4 h-4 text-gray-400 transition-transform ${
-                      expandedSection === "doctors" ? "rotate-180 text-[#1677B8]" : ""
+                      expandedSection === "doctors" ? "rotate-180 text-[#E31C59]" : ""
                     }`}
                   />
                 </button>
@@ -345,7 +345,7 @@ export default function MobileHeader({
                         key={spec}
                         href={`/doctors?specialty=${encodeURIComponent(spec)}`}
                         onClick={closeDrawer}
-                        className="py-1 px-2 rounded text-gray-700 hover:text-[#1677B8] hover:bg-gray-50 flex items-center justify-between"
+                        className="py-1 px-2 rounded text-gray-700 hover:text-[#E31C59] hover:bg-[#E31C59]/5 flex items-center justify-between"
                       >
                         <span>{spec} Doctors</span>
                         <ChevronRight className="w-3 h-3 text-gray-300" />
@@ -354,7 +354,7 @@ export default function MobileHeader({
                     <a
                       href="/doctors"
                       onClick={closeDrawer}
-                      className="block text-center py-2 mt-2 bg-blue-50 text-[#1677B8] font-bold rounded"
+                      className="block text-center py-2 mt-2 bg-[#E31C59]/10 text-[#E31C59] font-bold rounded"
                     >
                       View All Doctors →
                     </a>
@@ -367,12 +367,12 @@ export default function MobileHeader({
                 <button
                   type="button"
                   onClick={() => toggleSection("patient-info")}
-                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#1677B8] text-left"
+                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#E31C59] text-left"
                 >
                   <span>Patient Information</span>
                   <ChevronDown
                     className={`w-4 h-4 text-gray-400 transition-transform ${
-                      expandedSection === "patient-info" ? "rotate-180 text-[#1677B8]" : ""
+                      expandedSection === "patient-info" ? "rotate-180 text-[#E31C59]" : ""
                     }`}
                   />
                 </button>
@@ -388,7 +388,7 @@ export default function MobileHeader({
                             key={item.name}
                             href={item.href}
                             onClick={closeDrawer}
-                            className="block py-1 px-2 rounded text-gray-700 hover:text-[#1677B8] hover:bg-gray-50"
+                            className="block py-1 px-2 rounded text-gray-700 hover:text-[#E31C59] hover:bg-[#E31C59]/5"
                           >
                             {item.name}
                           </a>
@@ -404,12 +404,12 @@ export default function MobileHeader({
                 <button
                   type="button"
                   onClick={() => toggleSection("about")}
-                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#1677B8] text-left"
+                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#E31C59] text-left"
                 >
                   <span>About Lisie</span>
                   <ChevronDown
                     className={`w-4 h-4 text-gray-400 transition-transform ${
-                      expandedSection === "about" ? "rotate-180 text-[#1677B8]" : ""
+                      expandedSection === "about" ? "rotate-180 text-[#E31C59]" : ""
                     }`}
                   />
                 </button>
@@ -420,7 +420,7 @@ export default function MobileHeader({
                         key={item.name}
                         href={item.href}
                         onClick={closeDrawer}
-                        className="block py-1 px-2 rounded text-gray-700 hover:text-[#1677B8] hover:bg-gray-50"
+                        className="block py-1 px-2 rounded text-gray-700 hover:text-[#E31C59] hover:bg-[#E31C59]/5"
                       >
                         {item.name}
                       </a>
@@ -434,12 +434,12 @@ export default function MobileHeader({
                 <button
                   type="button"
                   onClick={() => toggleSection("academics")}
-                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#1677B8] text-left"
+                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#E31C59] text-left"
                 >
                   <span>Academics & Research</span>
                   <ChevronDown
                     className={`w-4 h-4 text-gray-400 transition-transform ${
-                      expandedSection === "academics" ? "rotate-180 text-[#1677B8]" : ""
+                      expandedSection === "academics" ? "rotate-180 text-[#E31C59]" : ""
                     }`}
                   />
                 </button>
@@ -450,7 +450,7 @@ export default function MobileHeader({
                         key={item.name}
                         href={item.href}
                         onClick={closeDrawer}
-                        className="block py-1 px-2 rounded text-gray-700 hover:text-[#1677B8] hover:bg-gray-50"
+                        className="block py-1 px-2 rounded text-gray-700 hover:text-[#E31C59] hover:bg-[#E31C59]/5"
                       >
                         {item.name}
                       </a>
@@ -464,12 +464,12 @@ export default function MobileHeader({
                 <button
                   type="button"
                   onClick={() => toggleSection("quality")}
-                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#1677B8] text-left"
+                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#E31C59] text-left"
                 >
                   <span>Quality & Safety</span>
                   <ChevronDown
                     className={`w-4 h-4 text-gray-400 transition-transform ${
-                      expandedSection === "quality" ? "rotate-180 text-[#1677B8]" : ""
+                      expandedSection === "quality" ? "rotate-180 text-[#E31C59]" : ""
                     }`}
                   />
                 </button>
@@ -480,7 +480,7 @@ export default function MobileHeader({
                         key={item.name}
                         href={item.href}
                         onClick={closeDrawer}
-                        className="block py-1 px-2 rounded text-gray-700 hover:text-[#1677B8] hover:bg-gray-50"
+                        className="block py-1 px-2 rounded text-gray-700 hover:text-[#E31C59] hover:bg-[#E31C59]/5"
                       >
                         {item.name}
                       </a>
@@ -494,7 +494,7 @@ export default function MobileHeader({
                 <a
                   href="/careers"
                   onClick={closeDrawer}
-                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#1677B8]"
+                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#E31C59]"
                 >
                   <span>Careers</span>
                   <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
@@ -504,7 +504,7 @@ export default function MobileHeader({
                 <a
                   href="/news-events"
                   onClick={closeDrawer}
-                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#1677B8]"
+                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#E31C59]"
                 >
                   <span>News & Events</span>
                   <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
@@ -514,7 +514,7 @@ export default function MobileHeader({
                 <a
                   href="/contact-us"
                   onClick={closeDrawer}
-                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#1677B8]"
+                  className="w-full py-3 px-3 flex items-center justify-between text-xs font-bold text-gray-800 hover:text-[#E31C59]"
                 >
                   <span>Contact Us</span>
                   <ChevronRight className="w-3.5 h-3.5 text-gray-400" />

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { Stethoscope, Search, ArrowRight, X, User } from "lucide-react";
 import { POPULAR_SPECIALTIES, SAMPLE_DOCTORS } from "../data/hospitalData";
 
@@ -17,11 +18,17 @@ export default function DoctorSearchModal({
 }: DoctorSearchModalProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     if (isOpen) {
+      document.body.style.overflow = "hidden";
       setTimeout(() => inputRef.current?.focus(), 50);
     } else {
       setSearchTerm("");
@@ -31,6 +38,9 @@ export default function DoctorSearchModal({
 
   useEffect(() => {
     if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
@@ -42,12 +52,13 @@ export default function DoctorSearchModal({
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
+      document.body.style.overflow = originalOverflow;
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   const filteredDoctors = SAMPLE_DOCTORS.filter((doc) => {
     const matchesSearch =
@@ -64,13 +75,18 @@ export default function DoctorSearchModal({
     return matchesSearch && matchesSpecialty;
   });
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150">
+  return createPortal(
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="doctor-search-title"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-xs animate-in fade-in duration-200"
+    >
       <div
         ref={modalRef}
         role="dialog"
         aria-labelledby="doctor-search-title"
-        className="w-full max-w-2xl bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col max-h-[85vh]"
+        className="relative w-full max-w-2xl my-auto bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-150"
       >
         {/* Top Header */}
         <div className="p-6 bg-gradient-to-r from-[#123B63] to-[#164e81] text-white">
@@ -225,6 +241,7 @@ export default function DoctorSearchModal({
           </a>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

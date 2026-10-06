@@ -4,24 +4,17 @@ import React, { useState } from "react";
 import HeroSlider from "./HeroSlider";
 import OverlappingCards from "./OverlappingCards";
 import QuickFeaturesBar from "./QuickFeaturesBar";
+import DepartmentExplorer from "./DepartmentExplorer";
 import SpecialtyModal from "./SpecialtyModal";
-import AppointmentModal from "../header/modals/AppointmentModal";
-import DoctorSearchModal from "../header/modals/DoctorSearchModal";
-import EmergencyPanel from "../header/modals/EmergencyPanel";
-import OPTimingsModal from "../header/modals/OPTimingsModal";
+import { useModal } from "@/context/ModalContext";
 import {
   LISIE_HERO_SLIDES,
   LISIE_INSTITUTES,
 } from "./heroData";
 
 export default function HeroSection() {
+  const { openModal } = useModal();
   const [specialtyModalTitle, setSpecialtyModalTitle] = useState<string | null>(null);
-
-  // Modals
-  const [isAppointmentOpen, setIsAppointmentOpen] = useState(false);
-  const [isDoctorSearchOpen, setIsDoctorSearchOpen] = useState(false);
-  const [isEmergencyOpen, setIsEmergencyOpen] = useState(false);
-  const [isOPTimingsOpen, setIsOPTimingsOpen] = useState(false);
 
   return (
     <section className="relative w-full bg-white font-sans overflow-hidden">
@@ -38,53 +31,22 @@ export default function HeroSection() {
 
       {/* 3. Quick Features & Hospital Statistics Row */}
       <QuickFeaturesBar
-        onOpenAppointment={() => setIsAppointmentOpen(true)}
-        onOpenDoctorSearch={() => setIsDoctorSearchOpen(true)}
-        onOpenOPTimings={() => setIsOPTimingsOpen(true)}
-        onOpenEmergency={() => setIsEmergencyOpen(true)}
+        onOpenAppointment={() => openModal("appointment")}
+        onOpenDoctorSearch={() => openModal("doctor-search")}
+        onOpenOPTimings={() => openModal("op-timings")}
+        onOpenEmergency={() => openModal("emergency")}
       />
+
+      <DepartmentExplorer />
 
       {specialtyModalTitle && (
         <SpecialtyModal
           isOpen={!!specialtyModalTitle}
           specialtyTitle={specialtyModalTitle}
           onClose={() => setSpecialtyModalTitle(null)}
-          onOpenAppointment={() => setIsAppointmentOpen(true)}
+          onOpenAppointment={() => openModal("appointment")}
         />
       )}
-
-      {/* Reusable Header Modals */}
-      <AppointmentModal
-        isOpen={isAppointmentOpen}
-        onClose={() => setIsAppointmentOpen(false)}
-        onFindDoctorClick={() => {
-          setIsAppointmentOpen(false);
-          setIsDoctorSearchOpen(true);
-        }}
-      />
-
-      <DoctorSearchModal
-        isOpen={isDoctorSearchOpen}
-        onClose={() => setIsDoctorSearchOpen(false)}
-        onSelectDoctor={() => {
-          setIsDoctorSearchOpen(false);
-          setIsAppointmentOpen(true);
-        }}
-      />
-
-      <EmergencyPanel
-        isOpen={isEmergencyOpen}
-        onClose={() => setIsEmergencyOpen(false)}
-      />
-
-      <OPTimingsModal
-        isOpen={isOPTimingsOpen}
-        onClose={() => setIsOPTimingsOpen(false)}
-        onBookAppointment={() => {
-          setIsOPTimingsOpen(false);
-          setIsAppointmentOpen(true);
-        }}
-      />
     </section>
   );
 }
