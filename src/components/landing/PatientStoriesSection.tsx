@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import React from "react";
+import { ArrowUpRight, Quote } from "lucide-react";
 
 interface Story {
   id: string;
@@ -57,106 +57,59 @@ const stories: Story[] = [
 ];
 
 export default function PatientStoriesSection() {
-  const [activeStoryIndex, setActiveStoryIndex] = useState(0);
-
-  const handlePrev = () => {
-    setActiveStoryIndex((prev) => (prev === 0 ? stories.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setActiveStoryIndex((prev) => (prev === stories.length - 1 ? 0 : prev + 1));
-  };
-
   return (
     <section
-      className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-warmgray-50"
+      className="bg-white px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
       id="testimonials"
     >
       <div className="w-full max-w-[1536px] mx-auto">
-        {/* Section Header */}
-        <div className="text-center max-w-xl mx-auto mb-5 sm:mb-6">
-          <span className="inline-block px-3 py-0.5 rounded-full bg-stone-200/70 text-stone-700 text-[11px] font-semibold uppercase tracking-wider mb-2 font-sans">
-            Patient Stories
-          </span>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-medium text-stone-900 tracking-tight">
-            Words of Hope and Healing
-          </h2>
-          <p className="text-stone-500 text-xs mt-1 font-sans">
-            Real experiences shared by patients and their families from across India and abroad.
-          </p>
-
-          {/* Carousel navigation buttons */}
-          <div className="flex items-center justify-center space-x-1.5 mt-3.5">
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label="Previous review"
-              className="w-7 h-7 rounded-full border border-stone-300 bg-white flex items-center justify-center text-stone-600 hover:bg-stone-900 hover:text-white transition-colors shadow-xs"
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-            </button>
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label="Next review"
-              className="w-7 h-7 rounded-full bg-stone-900 text-white flex items-center justify-center hover:bg-burgundy-700 transition-colors shadow-xs"
-            >
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
+        <div className="mb-10 flex items-start justify-between gap-6 sm:mb-12">
+          <div className="flex items-start gap-4 sm:gap-6">
+            <ArrowUpRight className="mt-1 h-10 w-10 shrink-0 text-[#d11f53] sm:h-12 sm:w-12" strokeWidth={1.5} />
+            <div className="font-sans">
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                Patient Stories
+              </span>
+              <h2 className="mt-1 max-w-2xl font-serif text-3xl font-medium leading-tight tracking-tight text-[#233f47] sm:text-4xl lg:text-5xl">
+                Words of Hope and Healing
+              </h2>
+              <p className="mt-2 max-w-xl text-sm leading-relaxed text-stone-500 sm:text-base">
+                Real experiences shared by patients and their families from across India and abroad.
+              </p>
+            </div>
           </div>
+          <button
+            type="button"
+            className="mt-1 inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[#d11f53] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#b81444]"
+          >
+            View all
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </button>
         </div>
 
-        {/* 4 Testimonial Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5 font-sans">
-          {stories.map((story, idx) => {
-            const isSelected = idx === activeStoryIndex;
-            return (
-              <div
-                key={story.id}
-                onClick={() => setActiveStoryIndex(idx)}
-                className={`bg-white p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between cursor-pointer ${
-                  isSelected
-                    ? "ring-2 ring-burgundy-700/60 border-burgundy-200 shadow-sm"
-                    : "border-stone-200/80 shadow-xs hover:shadow-sm hover:border-stone-300"
-                }`}
-              >
+        <div className="grid grid-cols-1 gap-5 font-sans sm:grid-cols-2 lg:grid-cols-4">
+          {stories.map((story) => (
+            <article
+              key={story.id}
+              className="flex min-h-[320px] flex-col rounded-[1.35rem] bg-[#29464e] p-6 text-white sm:p-7"
+            >
+              <Quote className="h-10 w-10 fill-white" strokeWidth={0} />
+              <p className="my-auto pt-8 text-sm leading-relaxed text-white sm:text-[15px]">
+                &ldquo;{story.quote}&rdquo;
+              </p>
+              <div className="mt-7 flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#d11f53] text-sm font-bold text-white">
+                  {story.name.charAt(0)}
+                </div>
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-2.5">
-                      <div className="w-8 h-8 rounded-full bg-burgundy-100 text-burgundy-700 font-bold flex items-center justify-center text-xs">
-                        {story.initials}
-                      </div>
-                      <div>
-                        <h4 className="text-xs sm:text-sm font-semibold text-stone-900">
-                          {story.name}
-                        </h4>
-                        <div className="flex items-center space-x-0.5 text-amber-400">
-                          {Array.from({ length: story.rating }).map((_, i) => (
-                            <Star
-                              key={i}
-                              className="w-2.5 h-2.5 fill-amber-400 text-amber-400"
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <Quote className="w-4 h-4 text-stone-300" />
-                  </div>
-
-                  <p className="text-stone-600 text-xs leading-relaxed mb-4">
-                    &ldquo;{story.quote}&rdquo;
+                  <h3 className="text-sm font-semibold text-white">{story.name}</h3>
+                  <p className="mt-0.5 text-xs text-white/65">
+                    {story.department} · {story.location}
                   </p>
                 </div>
-
-                <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-400">
-                  <span className="font-medium text-stone-600">{story.department}</span>
-                  <span className="font-medium text-stone-500">
-                    {story.location}
-                  </span>
-                </div>
               </div>
-            );
-          })}
+            </article>
+          ))}
         </div>
       </div>
     </section>

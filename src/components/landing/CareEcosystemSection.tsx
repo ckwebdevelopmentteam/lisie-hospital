@@ -88,19 +88,21 @@ export default function CareEcosystemSection() {
         sizes="100vw"
         className="-z-10  object-center"
       />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#081e37]/65 via-[#081e37]/38 to-transparent" />
 
       <div className="relative z-10 mr-auto flex h-full w-full max-w-[960px] flex-col">
         <div className="grid grid-cols-1 border-t border-white/35 font-sans sm:grid-cols-2 lg:grid-cols-2 ">
           <div className="min-h-[165px] border-b border-white/35 py-6 text-shadow-hero sm:px-6 lg:min-h-0 lg:border-r lg:px-0 lg:py-6">
-            <span className="mb-4 inline-flex rounded-full border border-white/80 px-4 py-1.5 text-xs font-medium tracking-wide text-white">
-              Holistic Healthcare
-            </span>
-            <h2 className="max-w-sm font-serif text-2xl font-medium leading-tight tracking-tight text-white sm:text-3xl">
-              Comprehensive Medical Ecosystem
+            <div className="mb-4 flex items-center gap-3">
+              <span className="h-px w-20 bg-[#d11f53]" />
+              <span className="text-xs font-semibold uppercase tracking-wide text-white">
+                Holistic Healthcare
+              </span>
+            </div>
+            <h2 className="max-w-sm font-serif text-2xl leading-tight tracking-tight sm:text-3xl">
+              <span className=" text-white">Comprehensive Medical </span>
+              <span className="font-bold ">Ecosystem</span>
             </h2>
-            <p className="mt-2.5 max-w-sm text-xs leading-relaxed text-white sm:text-sm">
-              From preventative screenings to complex heart transplants, coordinated care begins here.
-            </p>
           </div>
 
           {services.slice(0, 5).map((service) => {
@@ -142,8 +144,8 @@ export default function CareEcosystemSection() {
           onClick={() => openModal("doctor-search")}
           className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-sm font-semibold text-burgundy-900 shadow-md transition-transform duration-200 hover:scale-105 hover:bg-stone-100 active:scale-95"
         >
-          <span>Consult Our Senior Specialists</span>
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-burgundy-900 text-white">
+          <span className="text-black">Consult Our Senior Specialists</span>
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
             <ArrowUpRight className="h-4 w-4" />
           </span>
         </button>
