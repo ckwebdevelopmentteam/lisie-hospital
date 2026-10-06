@@ -119,16 +119,16 @@ export default function LegacyStorySection() {
           </div>
 
           {/* Right Column: Exact Hospital Showcase Graphic with Background & Floating Cards */}
-          <div className="lg:col-span-7 flex items-center justify-center relative">
-            <div className="relative w-full aspect-[969/525] max-w-[740px] transition-transform duration-500 hover:scale-[1.015]">
+          <div className="lg:col-span-7 flex items-center justify-center lg:justify-end relative">
+            <div className="relative w-full aspect-[969/525] transition-transform duration-500 hover:scale-[1.015]">
               <Image
                 src="/images/about/lisie-about-showcase@2x.png"
                 alt="Lisie Hospital - Trusted Care, Quality Treatment, People First"
                 fill
                 priority
                 unoptimized
-                sizes="(max-width: 1024px) 100vw, 740px"
-                className="object-contain select-none"
+                sizes="(max-width: 1024px) 100vw, (max-width: 1536px) 58vw, 880px"
+                className="object-contain lg:object-right select-none"
               />
             </div>
           </div>
