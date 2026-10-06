@@ -2,7 +2,15 @@
 
 import React from "react";
 import Image from "next/image";
-import { Siren, HeartPulse, Brain, CreditCard, Smartphone, PlaneTakeoff } from "lucide-react";
+import {
+  ArrowUpRight,
+  Siren,
+  HeartPulse,
+  Brain,
+  CreditCard,
+  Smartphone,
+  PlaneTakeoff,
+} from "lucide-react";
 import { useModal } from "@/context/ModalContext";
 
 export default function CareEcosystemSection() {
@@ -67,80 +75,78 @@ export default function CareEcosystemSection() {
 
   return (
     <section
-      className="relative w-full py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-burgundy-950 via-burgundy-900 to-burgundy-950 text-white overflow-hidden"
+      className="relative isolate min-h-[620px] w-full overflow-hidden px-5 py-10 text-white sm:px-8 sm:py-12 lg:h-[85vh] lg:min-h-[580px] lg:px-12 lg:py-12"
       id="services"
     >
       <div id="specialties" className="absolute -top-12 left-0" />
 
-      {/* Subtle background image tint */}
-      <div className="absolute inset-0 opacity-10 mix-blend-luminosity pointer-events-none">
-        <Image
-          src="/images/stitch/lisie-campus-kaloor.jpg"
-          alt="Lisie Hospital Architecture"
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-      </div>
+      <Image
+        src="/images/lisiehospitalbg2.png"
+        alt="Lisie Hospital campus"
+        fill
+        priority={false}
+        sizes="100vw"
+        className="-z-10  object-center"
+      />
 
-      <div className="relative z-10 w-full max-w-[1536px] mx-auto">
-        {/* Section Header */}
-        <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8">
-          <span className="inline-block px-3 py-0.5 rounded-full bg-white/10 frosted-glass text-burgundy-100 text-[11px] font-semibold uppercase tracking-wider mb-2 font-sans">
-            Holistic Healthcare
-          </span>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-medium text-white tracking-tight">
-            Comprehensive Medical Ecosystem
-          </h2>
-          <p className="text-burgundy-100/80 text-xs sm:text-sm mt-1.5 font-sans leading-relaxed">
-            From preventative screenings to complex heart transplants, experience coordinated patient journeys backed by compassionate experts.
-          </p>
-        </div>
+      <div className="relative z-10 mr-auto flex h-full w-full max-w-[960px] flex-col">
+        <div className="grid grid-cols-1 border-t border-white/35 font-sans sm:grid-cols-2 lg:grid-cols-2 ">
+          <div className="min-h-[165px] border-b border-white/35 py-6 text-shadow-hero sm:px-6 lg:min-h-0 lg:border-r lg:px-0 lg:py-6">
+            <span className="mb-4 inline-flex rounded-full border border-white/80 px-4 py-1.5 text-xs font-medium tracking-wide text-white">
+              Holistic Healthcare
+            </span>
+            <h2 className="max-w-sm font-serif text-2xl font-medium leading-tight tracking-tight text-white sm:text-3xl">
+              Comprehensive Medical Ecosystem
+            </h2>
+            <p className="mt-2.5 max-w-sm text-xs leading-relaxed text-white sm:text-sm">
+              From preventative screenings to complex heart transplants, coordinated care begins here.
+            </p>
+          </div>
 
-        {/* 6-Feature Grid with compact rounded-2xl cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 font-sans">
-          {services.map((service) => {
+          {services.slice(0, 5).map((service) => {
             const Icon = service.icon;
             return (
-              <div
+              <button
+                type="button"
                 key={service.id}
                 onClick={service.action}
-                className="group bg-white/10 frosted-glass p-4 sm:p-5 rounded-2xl border border-white/15 hover:bg-white/15 hover:border-white/25 transition-all duration-200 cursor-pointer flex flex-col justify-between"
+                className="group min-h-[148px] border-b border-white/35 py-6 text-left transition-colors duration-200 hover:bg-white/10 sm:px-6 lg:min-h-0 lg:px-6 lg:py-6 lg:[&:nth-child(odd)]:border-r"
               >
-                <div>
-                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-burgundy-200 mb-2.5 group-hover:scale-105 group-hover:bg-burgundy-700 transition-all duration-200">
-                    <Icon className="w-4 h-4 text-white" />
+                <div className="flex gap-4">
+                  <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/15 transition-transform duration-200 group-hover:scale-110">
+                    <Icon className="h-4 w-4" />
                   </div>
-                  <h3 className="text-sm font-serif font-semibold text-white mb-1 leading-snug">
-                    {service.title}
-                  </h3>
-                  <p className="text-xs text-burgundy-100/80 leading-relaxed mb-2.5">
-                    {service.description}
-                  </p>
+                  <div>
+                    <h3 className="text-base font-medium leading-snug text-white sm:text-lg">
+                      {service.title}
+                    </h3>
+                    <p className="mt-2 text-xs leading-relaxed text-white sm:text-sm">
+                      {service.description}
+                    </p>
+                    <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-visible:opacity-100">
+                      {service.actionLabel}
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </span>
+                  </div>
                 </div>
-
-                <div className="pt-2.5 border-t border-white/10 flex items-center justify-between text-xs text-burgundy-200 group-hover:text-white transition-colors">
-                  <span>{service.actionLabel}</span>
-                  <span className="transform group-hover:translate-x-1 transition-transform text-xs">
-                    →
-                  </span>
-                </div>
-              </div>
+              </button>
             );
           })}
         </div>
 
-        {/* Centered Consultation CTA */}
-        <div className="mt-7 sm:mt-8 text-center font-sans">
-          <button
-            type="button"
-            onClick={() => openModal("doctor-search")}
-            className="inline-flex items-center space-x-2 bg-white text-burgundy-900 hover:bg-stone-100 text-xs sm:text-sm font-semibold px-5 py-2.5 sm:py-3 rounded-full shadow-md transition-transform hover:scale-105 duration-200 active:scale-95"
-          >
-            <span>Consult Our Senior Specialists</span>
-            <span className="font-bold">↗</span>
-          </button>
-        </div>
+      </div>
+
+      <div className="absolute inset-x-0 bottom-10 z-10 text-center font-sans sm:bottom-12">
+        <button
+          type="button"
+          onClick={() => openModal("doctor-search")}
+          className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-sm font-semibold text-burgundy-900 shadow-md transition-transform duration-200 hover:scale-105 hover:bg-stone-100 active:scale-95"
+        >
+          <span>Consult Our Senior Specialists</span>
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-burgundy-900 text-white">
+            <ArrowUpRight className="h-4 w-4" />
+          </span>
+        </button>
       </div>
     </section>
   );
