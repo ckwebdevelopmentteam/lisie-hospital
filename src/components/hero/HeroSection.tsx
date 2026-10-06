@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import HeroSlider from "./HeroSlider";
 import OverlappingCards from "./OverlappingCards";
 import QuickFeaturesBar from "./QuickFeaturesBar";
-import CampusModal from "./CampusModal";
 import SpecialtyModal from "./SpecialtyModal";
 import AppointmentModal from "../header/modals/AppointmentModal";
 import DoctorSearchModal from "../header/modals/DoctorSearchModal";
@@ -13,11 +12,9 @@ import OPTimingsModal from "../header/modals/OPTimingsModal";
 import {
   LISIE_HERO_SLIDES,
   LISIE_INSTITUTES,
-  CampusCard,
 } from "./heroData";
 
 export default function HeroSection() {
-  const [selectedCampus, setSelectedCampus] = useState<CampusCard | null>(null);
   const [specialtyModalTitle, setSpecialtyModalTitle] = useState<string | null>(null);
 
   // Modals
@@ -37,7 +34,6 @@ export default function HeroSection() {
       {/* 2. The 3 Overlapping Campus / Center Cards bridging into the white section */}
       <OverlappingCards
         campuses={LISIE_INSTITUTES}
-        onSelectCampus={(campus) => setSelectedCampus(campus)}
       />
 
       {/* 3. Quick Features & Hospital Statistics Row */}
@@ -47,15 +43,6 @@ export default function HeroSection() {
         onOpenOPTimings={() => setIsOPTimingsOpen(true)}
         onOpenEmergency={() => setIsEmergencyOpen(true)}
       />
-
-      {/* Interactive Modals */}
-      {selectedCampus && (
-        <CampusModal
-          campus={selectedCampus}
-          onClose={() => setSelectedCampus(null)}
-          onOpenAppointment={() => setIsAppointmentOpen(true)}
-        />
-      )}
 
       {specialtyModalTitle && (
         <SpecialtyModal

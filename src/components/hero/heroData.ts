@@ -112,7 +112,7 @@ export const LISIE_INSTITUTES: CampusCard[] = [
       stars: 5,
       reviewsCount: "6,800+",
     },
-    link: "/institute/lisie-heart-institute",
+    link: "/lisie-heart-institute",
     features: [
       "Over 14,000 Open Heart Surgeries",
       "Heart Transplantation & ECMO Unit",
@@ -135,7 +135,7 @@ export const LISIE_INSTITUTES: CampusCard[] = [
       stars: 5,
       reviewsCount: "12,500+",
     },
-    link: "/about-us",
+    link: "/lisie-main-hospital",
     features: [
       "Level 1 Trauma & 24/7 Emergency Casualty",
       "Renal & Liver Transplantation Centre",
@@ -158,7 +158,7 @@ export const LISIE_INSTITUTES: CampusCard[] = [
       stars: 5,
       reviewsCount: "4,100+",
     },
-    link: "/department/lisie-cancer-centre",
+    link: "/lisie-cancer-centre",
     features: [
       "Varian TrueBeam SVC Linear Accelerator",
       "4D CT Simulator & Multi-Disciplinary Tumor Board",
