@@ -1,33 +1,30 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
 import { CampusCard } from "./heroData";
 
 interface OverlappingCardsProps {
   campuses: CampusCard[];
-  onSelectCampus: (campus: CampusCard) => void;
 }
 
 export default function OverlappingCards({
   campuses,
-  onSelectCampus,
 }: OverlappingCardsProps) {
   return (
     <div className="relative z-30 w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 -mt-20 sm:-mt-28 md:-mt-32 lg:-mt-36">
-
-
       {/* 3-Column Responsive Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
         {campuses.map((campus) => (
-          <div
+          <Link
             key={campus.id}
+            href={campus.link}
             className="group flex flex-col justify-between"
           >
             {/* Top: Directly Rounded Hospital Photo with Soft Shadow */}
             <div
               className="relative w-full aspect-[16/10] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl bg-slate-900 cursor-pointer"
-              onClick={() => onSelectCampus(campus)}
             >
               <img
                 src={campus.image}
@@ -42,7 +39,6 @@ export default function OverlappingCards({
                 {/* Left: Title & Google Rating */}
                 <div>
                   <h2
-                    onClick={() => onSelectCampus(campus)}
                     className="text-base sm:text-lg font-black tracking-tight text-[#E25227] hover:text-[#C5221F] cursor-pointer transition-colors uppercase"
                   >
                     {campus.name}
@@ -52,7 +48,6 @@ export default function OverlappingCards({
                   <div
                     className="flex items-center space-x-1.5 mt-1 cursor-pointer"
                     title={`${campus.googleRating.score} Google Rating (${campus.googleRating.reviewsCount} reviews)`}
-                    onClick={() => onSelectCampus(campus)}
                   >
                     {/* Authentic Multicolor Google 'G' icon */}
                     <svg
@@ -96,17 +91,15 @@ export default function OverlappingCards({
                 </div>
 
                 {/* Right: 'VISIT US →' Pill Button */}
-                <button
-                  type="button"
-                  onClick={() => onSelectCampus(campus)}
-                  className="inline-flex items-center space-x-1.5 px-4 py-1.5 rounded-full border border-gray-400/80 hover:border-[#E25227] text-gray-800 hover:text-[#E25227] text-[11px] sm:text-xs font-semibold hover:bg-orange-50/40 transition-all duration-200 shrink-0"
+                <span
+                  className="inline-flex items-center space-x-1.5 px-4 py-1.5 rounded-full border border-gray-400/80 group-hover:border-[#E25227] text-gray-800 group-hover:text-[#E25227] text-[11px] sm:text-xs font-semibold group-hover:bg-orange-50/40 transition-all duration-200 shrink-0"
                 >
                   <span className="tracking-wider uppercase">VISIT US</span>
                   <ArrowRight className="w-3.5 h-3.5 text-[#E25227] transition-transform group-hover:translate-x-1" />
-                </button>
+                </span>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

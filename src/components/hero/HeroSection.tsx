@@ -5,18 +5,15 @@ import HeroSlider from "./HeroSlider";
 import OverlappingCards from "./OverlappingCards";
 import QuickFeaturesBar from "./QuickFeaturesBar";
 import DepartmentExplorer from "./DepartmentExplorer";
-import CampusModal from "./CampusModal";
 import SpecialtyModal from "./SpecialtyModal";
 import { useModal } from "@/context/ModalContext";
 import {
   LISIE_HERO_SLIDES,
   LISIE_INSTITUTES,
-  CampusCard,
 } from "./heroData";
 
 export default function HeroSection() {
   const { openModal } = useModal();
-  const [selectedCampus, setSelectedCampus] = useState<CampusCard | null>(null);
   const [specialtyModalTitle, setSpecialtyModalTitle] = useState<string | null>(null);
 
   return (
@@ -30,7 +27,6 @@ export default function HeroSection() {
       {/* 2. The 3 Overlapping Campus / Center Cards bridging into the white section */}
       <OverlappingCards
         campuses={LISIE_INSTITUTES}
-        onSelectCampus={(campus) => setSelectedCampus(campus)}
       />
 
       {/* 3. Quick Features & Hospital Statistics Row */}
@@ -42,15 +38,6 @@ export default function HeroSection() {
       />
 
       <DepartmentExplorer />
-
-      {/* Interactive Modals */}
-      {selectedCampus && (
-        <CampusModal
-          campus={selectedCampus}
-          onClose={() => setSelectedCampus(null)}
-          onOpenAppointment={() => openModal("appointment")}
-        />
-      )}
 
       {specialtyModalTitle && (
         <SpecialtyModal
