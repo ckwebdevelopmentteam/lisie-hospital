@@ -133,7 +133,7 @@ export default function Header() {
                     type="button"
                     onClick={() => setActiveMenu(isActive ? null : item.id)}
                     aria-expanded={isActive}
-                    className={`flex items-center space-x-1 px-3.5 py-2 text-xs xl:text-sm font-semibold rounded-md transition-colors ${
+                    className={`flex items-center space-x-1.5 px-3.5 py-2 text-sm xl:text-[15px] font-semibold rounded-md transition-colors ${
                       isActive
                         ? "text-[#E31C59] bg-[#E31C59]/10"
                         : "text-gray-700 hover:text-[#E31C59] hover:bg-[#E31C59]/5"
