@@ -77,6 +77,11 @@ export default function OverlappingCards({ campuses }: OverlappingCardsProps) {
                     <p className="mt-1 text-xs text-slate-300 group-hover:text-slate-200 line-clamp-1 transition-colors">
                       {campus.subTitle}
                     </p>
+
+                    {/* Real OPD & Emergency Hours */}
+                    <div className="mt-1.5 text-[11px] text-slate-300/85 group-hover:text-blue-100/95 transition-colors flex items-center gap-1.5 font-medium">
+                      <span className="truncate">{campus.opdHours}</span>
+                    </div>
                   </div>
 
                   {/* Hover Bottom-Right Arrow ↗ (Reveals on Hover, like reference design) */}

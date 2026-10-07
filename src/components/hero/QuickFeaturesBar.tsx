@@ -49,7 +49,7 @@ export default function QuickFeaturesBar({
     },
     {
       title: "OP Timings",
-      desc: "Daily Department Schedules",
+      desc: "Mon – Sat: 8:00 AM – 5:00 PM",
       icon: Clock,
       color: "bg-[#0E2A47] text-white",
       hoverBorder: "hover:border-[#0E2A47]",
