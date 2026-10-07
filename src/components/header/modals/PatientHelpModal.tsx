@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { HelpCircle, Phone, Clock, FileText, ShieldCheck, X, ChevronRight } from "lucide-react";
+import { HelpCircle, Phone, Clock, FileText, ShieldCheck, X } from "lucide-react";
 import { HOSPITAL_CONTACTS } from "../data/hospitalData";
 
 interface PatientHelpModalProps {
@@ -39,7 +39,7 @@ export default function PatientHelpModal({
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = originalOverflow;
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };

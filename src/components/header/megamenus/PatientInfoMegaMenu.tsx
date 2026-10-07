@@ -2,7 +2,7 @@
 
 import React from "react";
 import { PATIENT_INFO_SECTIONS, HOSPITAL_CONTACTS } from "../data/hospitalData";
-import { ArrowRight, ChevronRight, Phone, Clock, FileText } from "lucide-react";
+import { ArrowRight, ChevronRight, Phone } from "lucide-react";
 
 interface PatientInfoMegaMenuProps {
   onClose: () => void;

@@ -12,7 +12,6 @@ import {
   Share2,
   Check,
   User,
-  Sparkles,
 } from "lucide-react";
 
 export interface NewsArticle {

@@ -7,13 +7,8 @@ import {
   Heart,
   ShieldCheck,
   ChevronRight,
-  Phone,
-  Mail,
   MapPin,
-  Navigation,
   ArrowUp,
-  Star,
-  Activity,
 } from "lucide-react";
 import { useModal } from "@/context/ModalContext";
 

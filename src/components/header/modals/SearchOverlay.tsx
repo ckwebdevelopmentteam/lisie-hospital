@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { Search, X, ArrowRight, User, Building2, Stethoscope, Clock, ShieldCheck, BookOpen } from "lucide-react";
+import { Search, X, ArrowRight, User, Building2, Stethoscope, Clock, BookOpen } from "lucide-react";
 import { SEARCH_INDEX } from "../data/hospitalData";
 import { SearchResultItem } from "../types";
 

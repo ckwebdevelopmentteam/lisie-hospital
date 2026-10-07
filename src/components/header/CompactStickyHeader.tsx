@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
+import Link from "next/link";
 import { Search, Calendar, ChevronDown } from "lucide-react";
 import { ActiveMegaMenu } from "./types";
 import DepartmentsMegaMenu from "./megamenus/DepartmentsMegaMenu";
@@ -63,7 +64,7 @@ export default function CompactStickyHeader({
     >
       <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
         {/* Left: Compact Logo */}
-        <a
+        <Link
           href="/"
           className="flex items-center space-x-2 shrink-0 group focus:outline-none"
           aria-label="Lisie Hospital Home"
@@ -73,7 +74,7 @@ export default function CompactStickyHeader({
             alt="Lisie Hospital"
             className="h-8 w-auto object-contain"
           />
-        </a>
+        </Link>
 
         {/* Center: Compact Primary Nav Items */}
         <nav

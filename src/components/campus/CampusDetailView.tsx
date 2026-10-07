@@ -14,7 +14,7 @@ import {
   ShieldCheck,
   Building2,
 } from "lucide-react";
-import { CampusCard, LISIE_INSTITUTES } from "@/components/hero/heroData";
+import { LISIE_INSTITUTES } from "@/components/hero/heroData";
 import { useModal } from "@/context/ModalContext";
 
 interface CampusDetailViewProps {

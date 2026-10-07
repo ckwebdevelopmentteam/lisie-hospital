@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import {
-  PhoneCall,
   Clock,
   HelpCircle,
   Sliders,
@@ -14,7 +13,6 @@ import { Language, TextSize } from "./types";
 import AccessibilityPopover from "./modals/AccessibilityPopover";
 
 interface UtilityBarProps {
-  onOpenEmergency: () => void;
   onOpenPatientHelp: () => void;
   onOpenOPTimings: () => void;
   language: Language;
@@ -28,7 +26,6 @@ interface UtilityBarProps {
 }
 
 export default function UtilityBar({
-  onOpenEmergency,
   onOpenPatientHelp,
   onOpenOPTimings,
   language,

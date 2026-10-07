@@ -18,8 +18,6 @@ import {
   ChevronRight,
   ChevronDown,
   ChevronUp,
-  ArrowRight,
-  ArrowUpRight,
   Search,
   X,
   Calendar,

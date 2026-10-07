@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Phone, ChevronDown, Clock, ShieldAlert } from "lucide-react";
+import { ChevronDown, ShieldAlert } from "lucide-react";
 import { LISIE_TOP_CONTACTS } from "./heroData";
 
 export default function TopBar() {
