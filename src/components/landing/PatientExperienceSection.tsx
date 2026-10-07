@@ -26,7 +26,7 @@ const pillars = [
   { number: "03", label: "Preserve the story" },
 ];
 
-// Tripled list for infinite smooth horizontal looping without snapping
+// Duplicated list for seamless forward and backward looping
 const extendedExperiences = [...experiences, ...experiences, ...experiences];
 const TOTAL_ORIGINAL = experiences.length;
 const INITIAL_INDEX = TOTAL_ORIGINAL;
@@ -34,19 +34,33 @@ const INITIAL_INDEX = TOTAL_ORIGINAL;
 export default function PatientExperienceSection() {
   const { openModal } = useModal();
   const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX);
-  const [isTransitioning, setIsTransitioning] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [cardsPerView, setCardsPerView] = useState(1);
   const [isPaused, setIsPaused] = useState(false);
   const isJumpingRef = useRef(false);
+  const trackRef = useRef<HTMLDivElement | null>(null);
 
-  // Responsive check for card widths (100% on mobile, 50% on tablet/desktop)
+  // Touch tracking for mobile swipe gestures
+  const touchStartX = useRef<number | null>(null);
+  const touchDeltaX = useRef<number>(0);
+
+  // Initialize cardsPerView & activate smooth transitions after initial paint
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640);
+    const updateView = () => {
+      setCardsPerView(window.innerWidth < 640 ? 1 : 2);
     };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    updateView();
+    window.addEventListener("resize", updateView);
+
+    // Turn on smooth transitions after initial position is committed to prevent mount blinking
+    const timer = setTimeout(() => {
+      setIsTransitioning(true);
+    }, 50);
+
+    return () => {
+      window.removeEventListener("resize", updateView);
+      clearTimeout(timer);
+    };
   }, []);
 
   // Slide forward one by one
@@ -63,37 +77,69 @@ export default function PatientExperienceSection() {
     setCurrentIndex((prev) => prev - 1);
   }, []);
 
-  // Seamless reset at borders so infinite scroll never blinks or stutters
-  const handleTransitionEnd = () => {
+  // Seamless reset at boundaries so infinite scroll never blinks or stutters
+  const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
+    // Only respond to transform events on the track itself
+    if (e.target !== e.currentTarget || e.propertyName !== "transform") return;
+
     if (currentIndex >= TOTAL_ORIGINAL * 2) {
       isJumpingRef.current = true;
       setIsTransitioning(false);
       setCurrentIndex((prev) => prev - TOTAL_ORIGINAL);
+      if (trackRef.current) {
+        void trackRef.current.offsetHeight;
+      }
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          isJumpingRef.current = false;
-        });
+        setIsTransitioning(true);
+        isJumpingRef.current = false;
       });
     } else if (currentIndex < TOTAL_ORIGINAL) {
       isJumpingRef.current = true;
       setIsTransitioning(false);
       setCurrentIndex((prev) => prev + TOTAL_ORIGINAL);
+      if (trackRef.current) {
+        void trackRef.current.offsetHeight;
+      }
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          isJumpingRef.current = false;
-        });
+        setIsTransitioning(true);
+        isJumpingRef.current = false;
       });
     }
   };
 
-  // Auto-scroll one by one every 4 seconds with smooth slide
+  // Auto-scroll one by one every 4.5 seconds
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
       slideNext();
-    }, 4000);
+    }, 4500);
     return () => clearInterval(interval);
   }, [slideNext, isPaused]);
+
+  // Touch handlers for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchDeltaX.current = 0;
+    setIsPaused(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    touchDeltaX.current = e.touches[0].clientX - touchStartX.current;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current !== null) {
+      if (touchDeltaX.current < -35) {
+        slideNext();
+      } else if (touchDeltaX.current > 35) {
+        slidePrev();
+      }
+    }
+    touchStartX.current = null;
+    touchDeltaX.current = 0;
+    setIsPaused(false);
+  };
 
   // Current active indicator (0 to 12)
   const activeDot = ((currentIndex % TOTAL_ORIGINAL) + TOTAL_ORIGINAL) % TOTAL_ORIGINAL;
@@ -108,11 +154,11 @@ export default function PatientExperienceSection() {
 
   return (
     <section
-      className="relative bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20 font-sans overflow-hidden"
+      className="relative bg-white px-4 py-8 sm:py-16 lg:py-20 font-sans overflow-hidden"
       id="patient-experience"
       style={{ fontFamily: "'Inter', 'Outfit', sans-serif" }}
     >
-      <div className="w-full max-w-[1536px] mx-auto grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
+      <div className="w-full max-w-[1536px] mx-auto grid gap-8 sm:gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
 
         {/* ── LEFT: Auto-rotating Content ── */}
         <div className="flex flex-col lg:min-h-[580px] lg:justify-between">
@@ -123,36 +169,40 @@ export default function PatientExperienceSection() {
               Patient Experience
             </p>
 
-            <h2 className="mt-4 text-4xl sm:text-5xl md:text-[3.4rem] font-bold leading-[1.08] tracking-tight text-[#1a324c]">
+            <h2 className="mt-3 sm:mt-4 text-2xl sm:text-4xl md:text-[3.2rem] font-bold leading-[1.12] tracking-tight text-[#1a324c]">
               Thoughtful care,<br />at every step.
             </h2>
 
-            <p className="mt-5 text-sm sm:text-[15px] md:text-base leading-relaxed text-slate-600 max-w-xl">
+            <p className="mt-3 sm:mt-5 text-sm sm:text-[15px] md:text-base leading-relaxed text-slate-600 max-w-xl">
               From planning your visit to returning home, find the services and support that make your time with Lisie simpler.
             </p>
 
             {/* Divider */}
-            <div className="mt-8 flex items-center gap-2">
+            <div className="mt-5 sm:mt-8 flex items-center gap-2">
               <span className="h-px w-10 bg-[#8d173b]" />
               <span className="h-px w-4 bg-[#8d173b]/50" />
               <span className="h-px w-2 bg-[#8d173b]/25" />
             </div>
           </div>
 
-          {/* Clean Horizontal Sliding Carousel — One-by-One Smooth Slide, No White Placeholder Box */}
+          {/* Clean Horizontal Sliding Carousel with Zero Blink */}
           <div
-            className="mt-10"
+            className="mt-6 sm:mt-10"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
             {/* Viewport for slider */}
             <div className="relative overflow-hidden w-full py-2">
               <div
+                ref={trackRef}
                 className="flex will-change-transform"
                 style={{
-                  transform: `translateX(-${currentIndex * (isMobile ? 100 : 50)}%)`,
+                  transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
                   transition: isTransitioning
-                    ? "transform 750ms cubic-bezier(0.25, 1, 0.5, 1)"
+                    ? "transform 700ms cubic-bezier(0.25, 1, 0.5, 1)"
                     : "none",
                 }}
                 onTransitionEnd={handleTransitionEnd}
@@ -160,22 +210,23 @@ export default function PatientExperienceSection() {
                 {extendedExperiences.map((exp, idx) => (
                   <div
                     key={`${exp.title}-${idx}`}
-                    className="w-full sm:w-1/2 flex-shrink-0 px-4 sm:px-8 py-4 flex flex-col items-center text-center border-r border-slate-200/70"
+                    className="w-full sm:w-1/2 flex-shrink-0 px-3 sm:px-8 py-3 sm:py-4 flex flex-col items-center text-center border-r border-slate-200/70"
                   >
                     {/* Pink 24/7 speech bubble icon */}
-                    <div className="mb-5 flex items-center justify-center">
+                    <div className="mb-4 sm:mb-5 flex items-center justify-center">
                       <Image
                         src="/images/24icon.png"
                         alt="24/7"
-                        width={82}
-                        height={95}
+                        width={76}
+                        height={88}
                         unoptimized
+                        style={{ width: "auto", height: "auto" }}
                         className="mx-auto drop-shadow-sm transition-transform duration-300 hover:scale-105"
                       />
                     </div>
 
                     {/* Bold Service Title */}
-                    <h3 className="text-[#1a324c] font-bold text-base sm:text-lg leading-snug mb-5 max-w-[220px] min-h-[48px] flex items-center justify-center">
+                    <h3 className="text-[#1a324c] font-bold text-sm sm:text-lg leading-snug mb-3 sm:mb-5 max-w-[220px] min-h-[40px] sm:min-h-[48px] flex items-center justify-center">
                       {exp.title}
                     </h3>
 
@@ -183,13 +234,13 @@ export default function PatientExperienceSection() {
                     <button
                       type="button"
                       onClick={() => openModal(exp.modal)}
-                      className="inline-flex items-center gap-2.5 group cursor-pointer"
+                      className="inline-flex items-center gap-2 sm:gap-2.5 group cursor-pointer"
                     >
-                      <span className="h-px w-7 bg-[#8d173b]/50 group-hover:w-11 transition-all duration-300" />
-                      <span className="text-xs font-bold uppercase tracking-widest text-[#8d173b] group-hover:text-[#6b1030] transition-colors">
+                      <span className="h-px w-6 sm:w-7 bg-[#8d173b]/50 group-hover:w-10 transition-all duration-300" />
+                      <span className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#8d173b] group-hover:text-[#6b1030] transition-colors">
                         READ MORE
                       </span>
-                      <span className="text-[#8d173b] group-hover:translate-x-1 transition-transform text-sm font-bold">
+                      <span className="text-[#8d173b] group-hover:translate-x-1 transition-transform text-xs sm:text-sm font-bold">
                         →
                       </span>
                     </button>
@@ -199,8 +250,9 @@ export default function PatientExperienceSection() {
             </div>
 
             {/* Nav controls */}
-            <div className="mt-8 flex items-center justify-between border-t border-slate-200 pt-5">
-              <div className="flex gap-1.5 items-center">
+            <div className="mt-5 sm:mt-8 flex items-center justify-between border-t border-slate-200 pt-4 sm:pt-5">
+              {/* Desktop dots */}
+              <div className="hidden sm:flex gap-1.5 items-center">
                 {experiences.map((exp, index) => (
                   <button
                     key={exp.title}
@@ -216,30 +268,48 @@ export default function PatientExperienceSection() {
                   />
                 ))}
               </div>
+
+              {/* Mobile compact progress pill */}
+              <div className="sm:hidden flex items-center gap-2">
+                <span className="text-xs font-bold text-[#8d173b] font-mono">
+                  {String(activeDot + 1).padStart(2, "0")}
+                </span>
+                <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-[#8d173b] rounded-full transition-all duration-300"
+                    style={{ width: `${((activeDot + 1) / TOTAL_ORIGINAL) * 100}%` }}
+                  />
+                </div>
+                <span className="text-xs font-semibold text-slate-400 font-mono">
+                  {String(TOTAL_ORIGINAL).padStart(2, "0")}
+                </span>
+              </div>
+
+              {/* Prev / Next Buttons */}
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   aria-label="Previous patient experience service"
                   onClick={slidePrev}
-                  className="flex h-9 w-9 items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer bg-slate-50 hover:bg-slate-100 rounded-full"
                 >
-                  <Image src="/images/leftarrow1.png" alt="Previous" width={28} height={28} />
+                  <Image src="/images/leftarrow1.png" alt="Previous" width={24} height={24} style={{ width: "auto", height: "auto" }} />
                 </button>
                 <button
                   type="button"
                   aria-label="Next patient experience service"
                   onClick={slideNext}
-                  className="flex h-9 w-9 items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer bg-slate-50 hover:bg-slate-100 rounded-full"
                 >
-                  <Image src="/images/rightarrow.png" alt="Next" width={28} height={28} />
+                  <Image src="/images/rightarrow.png" alt="Next" width={24} height={24} style={{ width: "auto", height: "auto" }} />
                 </button>
               </div>
             </div>
 
             {/* Bottom pillars */}
-            <div className="mt-6 flex items-center gap-6 sm:gap-10">
+            <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-4 sm:gap-10">
               {pillars.map((p) => (
-                <div key={p.number} className="flex items-center gap-2">
+                <div key={p.number} className="flex items-center gap-1.5 sm:gap-2">
                   <span className="text-xs font-bold text-[#8d173b]">{p.number}</span>
                   <span className="text-xs sm:text-sm text-slate-500 font-medium">{p.label}</span>
                 </div>
@@ -248,11 +318,11 @@ export default function PatientExperienceSection() {
           </div>
         </div>
 
-        {/* ── RIGHT: Sticky Photo Collage ── */}
-        <div className="relative min-h-[480px] sm:min-h-[540px] lg:min-h-[620px]">
+        {/* ── RIGHT: Responsive Photo Collage ── */}
+        <div className="relative min-h-[300px] sm:min-h-[420px] lg:min-h-[620px]">
 
           {/* Large main image — top left */}
-          <div className="absolute left-0 top-6 h-[72%] w-[66%] overflow-hidden rounded-[1.5rem] shadow-[0_20px_50px_rgba(42,34,26,0.13)]">
+          <div className="absolute left-0 top-3 sm:top-6 h-[72%] w-[66%] overflow-hidden rounded-[1.2rem] sm:rounded-[1.5rem] shadow-[0_20px_50px_rgba(42,34,26,0.13)]">
             <Image
               src="/images/patient-story-1.jpg"
               alt="Lisie nurse caring warmly for a patient"
@@ -265,7 +335,7 @@ export default function PatientExperienceSection() {
           </div>
 
           {/* Top-right small image */}
-          <div className="absolute right-0 top-0 h-[36%] w-[42%] overflow-hidden rounded-[1.2rem] border-[5px] border-white shadow-[0_14px_30px_rgba(42,34,26,0.12)]">
+          <div className="absolute right-0 top-0 h-[36%] w-[42%] overflow-hidden rounded-[1rem] sm:rounded-[1.2rem] border-[3px] sm:border-[5px] border-white shadow-[0_14px_30px_rgba(42,34,26,0.12)]">
             <Image
               src="/images/patient-story-2.jpg"
               alt="Doctor consulting patient family"
@@ -277,7 +347,7 @@ export default function PatientExperienceSection() {
           </div>
 
           {/* Bottom-right image with label badge */}
-          <div className="absolute bottom-0 right-[2%] h-[36%] w-[52%] overflow-hidden rounded-[1.2rem] border-[5px] border-white shadow-[0_14px_30px_rgba(42,34,26,0.12)]">
+          <div className="absolute bottom-0 right-[2%] h-[36%] w-[52%] overflow-hidden rounded-[1rem] sm:rounded-[1.2rem] border-[3px] sm:border-[5px] border-white shadow-[0_14px_30px_rgba(42,34,26,0.12)]">
             <Image
               src="/images/patient-story-3.jpg"
               alt="Lisie Hospital chapel — peaceful care"
@@ -287,19 +357,15 @@ export default function PatientExperienceSection() {
               className="object-cover"
             />
             {/* Animated label badge */}
-            <div className="absolute bottom-3 left-3 bg-black/55 backdrop-blur-sm rounded-xl px-3 py-2 max-w-[85%]">
-              <p className="text-[9px] font-bold uppercase tracking-widest text-white/60">
+            <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 bg-black/60 backdrop-blur-sm rounded-lg sm:rounded-xl px-2.5 py-1.5 sm:px-3 sm:py-2 max-w-[90%] sm:max-w-[85%]">
+              <p className="text-[8px] sm:text-[9px] font-bold uppercase tracking-widest text-white/60">
                 Patient Experience
               </p>
-              <p className="text-xs font-semibold text-white leading-tight mt-0.5 transition-opacity duration-300">
+              <p className="text-[11px] sm:text-xs font-semibold text-white leading-tight mt-0.5 transition-opacity duration-300 truncate">
                 {experiences[activeDot].title}
               </p>
             </div>
           </div>
-
-          {/* Decorative circles */}
-          <div className="absolute -bottom-5 -right-5 w-24 h-24 rounded-full bg-[#8d173b]/[0.06] pointer-events-none" />
-          <div className="absolute -top-4 -left-4 w-16 h-16 rounded-full bg-[#2378bd]/[0.06] pointer-events-none" />
         </div>
 
       </div>

@@ -130,9 +130,9 @@ export default function PatientStoriesSection() {
   };
 
   return (
-    <section className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#f3f7fc] font-sans overflow-hidden" id="testimonials">
+    <section className="relative py-8 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#f3f7fc] font-sans overflow-hidden" id="testimonials">
       <div className="relative mx-auto w-full max-w-[1536px]">
-        <div className="relative min-h-[320px] overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-[#f8fbff] to-[#e9f2fb] px-5 py-11 shadow-[0_22px_60px_rgba(66,100,135,0.10)] sm:min-h-[345px] sm:px-10 sm:py-12 lg:px-14">
+        <div className="relative min-h-[260px] sm:min-h-[345px] overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] bg-gradient-to-br from-white via-[#f8fbff] to-[#e9f2fb] px-4 py-8 sm:px-10 sm:py-12 lg:px-14 shadow-[0_22px_60px_rgba(66,100,135,0.10)]">
           <div className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full border-[28px] border-[#d11f53]/[0.05]" />
           <div className="pointer-events-none absolute -bottom-24 -left-20 h-52 w-52 rounded-full bg-[#2378bd]/[0.05]" />
           <Quote className="pointer-events-none absolute left-7 top-10 h-24 w-24 fill-slate-100 text-slate-100 sm:left-12 sm:top-12 sm:h-32 sm:w-32" strokeWidth={0} />
@@ -152,15 +152,15 @@ export default function PatientStoriesSection() {
           </div>
         </div>
 
-        <div className="relative left-1/2 z-20 -mt-24 w-screen -translate-x-1/2 sm:-mt-28">
-          <div className="relative mx-auto max-w-[1536px] px-12 sm:px-14">
+        <div className="relative left-1/2 z-20 -mt-20 w-screen -translate-x-1/2 sm:-mt-28">
+          <div className="relative mx-auto max-w-[1536px] px-8 sm:px-14">
             <button
               type="button"
               aria-label="Previous patient stories"
               onClick={() => scrollStories("left")}
-              className="absolute left-0 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center transition-transform hover:scale-110 sm:h-16 sm:w-16"
+              className="absolute left-1 sm:left-0 top-1/2 z-30 flex h-10 w-10 sm:h-16 sm:w-16 -translate-y-1/2 items-center justify-center transition-transform hover:scale-110 active:scale-95"
             >
-              <Image src="/images/leftarrow1.png" alt="" width={52} height={52} />
+              <Image src="/images/leftarrow1.png" alt="" width={42} height={42} style={{ width: "auto", height: "auto" }} />
             </button>
 
             <div
@@ -205,9 +205,9 @@ export default function PatientStoriesSection() {
               type="button"
               aria-label="Next patient stories"
               onClick={() => scrollStories("right")}
-              className="absolute right-0 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center transition-transform hover:scale-110 sm:h-16 sm:w-16"
+              className="absolute right-1 sm:right-0 top-1/2 z-30 flex h-10 w-10 sm:h-16 sm:w-16 -translate-y-1/2 items-center justify-center transition-transform hover:scale-110 active:scale-95"
             >
-              <Image src="/images/rightarrow.png" alt="" width={52} height={52} />
+              <Image src="/images/rightarrow.png" alt="" width={42} height={42} style={{ width: "auto", height: "auto" }} />
             </button>
           </div>
         </div>
