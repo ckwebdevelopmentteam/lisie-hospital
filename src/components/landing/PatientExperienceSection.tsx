@@ -27,87 +27,76 @@ const pillars = [
 ];
 
 // Duplicated list for seamless forward and backward looping
-const extendedExperiences = [...experiences, ...experiences, ...experiences];
 const TOTAL_ORIGINAL = experiences.length;
-const INITIAL_INDEX = TOTAL_ORIGINAL;
 
 export default function PatientExperienceSection() {
   const { openModal } = useModal();
-  const [currentIndex, setCurrentIndex] = useState(INITIAL_INDEX);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState<"next" | "prev" | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [cardsPerView, setCardsPerView] = useState(1);
   const [isPaused, setIsPaused] = useState(false);
-  const isJumpingRef = useRef(false);
+
+  const isAnimatingRef = useRef(false);
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const slideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Touch tracking for mobile swipe gestures
   const touchStartX = useRef<number | null>(null);
   const touchDeltaX = useRef<number>(0);
 
-  // Initialize cardsPerView & activate smooth transitions after initial paint
-  useEffect(() => {
-    const updateView = () => {
-      setCardsPerView(window.innerWidth < 640 ? 1 : 2);
-    };
-    updateView();
-    window.addEventListener("resize", updateView);
-
-    // Turn on smooth transitions after initial position is committed to prevent mount blinking
-    const timer = setTimeout(() => {
-      setIsTransitioning(true);
-    }, 50);
-
-    return () => {
-      window.removeEventListener("resize", updateView);
-      clearTimeout(timer);
-    };
+  // Commit slide completion safely
+  const finishSlide = useCallback((dir: "next" | "prev") => {
+    if (slideTimeoutRef.current) {
+      clearTimeout(slideTimeoutRef.current);
+      slideTimeoutRef.current = null;
+    }
+    setIsTransitioning(false);
+    setDirection(null);
+    if (dir === "next") {
+      setActiveIndex((prev) => (prev + 1) % TOTAL_ORIGINAL);
+    } else if (dir === "prev") {
+      setActiveIndex((prev) => (prev - 1 + TOTAL_ORIGINAL) % TOTAL_ORIGINAL);
+    }
+    if (trackRef.current) {
+      void trackRef.current.offsetHeight; // Force layout reflow synchronously to avoid any frame glitch
+    }
+    isAnimatingRef.current = false;
   }, []);
 
-  // Slide forward one by one
+  // Slide forward
   const slideNext = useCallback(() => {
-    if (isJumpingRef.current) return;
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
     setIsTransitioning(true);
-    setCurrentIndex((prev) => prev + 1);
-  }, []);
+    setDirection("next");
 
-  // Slide backward one by one
+    if (slideTimeoutRef.current) clearTimeout(slideTimeoutRef.current);
+    slideTimeoutRef.current = setTimeout(() => {
+      finishSlide("next");
+    }, 550);
+  }, [finishSlide]);
+
+  // Slide backward
   const slidePrev = useCallback(() => {
-    if (isJumpingRef.current) return;
+    if (isAnimatingRef.current) return;
+    isAnimatingRef.current = true;
     setIsTransitioning(true);
-    setCurrentIndex((prev) => prev - 1);
-  }, []);
+    setDirection("prev");
 
-  // Seamless reset at boundaries so infinite scroll never blinks or stutters
+    if (slideTimeoutRef.current) clearTimeout(slideTimeoutRef.current);
+    slideTimeoutRef.current = setTimeout(() => {
+      finishSlide("prev");
+    }, 550);
+  }, [finishSlide]);
+
   const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    // Only respond to transform events on the track itself
     if (e.target !== e.currentTarget || e.propertyName !== "transform") return;
-
-    if (currentIndex >= TOTAL_ORIGINAL * 2) {
-      isJumpingRef.current = true;
-      setIsTransitioning(false);
-      setCurrentIndex((prev) => prev - TOTAL_ORIGINAL);
-      if (trackRef.current) {
-        void trackRef.current.offsetHeight;
-      }
-      requestAnimationFrame(() => {
-        setIsTransitioning(true);
-        isJumpingRef.current = false;
-      });
-    } else if (currentIndex < TOTAL_ORIGINAL) {
-      isJumpingRef.current = true;
-      setIsTransitioning(false);
-      setCurrentIndex((prev) => prev + TOTAL_ORIGINAL);
-      if (trackRef.current) {
-        void trackRef.current.offsetHeight;
-      }
-      requestAnimationFrame(() => {
-        setIsTransitioning(true);
-        isJumpingRef.current = false;
-      });
+    if (direction) {
+      finishSlide(direction);
     }
   };
 
-  // Auto-scroll one by one every 4.5 seconds
+  // Auto-scroll every 4.5 seconds
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
@@ -115,6 +104,15 @@ export default function PatientExperienceSection() {
     }, 4500);
     return () => clearInterval(interval);
   }, [slideNext, isPaused]);
+
+  // Clean up timer on unmount
+  useEffect(() => {
+    return () => {
+      if (slideTimeoutRef.current) {
+        clearTimeout(slideTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Touch handlers for mobile swipe
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -141,16 +139,37 @@ export default function PatientExperienceSection() {
     setIsPaused(false);
   };
 
-  // Current active indicator (0 to 12)
-  const activeDot = ((currentIndex % TOTAL_ORIGINAL) + TOTAL_ORIGINAL) % TOTAL_ORIGINAL;
-
   // Jump to specific dot
   const goToDot = (dotIndex: number) => {
-    if (isJumpingRef.current) return;
-    const diff = dotIndex - activeDot;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => prev + diff);
+    if (isAnimatingRef.current || dotIndex === activeIndex) return;
+    if (dotIndex === (activeIndex + 1) % TOTAL_ORIGINAL) {
+      slideNext();
+    } else if (dotIndex === (activeIndex - 1 + TOTAL_ORIGINAL) % TOTAL_ORIGINAL) {
+      slidePrev();
+    } else {
+      setActiveIndex(dotIndex);
+    }
   };
+
+  const displayedIndex =
+    direction === "next"
+      ? (activeIndex + 1) % TOTAL_ORIGINAL
+      : direction === "prev"
+      ? (activeIndex - 1 + TOTAL_ORIGINAL) % TOTAL_ORIGINAL
+      : activeIndex;
+
+  const getCard = (offset: number) => {
+    const idx = ((activeIndex + offset) % TOTAL_ORIGINAL + TOTAL_ORIGINAL) % TOTAL_ORIGINAL;
+    return experiences[idx];
+  };
+
+  const slots = [
+    getCard(-1),
+    getCard(0),
+    getCard(1),
+    getCard(2),
+    getCard(3),
+  ];
 
   return (
     <section
@@ -194,22 +213,27 @@ export default function PatientExperienceSection() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            {/* Viewport for slider */}
-            <div className="relative overflow-hidden w-full py-2">
+            {/* Viewport for slider with responsive step variable */}
+            <div className="relative overflow-hidden w-full py-2 [--card-step:100%] sm:[--card-step:50%]">
               <div
                 ref={trackRef}
                 className="flex will-change-transform"
                 style={{
-                  transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
+                  transform:
+                    direction === "next"
+                      ? "translateX(calc(-2 * var(--card-step)))"
+                      : direction === "prev"
+                      ? "translateX(0%)"
+                      : "translateX(calc(-1 * var(--card-step)))",
                   transition: isTransitioning
-                    ? "transform 700ms cubic-bezier(0.25, 1, 0.5, 1)"
+                    ? "transform 500ms cubic-bezier(0.25, 1, 0.5, 1)"
                     : "none",
                 }}
                 onTransitionEnd={handleTransitionEnd}
               >
-                {extendedExperiences.map((exp, idx) => (
+                {slots.map((exp, idx) => (
                   <div
-                    key={`${exp.title}-${idx}`}
+                    key={idx}
                     className="w-full sm:w-1/2 flex-shrink-0 px-3 sm:px-8 py-3 sm:py-4 flex flex-col items-center text-center border-r border-slate-200/70"
                   >
                     {/* Pink 24/7 speech bubble icon */}
@@ -258,10 +282,10 @@ export default function PatientExperienceSection() {
                     key={exp.title}
                     type="button"
                     aria-label={`Go to ${exp.title}`}
-                    aria-current={index === activeDot}
+                    aria-current={index === displayedIndex}
                     onClick={() => goToDot(index)}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
-                      index === activeDot
+                      index === displayedIndex
                         ? "w-8 bg-[#8d173b]"
                         : "w-2.5 bg-slate-200 hover:bg-slate-400"
                     }`}
@@ -272,12 +296,12 @@ export default function PatientExperienceSection() {
               {/* Mobile compact progress pill */}
               <div className="sm:hidden flex items-center gap-2">
                 <span className="text-xs font-bold text-[#8d173b] font-mono">
-                  {String(activeDot + 1).padStart(2, "0")}
+                  {String(displayedIndex + 1).padStart(2, "0")}
                 </span>
                 <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-[#8d173b] rounded-full transition-all duration-300"
-                    style={{ width: `${((activeDot + 1) / TOTAL_ORIGINAL) * 100}%` }}
+                    style={{ width: `${((displayedIndex + 1) / TOTAL_ORIGINAL) * 100}%` }}
                   />
                 </div>
                 <span className="text-xs font-semibold text-slate-400 font-mono">
@@ -362,7 +386,7 @@ export default function PatientExperienceSection() {
                 Patient Experience
               </p>
               <p className="text-[11px] sm:text-xs font-semibold text-white leading-tight mt-0.5 transition-opacity duration-300 truncate">
-                {experiences[activeDot].title}
+                {experiences[displayedIndex].title}
               </p>
             </div>
           </div>
