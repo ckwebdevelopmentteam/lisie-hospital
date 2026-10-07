@@ -33,18 +33,14 @@ export default function SearchOverlay({
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      setTimeout(() => inputRef.current?.focus(), 60);
-    } else {
+    if (!isOpen) {
       setQuery("");
+      document.body.style.overflow = "";
+      return;
     }
-  }, [isOpen]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const timer = setTimeout(() => inputRef.current?.focus(), 60);
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -56,8 +52,10 @@ export default function SearchOverlay({
     };
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
-      document.body.style.overflow = originalOverflow;
+      clearTimeout(timer);
+      document.body.style.overflow = "";
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };
