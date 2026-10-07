@@ -11,8 +11,8 @@ export default function TopBar() {
   const languages = ["English", "Malayalam (മലയാളം)", "Hindi (हिन्दी)", "Arabic (العربية)"];
 
   return (
-    <div className="w-full bg-[#0E2A47] text-gray-200 border-b border-white/10 text-xs select-none">
-      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 py-1.5 flex flex-col md:flex-row items-center justify-between gap-2">
+    <div className="w-full bg-[#0E2A47] text-gray-200 border-b border-white/10 text-xs select-none px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1536px] mx-auto py-1.5 flex flex-col md:flex-row items-center justify-between gap-2">
         {/* Left: Lisie Hospital Phone Contacts */}
         <div className="flex items-center space-x-2 text-[11px] sm:text-xs text-gray-300 flex-wrap justify-center md:justify-start">
           {/* Emergency 24/7 callout */}

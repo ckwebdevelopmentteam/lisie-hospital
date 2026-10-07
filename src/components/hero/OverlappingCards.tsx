@@ -13,8 +13,9 @@ export default function OverlappingCards({
   campuses,
 }: OverlappingCardsProps) {
   return (
-    <div className="relative z-30 w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 -mt-20 sm:-mt-28 md:-mt-32 lg:-mt-36">
-      {/* 3-Column Responsive Grid */}
+    <div className="relative z-30 w-full px-4 sm:px-6 lg:px-8 -mt-20 sm:-mt-28 md:-mt-32 lg:-mt-36">
+      <div className="w-full max-w-[1536px] mx-auto">
+        {/* 3-Column Responsive Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
         {campuses.map((campus) => (
           <Link
@@ -103,5 +104,6 @@ export default function OverlappingCards({
         ))}
       </div>
     </div>
-  );
+  </div>
+);
 }

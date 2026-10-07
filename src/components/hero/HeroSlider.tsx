@@ -75,8 +75,9 @@ export default function HeroSlider({
       </div>
 
       {/* Hero Content Container */}
-      <div className="relative z-20 w-full h-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-between pt-16 sm:pt-20 lg:pt-24 pb-32 sm:pb-36 lg:pb-40">
-        {/* Main Content Area */}
+      <div className="relative z-20 w-full h-full px-4 sm:px-6 lg:px-8 flex flex-col justify-between pt-16 sm:pt-20 lg:pt-24 pb-32 sm:pb-36 lg:pb-40">
+        <div className="w-full max-w-[1536px] mx-auto flex flex-col justify-between h-full">
+          {/* Main Content Area */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           {/* Left Text Block */}
           <div className="max-w-2xl text-white">
@@ -132,6 +133,7 @@ export default function HeroSlider({
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

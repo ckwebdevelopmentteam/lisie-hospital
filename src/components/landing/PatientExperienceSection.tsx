@@ -108,11 +108,11 @@ export default function PatientExperienceSection() {
 
   return (
     <section
-      className="bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
+      className="relative bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20 font-sans overflow-hidden"
       id="patient-experience"
       style={{ fontFamily: "'Inter', 'Outfit', sans-serif" }}
     >
-      <div className="mx-auto grid max-w-[1536px] gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
+      <div className="w-full max-w-[1536px] mx-auto grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
 
         {/* ── LEFT: Auto-rotating Content ── */}
         <div className="flex flex-col lg:min-h-[580px] lg:justify-between">

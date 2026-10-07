@@ -102,8 +102,9 @@ export default function Header() {
         onMouseLeave={handleMouseLeave}
         className="hidden lg:block w-full relative"
       >
-        <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          {/* Left: Lisie Hospital Logo */}
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-[1536px] mx-auto h-16 flex items-center justify-between">
+            {/* Left: Lisie Hospital Logo */}
           <a
             href="/"
             className="flex items-center space-x-2 shrink-0 group focus:outline-none focus:ring-2 focus:ring-[#1677B8] rounded"
@@ -173,6 +174,7 @@ export default function Header() {
             </button>
           </div>
         </div>
+      </div>
 
         {/* Dropdown / Mega Menu under the header */}
         {activeMenu && (
