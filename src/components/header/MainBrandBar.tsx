@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Stethoscope,
   Calendar,
@@ -28,7 +29,7 @@ export default function MainBrandBar({
       <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Left: Lisie Hospital Logo & Accreditation */}
         <div className="flex items-center space-x-2.5 sm:space-x-3.5">
-          <a
+          <Link
             href="/"
             aria-label="Lisie Hospital Home"
             className="flex items-center space-x-2 group focus:outline-none focus:ring-2 focus:ring-[#1677B8] rounded"
@@ -64,7 +65,7 @@ export default function MainBrandBar({
                 </div>
               </div>
             </div>
-          </a>
+          </Link>
 
           {/* NABH Accreditation Badge */}
           <div className="hidden md:flex items-center pl-2.5 sm:pl-3 border-l border-gray-200">

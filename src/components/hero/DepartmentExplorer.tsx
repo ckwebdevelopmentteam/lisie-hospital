@@ -18,8 +18,6 @@ import {
   ChevronRight,
   ChevronDown,
   ChevronUp,
-  ArrowRight,
-  ArrowUpRight,
   Search,
   X,
   Calendar,
@@ -806,7 +804,7 @@ export default function DepartmentExplorer() {
               </div>
               <h4 className="text-base font-bold text-[#123B63]">No departments found</h4>
               <p className="text-xs text-slate-500 mt-1">
-                We couldn't find any specialties matching "{searchQuery}". Try searching for another term like "Heart", "Knee", or "Surgery".
+                We couldn&apos;t find any specialties matching &quot;{searchQuery}&quot;. Try searching for another term like &quot;Heart&quot;, &quot;Knee&quot;, or &quot;Surgery&quot;.
               </p>
               <button
                 type="button"

@@ -26,7 +26,7 @@ export default function AboutMegaMenu({ onClose }: AboutMegaMenuProps) {
               </h2>
             </div>
             <p className="text-xs sm:text-sm text-gray-500 mt-1">
-              Founded in 1956 • A unit of the Archdiocese of Ernakulam-Angamaly • "Care with Love"
+              Founded in 1956 • A unit of the Archdiocese of Ernakulam-Angamaly • &quot;Care with Love&quot;
             </p>
           </div>
           <div className="hidden sm:flex items-center space-x-2 text-xs sm:text-sm text-gray-600">

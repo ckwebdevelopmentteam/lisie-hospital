@@ -36,7 +36,6 @@ export default function AppointmentModal({
     if (!isOpen) return;
 
     // Prevent background scrolling while modal is open
-    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -127,7 +126,7 @@ export default function AppointmentModal({
                     Find a Doctor
                   </h3>
                   <p className="text-xs text-gray-500 mt-0.5">
-                    Know your specialist's name or browse by clinical department.
+                    Know your specialist&apos;s name or browse by clinical department.
                   </p>
                 </div>
               </div>

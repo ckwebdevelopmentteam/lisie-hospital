@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { Search, Calendar, ChevronDown } from "lucide-react";
 import MobileHeader from "./MobileHeader";
 import DepartmentsMegaMenu from "./megamenus/DepartmentsMegaMenu";
@@ -105,7 +106,7 @@ export default function Header() {
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="w-full max-w-[1536px] mx-auto h-16 flex items-center justify-between">
             {/* Left: Lisie Hospital Logo */}
-          <a
+          <Link
             href="/"
             className="flex items-center space-x-2 shrink-0 group focus:outline-none focus:ring-2 focus:ring-[#1677B8] rounded"
             aria-label="Lisie Hospital Home"
@@ -115,7 +116,7 @@ export default function Header() {
               alt="Lisie Hospital"
               className="h-8 w-auto object-contain"
             />
-          </a>
+          </Link>
 
           {/* Center: Navigation Items */}
           <nav
