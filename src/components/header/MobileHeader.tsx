@@ -84,7 +84,7 @@ export default function MobileHeader({
           TABLET BAR (md to lg: 768px - 1023px)
           Single Clean Row
           ======================================================== */}
-      <div className="hidden md:flex items-center justify-between px-6 py-3">
+      <div className="hidden md:flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
         <a href="/" className="flex items-center space-x-2 shrink-0">
           <img
             src="/images/lisie-hospital-logo.png"
@@ -127,7 +127,7 @@ export default function MobileHeader({
           MOBILE VIEW (< 768px)
           Single Clean Row
           ======================================================== */}
-      <div className="md:hidden px-4 py-2.5 flex items-center justify-between">
+      <div className="md:hidden px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between">
         <a href="/" className="flex items-center shrink-0">
           <img
             src="/images/lisie-hospital-logo.png"

@@ -514,8 +514,8 @@ export default function DepartmentExplorer() {
 
 
   return (
-    <section id="departments" className="w-full bg-[#F8FAFC] py-16 sm:py-20 lg:py-24 border-t border-slate-100 overflow-hidden">
-      <div className="mx-auto w-full max-w-[1536px] px-4 sm:px-6 lg:px-8">
+    <section id="departments" className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC] border-t border-slate-100 overflow-hidden">
+      <div className="w-full max-w-[1536px] mx-auto">
 
         {/* ---------------------------------------------------- */}
         {/* SECTION HEADER                                       */}

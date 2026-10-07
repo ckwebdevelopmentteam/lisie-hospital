@@ -32,7 +32,7 @@ export default function BookingConsultationSection() {
 
   return (
     <section
-      className="relative w-full py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-stone-950 via-burgundy-950 to-stone-900 text-white overflow-hidden font-sans"
+      className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-stone-950 via-burgundy-950 to-stone-900 text-white overflow-hidden font-sans"
       id="contact"
     >
       <div className="w-full max-w-[1536px] mx-auto relative z-10">

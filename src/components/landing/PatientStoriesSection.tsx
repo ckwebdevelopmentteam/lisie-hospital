@@ -130,8 +130,8 @@ export default function PatientStoriesSection() {
   };
 
   return (
-    <section className="overflow-hidden bg-[#f3f7fc] px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24" id="testimonials">
-      <div className="relative mx-auto max-w-[1120px]">
+    <section className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#f3f7fc] font-sans overflow-hidden" id="testimonials">
+      <div className="relative mx-auto w-full max-w-[1536px]">
         <div className="relative min-h-[320px] overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-[#f8fbff] to-[#e9f2fb] px-5 py-11 shadow-[0_22px_60px_rgba(66,100,135,0.10)] sm:min-h-[345px] sm:px-10 sm:py-12 lg:px-14">
           <div className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full border-[28px] border-[#d11f53]/[0.05]" />
           <div className="pointer-events-none absolute -bottom-24 -left-20 h-52 w-52 rounded-full bg-[#2378bd]/[0.05]" />
@@ -153,7 +153,7 @@ export default function PatientStoriesSection() {
         </div>
 
         <div className="relative left-1/2 z-20 -mt-24 w-screen -translate-x-1/2 sm:-mt-28">
-          <div className="relative mx-auto max-w-[1380px] px-12 sm:px-14">
+          <div className="relative mx-auto max-w-[1536px] px-12 sm:px-14">
             <button
               type="button"
               aria-label="Previous patient stories"

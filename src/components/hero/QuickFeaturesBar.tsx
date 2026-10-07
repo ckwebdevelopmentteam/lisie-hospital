@@ -58,8 +58,9 @@ export default function QuickFeaturesBar({
   ];
 
   return (
-    <div className="w-full max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-8 sm:pb-12">
-      {/* 4 Quick Action Cards */}
+    <div className="w-full px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-8 sm:pb-12">
+      <div className="w-full max-w-[1536px] mx-auto">
+        {/* 4 Quick Action Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {quickActions.map((action, idx) => {
           const Icon = action.icon;
@@ -92,5 +93,6 @@ export default function QuickFeaturesBar({
         })}
       </div>
     </div>
-  );
+  </div>
+);
 }
