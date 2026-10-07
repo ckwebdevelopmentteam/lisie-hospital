@@ -130,18 +130,26 @@ export default function HeroSlider({
             }`}
           >
             <div
-              className={`absolute inset-0 bg-cover bg-center transition-transform duration-10000 ease-out ${
-                isActive ? "scale-105" : "scale-100"
-              }`}
+              className="absolute inset-0 bg-cover bg-center"
               style={{
                 backgroundImage: `url('${slide.image}')`,
                 backgroundPosition: "center 35%",
               }}
             />
-            {/* Light, natural gradient on the left for text contrast, keeping the background bright like CIMAR */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/20 to-transparent" />
-            {/* Gentle bottom gradient for subtle card transition */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+            {idx === 0 ? (
+              <>
+                {/* Slide 1 (Campus exterior): Light, natural gradient keeping it bright and sunlit */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+              </>
+            ) : (
+              <>
+                {/* Slides 2 & 3 (Indoor / Clinical suites): Deep dark overlays for dramatic high contrast */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/25" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-[#07162c]/35 mix-blend-multiply" />
+              </>
+            )}
           </div>
         );
       })}
