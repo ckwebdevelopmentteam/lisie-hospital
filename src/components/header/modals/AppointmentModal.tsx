@@ -36,6 +36,7 @@ export default function AppointmentModal({
     if (!isOpen) return;
 
     // Prevent background scrolling while modal is open
+    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     const handleKeyDown = (e: KeyboardEvent) => {
