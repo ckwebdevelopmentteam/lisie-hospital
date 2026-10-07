@@ -95,7 +95,7 @@ export default function HeroSlider({
             <button
               type="button"
               onClick={() => onOpenSpecialtyModal(currentSlide.badgeText)}
-              className={`inline-flex items-center px-6 sm:px-8 py-3 sm:py-3.5 rounded-full ${currentSlide.badgeColor || "bg-[#FF5722] hover:bg-[#F4511E]"} active:opacity-90 text-white text-xs sm:text-sm font-bold uppercase tracking-wider shadow-xl hover:scale-105 active:scale-95 transition-all duration-200`}
+              className={`inline-flex items-center px-6 sm:px-8 py-3 sm:py-3.5 rounded-full ${currentSlide.badgeColor || "bg-[#E31C59] hover:bg-[#C4144B]"} active:opacity-90 text-white text-xs sm:text-sm font-bold uppercase tracking-wider shadow-xl hover:shadow-[#E31C59]/40 hover:scale-105 active:scale-95 transition-all duration-200`}
               title="Click for specialty care details"
             >
               <span>{currentSlide.badgeText}</span>

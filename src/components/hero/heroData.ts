@@ -62,7 +62,7 @@ export const LISIE_HERO_SLIDES: HeroSlide[] = [
     tagline:
       "Premier 1,000+ bedded NABH & NABL accredited tertiary multi-super specialty hospital in Kochi, Kerala. Living expression of apostolic concern, delivering compassionate, ethical, and advanced healing to millions.",
     badgeText: "HEART TRANSPLANT & CARDIAC CARE",
-    badgeColor: "bg-[#FF5722] hover:bg-[#F4511E]",
+    badgeColor: "bg-[#E31C59] hover:bg-[#C4144B]",
     image: "/images/hero/hero-slide-1.jpg",
     timings: "Emergency & Casualty 24/7 • OPD: Mon–Sat 8:00 AM – 5:00 PM",
     statsHighlight: "1,000+ Beds • 45+ Specialties",
