@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useModal } from "@/context/ModalContext";
 
 const experiences = [
@@ -213,8 +214,26 @@ export default function PatientExperienceSection() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            {/* Viewport for slider with responsive step variable */}
-            <div className="relative overflow-hidden w-full py-2 [--card-step:100%] sm:[--card-step:50%]">
+            {/* Viewport for slider with 2 cards visible at all times */}
+            <div className="relative overflow-hidden w-full py-2 [--card-step:50%] group/slider">
+              {/* Floating side arrows directly on the carousel */}
+              <button
+                type="button"
+                aria-label="Previous service"
+                onClick={slidePrev}
+                className="absolute left-0 sm:left-1 top-1/2 -translate-y-1/2 z-20 flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/95 text-[#8d173b] shadow-md border border-slate-200/90 hover:bg-[#8d173b] hover:text-white transition-all active:scale-90 cursor-pointer"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                aria-label="Next service"
+                onClick={slideNext}
+                className="absolute right-0 sm:right-1 top-1/2 -translate-y-1/2 z-20 flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-white/95 text-[#8d173b] shadow-md border border-slate-200/90 hover:bg-[#8d173b] hover:text-white transition-all active:scale-90 cursor-pointer"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+
               <div
                 ref={trackRef}
                 className="flex will-change-transform"
@@ -234,23 +253,23 @@ export default function PatientExperienceSection() {
                 {slots.map((exp, idx) => (
                   <div
                     key={idx}
-                    className="w-full sm:w-1/2 flex-shrink-0 px-3 sm:px-8 py-3 sm:py-4 flex flex-col items-center text-center border-r border-slate-200/70"
+                    className="w-1/2 flex-shrink-0 px-2 sm:px-8 py-2.5 sm:py-4 flex flex-col items-center text-center border-r border-slate-200/70"
                   >
                     {/* Pink 24/7 speech bubble icon */}
-                    <div className="mb-4 sm:mb-5 flex items-center justify-center">
+                    <div className="mb-2.5 sm:mb-5 flex items-center justify-center">
                       <Image
                         src="/images/24icon.png"
                         alt="24/7"
-                        width={76}
-                        height={88}
+                        width={60}
+                        height={70}
                         unoptimized
                         style={{ width: "auto", height: "auto" }}
-                        className="mx-auto drop-shadow-sm transition-transform duration-300 hover:scale-105"
+                        className="mx-auto drop-shadow-sm h-11 w-auto sm:h-[84px] transition-transform duration-300 hover:scale-105"
                       />
                     </div>
 
                     {/* Bold Service Title */}
-                    <h3 className="text-[#1a324c] font-bold text-sm sm:text-lg leading-snug mb-3 sm:mb-5 max-w-[220px] min-h-[40px] sm:min-h-[48px] flex items-center justify-center">
+                    <h3 className="text-[#1a324c] font-bold text-xs sm:text-lg leading-tight mb-2 sm:mb-5 max-w-[160px] sm:max-w-[220px] min-h-[32px] sm:min-h-[48px] flex items-center justify-center line-clamp-2 sm:line-clamp-none">
                       {exp.title}
                     </h3>
 
@@ -258,13 +277,13 @@ export default function PatientExperienceSection() {
                     <button
                       type="button"
                       onClick={() => openModal(exp.modal)}
-                      className="inline-flex items-center gap-2 sm:gap-2.5 group cursor-pointer"
+                      className="inline-flex items-center gap-1 sm:gap-2.5 group cursor-pointer"
                     >
-                      <span className="h-px w-6 sm:w-7 bg-[#8d173b]/50 group-hover:w-10 transition-all duration-300" />
-                      <span className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-[#8d173b] group-hover:text-[#6b1030] transition-colors">
+                      <span className="h-px w-3 sm:w-7 bg-[#8d173b]/50 group-hover:w-6 sm:group-hover:w-10 transition-all duration-300" />
+                      <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-[#8d173b] group-hover:text-[#6b1030] transition-colors">
                         READ MORE
                       </span>
-                      <span className="text-[#8d173b] group-hover:translate-x-1 transition-transform text-xs sm:text-sm font-bold">
+                      <span className="text-[#8d173b] group-hover:translate-x-1 transition-transform text-[11px] sm:text-sm font-bold">
                         →
                       </span>
                     </button>
@@ -274,7 +293,7 @@ export default function PatientExperienceSection() {
             </div>
 
             {/* Nav controls */}
-            <div className="mt-5 sm:mt-8 flex items-center justify-between border-t border-slate-200 pt-4 sm:pt-5">
+            <div className="mt-4 sm:mt-8 flex items-center justify-between border-t border-slate-200 pt-3 sm:pt-5">
               {/* Desktop dots */}
               <div className="hidden sm:flex gap-1.5 items-center">
                 {experiences.map((exp, index) => (
@@ -310,22 +329,22 @@ export default function PatientExperienceSection() {
               </div>
 
               {/* Prev / Next Buttons */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
                 <button
                   type="button"
                   aria-label="Previous patient experience service"
                   onClick={slidePrev}
-                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer bg-slate-50 hover:bg-slate-100 rounded-full"
+                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer bg-slate-100 hover:bg-[#8d173b] text-slate-700 hover:text-white rounded-full border border-slate-200/80 shadow-xs"
                 >
-                  <Image src="/images/leftarrow1.png" alt="Previous" width={24} height={24} style={{ width: "auto", height: "auto" }} />
+                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
                 <button
                   type="button"
                   aria-label="Next patient experience service"
                   onClick={slideNext}
-                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center transition-transform hover:scale-110 active:scale-95 cursor-pointer bg-slate-50 hover:bg-slate-100 rounded-full"
+                  className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center transition-all hover:scale-105 active:scale-95 cursor-pointer bg-slate-100 hover:bg-[#8d173b] text-slate-700 hover:text-white rounded-full border border-slate-200/80 shadow-xs"
                 >
-                  <Image src="/images/rightarrow.png" alt="Next" width={24} height={24} style={{ width: "auto", height: "auto" }} />
+                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
             </div>
