@@ -100,7 +100,7 @@ export default function PrimaryNavigation({
                   onClick={() => setActiveMenu(isActive ? null : item.id)}
                   aria-expanded={isActive}
                   aria-haspopup="true"
-                  className={`flex items-center space-x-1 px-3.5 py-2 text-xs xl:text-sm font-semibold rounded-md transition-colors ${
+                  className={`flex items-center space-x-1.5 px-3.5 py-2 text-sm xl:text-[15px] font-semibold rounded-md transition-colors ${
                     isActive
                       ? "text-[#1677B8] bg-blue-50/70"
                       : "text-[#17202A] hover:text-[#1677B8] hover:bg-gray-50"

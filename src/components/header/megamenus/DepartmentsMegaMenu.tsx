@@ -40,36 +40,36 @@ export default function DepartmentsMegaMenu({ onClose }: DepartmentsMegaMenuProp
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-gray-100">
           <div>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#E31C59]" />
-              <h2 className="text-sm font-bold uppercase tracking-wider text-[#123B63]">
-                Departments & Centers of Excellence
+              <span className="w-2.5 h-2.5 rounded-full bg-[#E31C59]" />
+              <h2 className="text-base sm:text-lg font-bold text-[#123B63] tracking-tight">
+                Departments & Centres of Excellence
               </h2>
             </div>
-            <p className="text-xs text-gray-500 mt-0.5">
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
               Over 35 clinical and surgical disciplines providing ethical care with love.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="relative w-64">
-              <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <div className="relative w-64 sm:w-72">
+              <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={filterQuery}
                 onChange={(e) => setFilterQuery(e.target.value)}
                 placeholder="Search departments..."
                 aria-label="Search departments"
-                className="w-full pl-8 pr-3 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#E31C59] focus:bg-white"
+                className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#E31C59] focus:bg-white"
               />
             </div>
 
             <a
               href="/departments"
               onClick={onClose}
-              className="inline-flex items-center space-x-1 text-xs font-semibold text-[#E31C59] hover:text-[#c4144b] transition-colors shrink-0"
+              className="inline-flex items-center space-x-1.5 text-xs sm:text-sm font-semibold text-[#E31C59] hover:text-[#c4144b] transition-colors shrink-0"
             >
               <span>View All Departments</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-4 h-4" />
             </a>
           </div>
         </div>
@@ -78,27 +78,27 @@ export default function DepartmentsMegaMenu({ onClose }: DepartmentsMegaMenuProp
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-5">
           {/* Column 1: Clinical Specialties */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-gray-900 pb-2 border-b border-gray-100 flex items-center justify-between">
+            <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#123B63] pb-2.5 border-b border-gray-100 flex items-center justify-between">
               <span>Clinical Specialties</span>
-              <span className="text-[11px] font-semibold text-[#E31C59]">
+              <span className="text-xs font-bold text-[#E31C59]">
                 ({filteredClinical.length})
               </span>
             </h3>
-            <ul className="mt-3 space-y-1 max-h-[340px] overflow-y-auto pr-2 custom-scrollbar">
+            <ul className="mt-3 space-y-1 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
               {filteredClinical.map((dept) => (
                 <li key={dept.name}>
                   <a
                     href={dept.href}
                     onClick={onClose}
-                    className="group block p-1.5 rounded hover:bg-slate-50 transition-colors"
+                    className="group block p-2 rounded-lg hover:bg-slate-50 transition-colors"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-medium text-gray-800 group-hover:text-[#E31C59] transition-colors">
+                      <span className="text-sm font-semibold text-gray-800 group-hover:text-[#E31C59] transition-colors">
                         {dept.name}
                       </span>
-                      <ChevronRight className="w-3 h-3 text-transparent group-hover:text-[#E31C59] transition-all transform group-hover:translate-x-0.5" />
+                      <ChevronRight className="w-3.5 h-3.5 text-transparent group-hover:text-[#E31C59] transition-all transform group-hover:translate-x-0.5" />
                     </div>
-                    <span className="text-[11px] text-gray-400 line-clamp-1 block">
+                    <span className="text-xs text-gray-500 line-clamp-1 block mt-0.5">
                       {dept.description}
                     </span>
                   </a>
@@ -109,27 +109,27 @@ export default function DepartmentsMegaMenu({ onClose }: DepartmentsMegaMenuProp
 
           {/* Column 2: Surgical Specialties */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-gray-900 pb-2 border-b border-gray-100 flex items-center justify-between">
+            <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#123B63] pb-2.5 border-b border-gray-100 flex items-center justify-between">
               <span>Surgical Specialties</span>
-              <span className="text-[11px] font-semibold text-[#E31C59]">
+              <span className="text-xs font-bold text-[#E31C59]">
                 ({filteredSurgical.length})
               </span>
             </h3>
-            <ul className="mt-3 space-y-1 max-h-[340px] overflow-y-auto pr-2 custom-scrollbar">
+            <ul className="mt-3 space-y-1 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
               {filteredSurgical.map((dept) => (
                 <li key={dept.name}>
                   <a
                     href={dept.href}
                     onClick={onClose}
-                    className="group block p-1.5 rounded hover:bg-slate-50 transition-colors"
+                    className="group block p-2 rounded-lg hover:bg-slate-50 transition-colors"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-medium text-gray-800 group-hover:text-[#E31C59] transition-colors">
+                      <span className="text-sm font-semibold text-gray-800 group-hover:text-[#E31C59] transition-colors">
                         {dept.name}
                       </span>
-                      <ChevronRight className="w-3 h-3 text-transparent group-hover:text-[#E31C59] transition-all transform group-hover:translate-x-0.5" />
+                      <ChevronRight className="w-3.5 h-3.5 text-transparent group-hover:text-[#E31C59] transition-all transform group-hover:translate-x-0.5" />
                     </div>
-                    <span className="text-[11px] text-gray-400 line-clamp-1 block">
+                    <span className="text-xs text-gray-500 line-clamp-1 block mt-0.5">
                       {dept.description}
                     </span>
                   </a>
@@ -140,27 +140,27 @@ export default function DepartmentsMegaMenu({ onClose }: DepartmentsMegaMenuProp
 
           {/* Column 3: Super Specialties & Centers */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-gray-900 pb-2 border-b border-gray-100 flex items-center justify-between">
+            <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#123B63] pb-2.5 border-b border-gray-100 flex items-center justify-between">
               <span>Super Specialties & Centers</span>
-              <span className="text-[11px] font-semibold text-[#E31C59]">
+              <span className="text-xs font-bold text-[#E31C59]">
                 ({filteredSuper.length})
               </span>
             </h3>
-            <ul className="mt-3 space-y-1 max-h-[340px] overflow-y-auto pr-2 custom-scrollbar">
+            <ul className="mt-3 space-y-1 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
               {filteredSuper.map((dept) => (
                 <li key={dept.name}>
                   <a
                     href={dept.href}
                     onClick={onClose}
-                    className="group block p-1.5 rounded hover:bg-slate-50 transition-colors"
+                    className="group block p-2 rounded-lg hover:bg-slate-50 transition-colors"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold text-[#123B63] group-hover:text-[#E31C59] transition-colors">
+                      <span className="text-sm font-bold text-[#123B63] group-hover:text-[#E31C59] transition-colors">
                         {dept.name}
                       </span>
-                      <ChevronRight className="w-3 h-3 text-transparent group-hover:text-[#E31C59] transition-all transform group-hover:translate-x-0.5" />
+                      <ChevronRight className="w-3.5 h-3.5 text-transparent group-hover:text-[#E31C59] transition-all transform group-hover:translate-x-0.5" />
                     </div>
-                    <span className="text-[11px] text-gray-500 line-clamp-1 block">
+                    <span className="text-xs text-gray-500 line-clamp-1 block mt-0.5">
                       {dept.description}
                     </span>
                   </a>
@@ -172,20 +172,20 @@ export default function DepartmentsMegaMenu({ onClose }: DepartmentsMegaMenuProp
 
         {/* Bottom Section: Diagnostic & Support Services */}
         <div className="mt-5 pt-4 border-t border-gray-100">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-gray-600 block mb-1">
+              <span className="text-xs font-bold uppercase tracking-wider text-gray-700 block mb-1.5">
                 Diagnostic & Support Services
               </span>
-              <div className="flex flex-wrap gap-x-4 gap-y-1.5">
+              <div className="flex flex-wrap gap-x-5 gap-y-2">
                 {filteredSupport.map((serv) => (
                   <a
                     key={serv.name}
                     href={serv.href}
                     onClick={onClose}
-                    className="text-xs text-gray-600 hover:text-[#E31C59] transition-colors flex items-center space-x-1"
+                    className="text-xs sm:text-sm font-medium text-gray-700 hover:text-[#E31C59] transition-colors flex items-center space-x-1.5"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-gray-300 inline-block" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#E31C59]/60 inline-block" />
                     <span>{serv.name}</span>
                   </a>
                 ))}
@@ -195,7 +195,7 @@ export default function DepartmentsMegaMenu({ onClose }: DepartmentsMegaMenuProp
             <a
               href="/emergency"
               onClick={onClose}
-              className="text-xs text-[#E31C59] hover:text-[#c4144b] font-semibold flex items-center space-x-1 self-start md:self-auto shrink-0 bg-[#E31C59]/10 hover:bg-[#E31C59]/15 px-3 py-1.5 rounded transition-colors"
+              className="text-xs sm:text-sm text-[#E31C59] hover:text-[#c4144b] font-bold flex items-center space-x-1 self-start md:self-auto shrink-0 bg-[#E31C59]/10 hover:bg-[#E31C59]/15 px-4 py-2 rounded-lg transition-colors"
             >
               <span>24/7 Emergency & Trauma Unit →</span>
             </a>

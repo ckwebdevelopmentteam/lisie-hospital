@@ -17,22 +17,22 @@ export default function QualitySafetyMenu({ onClose }: QualitySafetyMenuProps) {
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="pb-4 border-b border-gray-100 flex items-center justify-between">
-          <div className="flex items-center space-x-2.5">
-            <ShieldCheck className="w-5 h-5 text-emerald-600" />
+          <div className="flex items-center space-x-3">
+            <ShieldCheck className="w-6 h-6 text-emerald-600" />
             <div>
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#E31C59]" />
-                <h2 className="text-sm font-bold uppercase tracking-wider text-[#123B63]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#E31C59]" />
+                <h2 className="text-base sm:text-lg font-bold text-[#123B63] tracking-tight">
                   Quality & Patient Safety
                 </h2>
               </div>
-              <p className="text-xs text-gray-500 mt-0.5">
+              <p className="text-xs sm:text-sm text-gray-500 mt-1">
                 NABH and NABL accredited hospital dedicated to continuous safety monitoring and patient protection.
               </p>
             </div>
           </div>
-          <div className="hidden sm:flex items-center space-x-3 text-xs text-emerald-700 font-medium bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
-            <CheckCircle2 className="w-3.5 h-3.5" />
+          <div className="hidden sm:flex items-center space-x-2 text-xs sm:text-sm text-emerald-700 font-semibold bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-100">
+            <CheckCircle2 className="w-4 h-4" />
             <span>NABH Accredited Tertiary Center</span>
           </div>
         </div>
@@ -43,15 +43,15 @@ export default function QualitySafetyMenu({ onClose }: QualitySafetyMenuProps) {
               key={item.name}
               href={item.href}
               onClick={onClose}
-              className="p-3 rounded-lg border border-gray-100 hover:border-emerald-200 hover:bg-emerald-50/20 transition-all group"
+              className="p-3.5 rounded-xl border border-gray-100 hover:border-emerald-200 hover:bg-emerald-50/20 transition-all group"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-gray-900 group-hover:text-emerald-700 transition-colors">
+                <span className="text-sm font-bold text-gray-900 group-hover:text-emerald-700 transition-colors">
                   {item.name}
                 </span>
-                <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition-all" />
+                <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-emerald-600 group-hover:translate-x-0.5 transition-all" />
               </div>
-              <p className="text-[11px] text-gray-500 mt-1 leading-snug">
+              <p className="text-xs sm:text-sm text-gray-600 mt-1.5 leading-snug">
                 {item.description}
               </p>
             </a>

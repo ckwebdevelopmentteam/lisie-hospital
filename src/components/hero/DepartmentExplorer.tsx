@@ -30,165 +30,44 @@ import { useModal } from "@/context/ModalContext";
 import NotchedProjectCard from "@/components/ui/NotchedProjectCard";
 
 // ==========================================
-// 1. DATA: FLAGSHIP CENTERS OF EXCELLENCE (CAROUSEL)
+// 1. DATA: PROMOTIONAL SHOWCASE BANNERS
 // ==========================================
-interface CenterOfExcellence {
+interface PromoBanner {
   id: string;
-  name: string;
-  badge: string;
-  tagline: string;
-  description: string;
+  title: string;
   image: string;
+  alt: string;
   href: string;
-  stats: { label: string; value: string }[];
-  procedures: string[];
-  icon: React.ElementType;
 }
 
-const FLAGSHIP_CENTERS: CenterOfExcellence[] = [
+const PROMO_BANNERS: PromoBanner[] = [
   {
-    id: "heart-institute",
-    name: "Lisie Heart Institute",
-    badge: "Flagship Cardiac Center",
-    tagline: "South India's Pioneer in Adult & Paediatric Cardiac Care",
-    description:
-      "Renowned for breakthrough open heart surgeries, heart transplantation, and 24/7 primary angioplasty backed by advanced electrophysiology and dedicated cardiac ICUs.",
-    image: "/images/hero/card-heart-institute.jpg",
+    id: "liver-transplant",
+    title: "More Than 90% Success Rate in Liver Transplant",
+    image: "/images/banners/banner-1.jpg",
+    alt: "Lisie Hospital - More Than 90% Success Rate in Liver Transplant",
+    href: "/institutes",
+  },
+  {
+    id: "heart-transplant",
+    title: "Successfully Performed 33 Heart Transplants",
+    image: "/images/banners/banner-2.jpg",
+    alt: "Lisie Heart Institute - Successfully Performed 33 Heart Transplants",
     href: "/institutes/heart-institute",
-    stats: [
-      { value: "25,000+", label: "Heart Surgeries" },
-      { value: "24/7", label: "Primary Cath Lab" },
-      { value: "State 1st", label: "Heart Transplant" },
-    ],
-    procedures: [
-      "Heart Transplantation",
-      "Coronary Artery Bypass (CABG)",
-      "TAVR & Valve Replacements",
-      "Complex Angioplasty & Stenting",
-      "Paediatric Cardiac Surgery",
-      "Pacemaker & ICD Implantation",
-    ],
-    icon: Heart,
   },
   {
-    id: "neurosciences",
-    name: "Lisie Institute of Neurosciences & Spine",
-    badge: "Advanced Neuro Care",
-    tagline: "Comprehensive Brain, Spine & 24/7 Acute Stroke Center",
-    description:
-      "A multidisciplinary neurological hub offering cutting-edge micro-neurosurgery, endoscopic spine procedures, dedicated stroke care, and round-the-clock neuro-trauma management.",
-    image: "/images/hero/hero-slide-3.jpg",
-    href: "/institutes/neurosciences",
-    stats: [
-      { value: "24/7", label: "Stroke Code Team" },
-      { value: "20-Bed", label: "Neuro ICU" },
-      { value: "Advanced", label: "Brain & Spine Suite" },
-    ],
-    procedures: [
-      "Microvascular Brain Tumor Surgery",
-      "Minimally Invasive Spine Surgery (MISS)",
-      "Stroke Thrombolysis (24/7)",
-      "Endoscopic Skull Base Surgery",
-      "Epilepsy & Seizure Clinic",
-      "Deep Brain Stimulation (DBS)",
-    ],
-    icon: Brain,
+    id: "care-with-love",
+    title: "Care with Love - World-Class Healthcare",
+    image: "/images/banners/banner-3.jpg",
+    alt: "Lisie Hospital - Care with Love",
+    href: "/about",
   },
   {
-    id: "bone-joint",
-    name: "Center for Bone, Joint Surgery & Robotic Orthopaedics",
-    badge: "Robotic Joint Pioneer",
-    tagline: "State-of-the-Art Robotic Knee & Hip Replacement",
-    description:
-      "Empowering patients to regain pain-free mobility through high-precision robotic joint replacements, sports injury arthroscopy, and complex fracture trauma care.",
-    image: "/images/hero/card-kochi.jpg",
-    href: "/institutes/bone-joint",
-    stats: [
-      { value: "Fully Robotic", label: "Joint Replacements" },
-      { value: "15,000+", label: "Orthopaedic Surgeries" },
-      { value: "Rapid", label: "Recovery Protocols" },
-    ],
-    procedures: [
-      "Robotic Total Knee Replacement",
-      "Total Hip Arthroplasty",
-      "Arthroscopic ACL & Meniscus Repair",
-      "Sports Injury Rehabilitation",
-      "Pelvic & Complex Trauma Care",
-      "Paediatric Orthopaedic Care",
-    ],
-    icon: Bone,
-  },
-  {
-    id: "cancer-centre",
-    name: "Lisie Comprehensive Cancer Care (Oncology)",
-    badge: "Multidisciplinary Oncology",
-    tagline: "Evidence-Based Cancer Treatment with Compassion & Hope",
-    description:
-      "Offering personalized treatment plans guided by a multidisciplinary tumor board, combining surgical oncology, systemic chemotherapy, immunotherapy, and pain management.",
-    image: "/images/hero/card-cancer-centre.jpg",
-    href: "/institutes/oncology",
-    stats: [
-      { value: "Tumor Board", label: "Multidisciplinary Review" },
-      { value: "Daycare", label: "Chemotherapy Suite" },
-      { value: "Targeted", label: "Immunotherapy" },
-    ],
-    procedures: [
-      "Surgical Oncology & Tumor Resection",
-      "Systemic Chemotherapy Protocols",
-      "Targeted Immunotherapy & Biologicals",
-      "Oncoplastic & Reconstructive Surgery",
-      "Comprehensive Cancer Screening",
-      "Palliative Care & Pain Management",
-    ],
-    icon: Activity,
-  },
-  {
-    id: "kidney-transplant",
-    name: "Renal Sciences & Kidney Transplantation Center",
-    badge: "Renowned Kidney Care",
-    tagline: "Pioneering Living-Donor & Deceased Renal Transplants",
-    description:
-      "A premier kidney care institution providing holistic nephrology, living and cadaveric transplants, laser urology stone surgeries, and a 60-bed round-the-clock dialysis center.",
-    image: "/images/hero/card-main-hospital.jpg",
-    href: "/institutes/kidney-transplant",
-    stats: [
-      { value: "1,000+", label: "Kidney Transplants" },
-      { value: "60-Bed", label: "24/7 Hemodialysis Unit" },
-      { value: "Advanced", label: "Laser Urology Center" },
-    ],
-    procedures: [
-      "Living & Cadaveric Kidney Transplant",
-      "Laser Kidney Stone Surgery (RIRS / PCNL)",
-      "Holmium Laser Enucleation (HoLEP)",
-      "Automated Hemodialysis & CRRT",
-      "Glomerular & Autoimmune Kidney Care",
-      "Paediatric Nephrology Services",
-    ],
-    icon: Microscope,
-  },
-  {
-    id: "emergency-care",
-    name: "Critical Care, Emergency & Level-1 Trauma",
-    badge: "24/7 Lifesaving Care",
-    tagline: "Round-the-Clock Emergency Resuscitation & Mobile ICU",
-    description:
-      "Immediate golden-hour medical intervention for acute heart attacks, strokes, polytrauma, and critical illness backed by dedicated emergency physicians and 100+ ICU beds.",
-    image: "/images/hero/hero-slide-1.jpg",
-    href: "/institutes/emergency-critical-care",
-    stats: [
-      { value: "24/7", label: "Emergency Hotline" },
-      { value: "Level-1", label: "Trauma Care Protocols" },
-      { value: "100+", label: "Advanced ICU Beds" },
-    ],
-    procedures: [
-      "Golden Hour Polytrauma Management",
-      "Acute STEMI & Cath Lab Activation",
-      "Advanced Mechanical Ventilation & ECMO",
-      "24/7 Mobile ICU Ambulance Service",
-      "Continuous Renal Replacement (CRRT)",
-      "Toxicology & Poison Emergency Care",
-    ],
-    icon: ShieldAlert,
+    id: "campus-panoramic",
+    title: "Lisie Hospital Main Campus Overview",
+    image: "/images/banners/banner-4.jpg",
+    alt: "Lisie Hospital Main Campus Ernakulam",
+    href: "/contact",
   },
 ];
 
@@ -556,22 +435,37 @@ const ALL_DEPARTMENTS_DATA: DirectoryDepartment[] = [
 export default function DepartmentExplorer() {
   const { openModal } = useModal();
 
-  // Carousel state
+  // Banner Slider state
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const slideCount = FLAGSHIP_CENTERS.length;
+  const slideCount = PROMO_BANNERS.length;
 
-  // Auto-play carousel
+  // Auto-play banner slider
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slideCount);
-    }, 6000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [isPaused, slideCount]);
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slideCount);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slideCount) % slideCount);
+
+  // Touch swipe support for mobile
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return;
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) nextSlide();
+      else prevSlide();
+    }
+    setTouchStartX(null);
+  };
 
   // Directory filter & search state
   const [activeTab, setActiveTab] = useState<DepartmentCategory>("all");
@@ -618,8 +512,6 @@ export default function DepartmentExplorer() {
     };
   }, []);
 
-  const currentCenter = FLAGSHIP_CENTERS[currentSlide];
-  const IconComponent = currentCenter.icon;
 
   return (
     <section id="departments" className="w-full bg-[#F8FAFC] py-16 sm:py-20 lg:py-24 border-t border-slate-100 overflow-hidden">
@@ -664,166 +556,92 @@ export default function DepartmentExplorer() {
         </div>
 
         {/* ---------------------------------------------------- */}
-        {/* PART 1: INTERACTIVE VISUAL CAROUSEL OF KEY CENTERS   */}
+        {/* PART 1: PURE BANNER IMAGE SLIDER (ZERO CONTENT OVERLAY) */}
         {/* ---------------------------------------------------- */}
-        <div className="mt-12">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#E31C59] block">
-                Spotlight Showcase
-              </span>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-[#123B63]">
-                Flagship Centers of Excellence
-              </h3>
-            </div>
-
-            {/* Carousel Controls */}
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={prevSlide}
-                aria-label="Previous center"
-                className="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-700 hover:text-[#E31C59] hover:border-[#E31C59] shadow-xs hover:shadow flex items-center justify-center transition-all"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                type="button"
-                onClick={nextSlide}
-                aria-label="Next center"
-                className="w-10 h-10 rounded-full bg-white border border-slate-200 text-slate-700 hover:text-[#E31C59] hover:border-[#E31C59] shadow-xs hover:shadow flex items-center justify-center transition-all"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Carousel Card Container */}
+        <div className="mt-8 sm:mt-10">
           <div
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
-            className="relative rounded-2xl overflow-hidden bg-[#123B63] shadow-xl border border-slate-800"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            className="group relative w-full aspect-[1920/446] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-slate-200/90 bg-slate-950"
+            style={{ aspectRatio: "1920 / 446" }}
           >
+            {/* Banner Slide with smooth crossfade */}
             <AnimatePresence mode="wait">
               <motion.div
-                key={currentCenter.id}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="grid grid-cols-1 lg:grid-cols-12 min-h-[420px]"
+                key={currentSlide}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.45, ease: "easeInOut" }}
+                className="absolute inset-0 w-full h-full"
               >
-                {/* Left Showcase Details (7 cols) */}
-                <div className="lg:col-span-7 p-6 sm:p-8 lg:p-9 flex flex-col justify-between z-10 text-white">
-                  <div>
-                    {/* Badge & Icon */}
-                    <div className="flex flex-wrap items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-lg bg-[#E31C59] text-white flex items-center justify-center shadow-md">
-                        <IconComponent className="w-4 h-4" />
-                      </div>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-pink-200 border border-white/10">
-                        {currentCenter.badge}
-                      </span>
-                    </div>
-
-                    {/* Title & Tagline */}
-                    <h4 className="mt-3.5 text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white">
-                      {currentCenter.name}
-                    </h4>
-                    <p className="mt-1 text-xs sm:text-sm font-semibold text-pink-300/90">
-                      {currentCenter.tagline}
-                    </p>
-                    <p className="mt-2 text-xs sm:text-xs text-slate-300 leading-relaxed max-w-xl">
-                      {currentCenter.description}
-                    </p>
-
-                    {/* Key Stats Row */}
-                    <div className="grid grid-cols-3 gap-2.5 sm:gap-3 mt-4 pt-4 border-t border-white/10 max-w-xl">
-                      {currentCenter.stats.map((stat, i) => (
-                        <div key={i} className="bg-white/5 backdrop-blur-sm rounded-lg p-2 sm:p-2.5 border border-white/10">
-                          <span className="block text-sm sm:text-base font-black text-white">
-                            {stat.value}
-                          </span>
-                          <span className="block text-[10px] sm:text-[11px] text-slate-300 font-medium">
-                            {stat.label}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* KEY PROCEDURES & TREATMENT TAGS */}
-                    <div className="mt-4">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5 mb-2">
-                        <Sparkles className="w-3 h-3 text-[#E31C59]" />
-                        Key Procedures & Advanced Treatments
-                      </span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {currentCenter.procedures.map((proc, idx) => (
-                          <span
-                            key={idx}
-                            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/10 hover:bg-[#E31C59]/30 text-white text-[11px] font-medium backdrop-blur-md border border-white/15 transition-colors"
-                          >
-                            <span className="w-1 h-1 rounded-full bg-[#E31C59]" />
-                            {proc}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Actions & Carousel Indicators */}
-                  <div className="mt-6 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex items-center gap-2.5">
-                      <button
-                        type="button"
-                        onClick={() => openModal("appointment")}
-                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#E31C59] hover:bg-[#c4144b] text-white text-xs font-bold shadow-md hover:shadow-lg transition-all"
-                      >
-                        <Calendar className="w-3.5 h-3.5" />
-                        <span>Book Consultation</span>
-                      </button>
-                      <Link
-                        href={currentCenter.href}
-                        className="inline-flex items-center gap-1 px-3.5 py-2 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-semibold backdrop-blur-md transition-all"
-                      >
-                        <span>Explore Institute</span>
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </Link>
-                    </div>
-
-                    {/* Indicators */}
-                    <div className="flex items-center space-x-1.5">
-                      {FLAGSHIP_CENTERS.map((_, dotIdx) => (
-                        <button
-                          key={dotIdx}
-                          type="button"
-                          onClick={() => setCurrentSlide(dotIdx)}
-                          aria-label={`Go to slide ${dotIdx + 1}`}
-                          className={`h-1.5 rounded-full transition-all duration-300 ${
-                            dotIdx === currentSlide
-                              ? "w-6 bg-[#E31C59]"
-                              : "w-1.5 bg-white/30 hover:bg-white/60"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right Image Banner (5 cols) */}
-                <div className="lg:col-span-5 relative min-h-[240px] lg:min-h-full">
+                <Link
+                  href={PROMO_BANNERS[currentSlide].href}
+                  className="block relative w-full h-full cursor-pointer focus:outline-none"
+                  aria-label={PROMO_BANNERS[currentSlide].title}
+                >
                   <Image
-                    src={currentCenter.image}
-                    alt={currentCenter.name}
+                    src={PROMO_BANNERS[currentSlide].image}
+                    alt={PROMO_BANNERS[currentSlide].alt}
                     fill
-                    sizes="(max-width: 1024px) 100vw, 45vw"
-                    className="object-cover"
-                    priority
+                    priority={currentSlide === 0}
+                    sizes="(max-width: 1536px) 100vw, 1536px"
+                    className="object-cover object-center select-none"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[#123B63] via-[#123B63]/40 to-transparent" />
-                </div>
+                </Link>
               </motion.div>
             </AnimatePresence>
+
+            {/* Left Nav Button */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                prevSlide();
+              }}
+              aria-label="Previous banner"
+              className="absolute left-2.5 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/45 hover:bg-black/75 text-white shadow-lg backdrop-blur-md flex items-center justify-center transition-all opacity-80 sm:opacity-0 group-hover:opacity-100 hover:scale-105 active:scale-95 border border-white/20 cursor-pointer"
+            >
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+
+            {/* Right Nav Button */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                nextSlide();
+              }}
+              aria-label="Next banner"
+              className="absolute right-2.5 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/45 hover:bg-black/75 text-white shadow-lg backdrop-blur-md flex items-center justify-center transition-all opacity-80 sm:opacity-0 group-hover:opacity-100 hover:scale-105 active:scale-95 border border-white/20 cursor-pointer"
+            >
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+
+            {/* Pagination Indicators */}
+            <div className="absolute bottom-2.5 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2 px-3 py-1 sm:py-1.5 rounded-full bg-black/45 backdrop-blur-md border border-white/20">
+              {PROMO_BANNERS.map((banner, dotIdx) => (
+                <button
+                  key={banner.id}
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setCurrentSlide(dotIdx);
+                  }}
+                  aria-label={`Go to slide ${dotIdx + 1}`}
+                  className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                    dotIdx === currentSlide
+                      ? "w-5 sm:w-7 bg-[#E31C59] shadow-xs"
+                      : "w-1.5 sm:w-2 bg-white/60 hover:bg-white"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
