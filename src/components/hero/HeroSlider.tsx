@@ -15,7 +15,10 @@ export default function HeroSlider({
 }: HeroSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const touchStartX = useRef<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const dragStartX = useRef<number | null>(null);
+  const dragCurrentX = useRef<number | null>(null);
 
   const totalSlides = slides.length;
 
@@ -31,31 +34,65 @@ export default function HeroSlider({
     setCurrentIndex(index);
   };
 
-  // Auto-play timer (6.5 seconds) paused on user mouse hover
+  // Auto-play timer (6.5s) paused on mouse hover or active dragging
   useEffect(() => {
-    if (isPaused || totalSlides <= 1) return;
+    if (isPaused || isDragging || totalSlides <= 1) return;
 
     const interval = setInterval(() => {
       nextSlide();
     }, 6500);
 
     return () => clearInterval(interval);
-  }, [isPaused, nextSlide, totalSlides]);
+  }, [isPaused, isDragging, nextSlide, totalSlides]);
 
-  // Touch swipe support
+  // Touch Swipe Handlers
   const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
+    dragStartX.current = e.touches[0].clientX;
   };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (diff > 50) {
-      nextSlide();
-    } else if (diff < -50) {
-      prevSlide();
+  const handleTouchMove = (e: React.TouchEvent) => {
+    dragCurrentX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (dragStartX.current !== null && dragCurrentX.current !== null) {
+      const diff = dragStartX.current - dragCurrentX.current;
+      if (diff > 50) {
+        nextSlide();
+      } else if (diff < -50) {
+        prevSlide();
+      }
     }
-    touchStartX.current = null;
+    dragStartX.current = null;
+    dragCurrentX.current = null;
+  };
+
+  // Mouse Drag Handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    // Only drag on left click and avoid interactive buttons
+    if (e.button !== 0) return;
+    setIsDragging(true);
+    dragStartX.current = e.clientX;
+    dragCurrentX.current = e.clientX;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    dragCurrentX.current = e.clientX;
+  };
+
+  const handleMouseUp = () => {
+    if (isDragging && dragStartX.current !== null && dragCurrentX.current !== null) {
+      const diff = dragStartX.current - dragCurrentX.current;
+      if (diff > 50) {
+        nextSlide();
+      } else if (diff < -50) {
+        prevSlide();
+      }
+    }
+    setIsDragging(false);
+    dragStartX.current = null;
+    dragCurrentX.current = null;
   };
 
   const currentSlide = slides[currentIndex] || slides[0];
@@ -64,13 +101,22 @@ export default function HeroSlider({
 
   return (
     <div
-      className="relative w-full h-[540px] sm:h-[600px] md:h-[640px] lg:h-[680px] xl:h-[700px] overflow-hidden bg-slate-950 select-none"
+      className={`relative w-full h-[540px] sm:h-[600px] md:h-[640px] lg:h-[680px] xl:h-[700px] overflow-hidden bg-slate-950 select-none ${
+        isDragging ? "cursor-grabbing" : "cursor-grab"
+      }`}
       role="region"
       aria-label="Hospital Featured Hero Slider"
       onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      onMouseLeave={() => {
+        setIsPaused(false);
+        if (isDragging) handleMouseUp();
+      }}
       onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
     >
       {/* Background Images with Smooth Cross-Fade Transition */}
       {slides.map((slide, idx) => {
@@ -102,18 +148,67 @@ export default function HeroSlider({
         );
       })}
 
+      {/* Top Center Slide Indicator Pill (Moves smoothly with active slide) */}
+      <div className="absolute top-4 sm:top-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 bg-black/45 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15 shadow-xl pointer-events-auto">
+        {slides.map((slide, idx) => {
+          const isActive = idx === currentIndex;
+          return (
+            <button
+              key={slide.id}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                goToSlide(idx);
+              }}
+              aria-label={`Go to slide ${idx + 1}`}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                isActive
+                  ? "w-7 bg-[#E31C59] shadow-md shadow-[#E31C59]/50"
+                  : "w-2 bg-white/40 hover:bg-white/70"
+              }`}
+            />
+          );
+        })}
+      </div>
+
+      {/* Left Chevron Button: Vertically Centered at the Left Edge */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          prevSlide();
+        }}
+        aria-label="Previous slide"
+        className="absolute left-3 sm:left-6 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/45 hover:bg-[#E31C59] text-white flex items-center justify-center backdrop-blur-md border border-white/20 transition-all duration-200 shadow-xl hover:scale-110 active:scale-95 pointer-events-auto"
+      >
+        <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
+      </button>
+
+      {/* Right Chevron Button: Vertically Centered at the Right Edge */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          nextSlide();
+        }}
+        aria-label="Next slide"
+        className="absolute right-3 sm:right-6 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/45 hover:bg-[#E31C59] text-white flex items-center justify-center backdrop-blur-md border border-white/20 transition-all duration-200 shadow-xl hover:scale-110 active:scale-95 pointer-events-auto"
+      >
+        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
+      </button>
+
       {/* Hero Content Container */}
-      <div className="relative z-20 w-full h-full px-4 sm:px-6 lg:px-8 flex flex-col justify-center pt-8 sm:pt-10 lg:pt-12 pb-28 sm:pb-32 lg:pb-36">
+      <div className="relative z-20 w-full h-full px-4 sm:px-6 lg:px-8 flex flex-col justify-center pt-8 sm:pt-10 lg:pt-12 pb-28 sm:pb-32 lg:pb-36 pointer-events-none">
         <div className="w-full max-w-[1536px] mx-auto">
           {/* Main Content Area */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8">
-            {/* Left Text Block with smooth enter transition keyed to active slide */}
+            {/* Left Text Block - Expanded max-w so headings stay strictly 2 lines */}
             <div
               key={`text-${currentSlide.id}`}
-              className="max-w-2xl text-white animate-in fade-in slide-in-from-left-4 duration-500 fill-mode-both"
+              className="max-w-3xl lg:max-w-4xl text-white animate-in fade-in slide-in-from-left-4 duration-500 fill-mode-both pointer-events-auto"
             >
-              {/* Main Headline */}
-              <h1 className="text-3xl sm:text-5xl md:text-[50px] lg:text-[54px] font-extrabold tracking-tight text-white leading-[1.12] drop-shadow-lg">
+              {/* Main Headline: Guaranteed 2-line structure */}
+              <h1 className="text-2xl sm:text-4xl md:text-[44px] lg:text-[48px] font-extrabold tracking-tight text-white leading-[1.14] drop-shadow-lg">
                 <span className="block">{currentSlide.titleLine1}</span>
                 <span className="block mt-1 sm:mt-1.5 text-white">
                   {currentSlide.titleLine2}
@@ -122,7 +217,7 @@ export default function HeroSlider({
 
               {/* Tagline / Descriptive Content */}
               {currentSlide.tagline && (
-                <p className="mt-3.5 sm:mt-4 text-sm sm:text-base lg:text-[17px] text-slate-200/90 leading-relaxed font-normal">
+                <p className="mt-3.5 sm:mt-4 text-sm sm:text-base lg:text-[17px] text-slate-200/90 leading-relaxed font-normal max-w-2xl">
                   {currentSlide.tagline}
                 </p>
               )}
@@ -157,7 +252,7 @@ export default function HeroSlider({
             {/* Right Floating Badge / Pill with smooth transition */}
             <div
               key={`badge-${currentSlide.id}`}
-              className="flex lg:justify-end items-center mt-2 lg:mt-0 animate-in fade-in slide-in-from-right-4 duration-500 fill-mode-both"
+              className="flex lg:justify-end items-center mt-2 lg:mt-0 animate-in fade-in slide-in-from-right-4 duration-500 fill-mode-both pointer-events-auto"
             >
               <button
                 type="button"
@@ -169,63 +264,6 @@ export default function HeroSlider({
               >
                 <span>{currentSlide.badgeText}</span>
               </button>
-            </div>
-          </div>
-
-          {/* Slider Navigation Controls (Prev/Next buttons, Slide Indicator & Counter) */}
-          <div className="mt-8 sm:mt-10 flex items-center justify-between sm:justify-start gap-4">
-            {/* Arrows & Counter Pill */}
-            <div className="inline-flex items-center gap-1.5 bg-black/45 backdrop-blur-md border border-white/20 rounded-full px-2 py-1 shadow-xl">
-              {/* Prev Button */}
-              <button
-                type="button"
-                onClick={prevSlide}
-                aria-label="Previous slide"
-                className="w-8 h-8 rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/15 active:scale-90 transition-all"
-              >
-                <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
-              </button>
-
-              {/* Counter */}
-              <div className="px-2 text-xs font-semibold tracking-wider text-white/90">
-                <span className="text-white font-bold">
-                  {String(currentIndex + 1).padStart(2, "0")}
-                </span>
-                <span className="mx-1 text-white/40">/</span>
-                <span className="text-white/60">
-                  {String(totalSlides).padStart(2, "0")}
-                </span>
-              </div>
-
-              {/* Next Button */}
-              <button
-                type="button"
-                onClick={nextSlide}
-                aria-label="Next slide"
-                className="w-8 h-8 rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/15 active:scale-90 transition-all"
-              >
-                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-              </button>
-            </div>
-
-            {/* Clickable Progress Dots */}
-            <div className="flex items-center gap-2">
-              {slides.map((slide, idx) => {
-                const isActive = idx === currentIndex;
-                return (
-                  <button
-                    key={slide.id}
-                    type="button"
-                    onClick={() => goToSlide(idx)}
-                    aria-label={`Go to slide ${idx + 1}`}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      isActive
-                        ? "w-8 bg-[#E31C59] shadow-md shadow-[#E31C59]/50"
-                        : "w-2 bg-white/40 hover:bg-white/70"
-                    }`}
-                  />
-                );
-              })}
             </div>
           </div>
         </div>
