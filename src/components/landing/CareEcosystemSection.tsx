@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   ArrowUpRight,
@@ -15,6 +15,26 @@ import { useModal } from "@/context/ModalContext";
 
 export default function CareEcosystemSection() {
   const { openModal } = useModal();
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const services = [
     {
@@ -75,6 +95,7 @@ export default function CareEcosystemSection() {
 
   return (
     <section
+      ref={sectionRef}
       className="relative isolate min-h-[620px] w-full overflow-hidden px-5 py-10 text-white sm:px-8 sm:py-12 lg:h-[85vh] lg:min-h-[580px] lg:px-12 lg:py-12"
       id="services"
     >
@@ -88,22 +109,32 @@ export default function CareEcosystemSection() {
         sizes="100vw"
         className="-z-10  object-center"
       />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#081e37]/65 via-[#081e37]/38 to-transparent" />
 
       <div className="relative z-10 mr-auto flex h-full w-full max-w-[960px] flex-col">
         <div className="grid grid-cols-1 border-t border-white/35 font-sans sm:grid-cols-2 lg:grid-cols-2 ">
-          <div className="min-h-[165px] border-b border-white/35 py-6 text-shadow-hero sm:px-6 lg:min-h-0 lg:border-r lg:px-0 lg:py-6">
-            <span className="mb-4 inline-flex rounded-full border border-white/80 px-4 py-1.5 text-xs font-medium tracking-wide text-white">
-              Holistic Healthcare
-            </span>
-            <h2 className="max-w-sm font-serif text-2xl font-medium leading-tight tracking-tight text-white sm:text-3xl">
-              Comprehensive Medical Ecosystem
+          <div
+            className="min-h-[165px] border-b border-white/35 py-6 text-shadow-hero sm:px-6 lg:min-h-0 lg:border-r lg:px-0 lg:py-6"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? "translateY(0)" : "translateY(24px)",
+              transition: "opacity 600ms cubic-bezier(0.25, 1, 0.5, 1), transform 600ms cubic-bezier(0.25, 1, 0.5, 1)",
+              transitionDelay: isVisible ? "0ms" : "0ms",
+            }}
+          >
+            <div className="mb-4 flex items-center gap-3">
+              <span className="h-px w-20 bg-[#d11f53]" />
+              <span className="text-xs font-semibold uppercase tracking-wide text-white">
+                Holistic Healthcare
+              </span>
+            </div>
+            <h2 className="max-w-sm font-serif text-2xl leading-tight tracking-tight sm:text-3xl">
+              <span className=" text-white">Comprehensive Medical </span>
+              <span className="font-bold ">Ecosystem</span>
             </h2>
-            <p className="mt-2.5 max-w-sm text-xs leading-relaxed text-white sm:text-sm">
-              From preventative screenings to complex heart transplants, coordinated care begins here.
-            </p>
           </div>
 
-          {services.slice(0, 5).map((service) => {
+          {services.slice(0, 5).map((service, index) => {
             const Icon = service.icon;
             return (
               <button
@@ -111,6 +142,12 @@ export default function CareEcosystemSection() {
                 key={service.id}
                 onClick={service.action}
                 className="group min-h-[148px] border-b border-white/35 py-6 text-left transition-colors duration-200 hover:bg-white/10 sm:px-6 lg:min-h-0 lg:px-6 lg:py-6 lg:[&:nth-child(odd)]:border-r"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? "translateY(0)" : "translateY(24px)",
+                  transition: "opacity 600ms cubic-bezier(0.25, 1, 0.5, 1), transform 600ms cubic-bezier(0.25, 1, 0.5, 1)",
+                  transitionDelay: isVisible ? `${(index + 1) * 500}ms` : "0ms",
+                }}
               >
                 <div className="flex gap-4">
                   <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/15 transition-transform duration-200 group-hover:scale-110">
@@ -136,14 +173,22 @@ export default function CareEcosystemSection() {
 
       </div>
 
-      <div className="absolute inset-x-0 bottom-10 z-10 text-center font-sans sm:bottom-12">
+      <div
+        className="absolute inset-x-0 bottom-10 z-10 text-center font-sans sm:bottom-12"
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 600ms cubic-bezier(0.25, 1, 0.5, 1), transform 600ms cubic-bezier(0.25, 1, 0.5, 1)",
+          transitionDelay: isVisible ? "3000ms" : "0ms",
+        }}
+      >
         <button
           type="button"
           onClick={() => openModal("doctor-search")}
           className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-sm font-semibold text-burgundy-900 shadow-md transition-transform duration-200 hover:scale-105 hover:bg-stone-100 active:scale-95"
         >
-          <span>Consult Our Senior Specialists</span>
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-burgundy-900 text-white">
+          <span className="text-black">Consult Our Senior Specialists</span>
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
             <ArrowUpRight className="h-4 w-4" />
           </span>
         </button>

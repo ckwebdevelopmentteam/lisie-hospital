@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import DoctorSearchModal from "@/components/header/modals/DoctorSearchModal";
 import AppointmentModal from "@/components/header/modals/AppointmentModal";
 import EmergencyPanel from "@/components/header/modals/EmergencyPanel";
@@ -19,6 +19,17 @@ const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 export function ModalProvider({ children }: { children: ReactNode }) {
   const [activeModal, setActiveModal] = useState<ActiveModal>(null);
+
+  useEffect(() => {
+    if (activeModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [activeModal]);
 
   const openModal = useCallback((modal: ActiveModal) => {
     setActiveModal(modal);

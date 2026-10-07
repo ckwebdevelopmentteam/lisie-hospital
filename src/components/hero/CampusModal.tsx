@@ -33,7 +33,7 @@ export default function CampusModal({
       window.addEventListener("keydown", handleKeyDown);
     }
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [campus, onClose]);
@@ -71,7 +71,7 @@ export default function CampusModal({
           {/* Campus Title & Rating Overlay */}
           <div className="absolute bottom-4 left-6 right-6 text-white">
             <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[11px] font-semibold mb-2">
-              <MapPin className="w-3 h-3 text-[#FF5722]" />
+              <MapPin className="w-3 h-3 text-[#E31C59]" />
               <span>{campus.location}</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-extrabold uppercase tracking-tight">

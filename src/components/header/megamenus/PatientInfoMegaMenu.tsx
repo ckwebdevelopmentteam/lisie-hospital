@@ -26,22 +26,22 @@ export default function PatientInfoMegaMenu({
         <div className="pb-4 border-b border-gray-100 flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#E31C59]" />
-              <h2 className="text-sm font-bold uppercase tracking-wider text-[#123B63]">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#E31C59]" />
+              <h2 className="text-base sm:text-lg font-bold text-[#123B63] tracking-tight">
                 Patient Information & Services
               </h2>
             </div>
-            <p className="text-xs text-gray-500 mt-0.5">
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
               Everything you need to plan your outpatient visit, admission, or hospital stay.
             </p>
           </div>
           <a
             href="/patient-guide"
             onClick={onClose}
-            className="hidden sm:inline-flex items-center space-x-1 text-xs font-semibold text-[#E31C59] hover:text-[#c4144b]"
+            className="hidden sm:inline-flex items-center space-x-1.5 text-xs sm:text-sm font-semibold text-[#E31C59] hover:text-[#c4144b]"
           >
             <span>Complete Patient Guide</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-4 h-4" />
           </a>
         </div>
 
@@ -49,7 +49,7 @@ export default function PatientInfoMegaMenu({
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 pt-5">
           {PATIENT_INFO_SECTIONS.map((section) => (
             <div key={section.title} className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-gray-900 pb-1.5 border-b border-gray-100">
+              <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#123B63] pb-2 border-b border-gray-100">
                 {section.title}
               </h3>
               <ul className="space-y-1">
@@ -74,14 +74,14 @@ export default function PatientInfoMegaMenu({
                             onClose();
                           }
                         }}
-                        className={`group flex items-center justify-between py-1.5 px-2 rounded text-xs transition-colors ${
+                        className={`group flex items-center justify-between py-2 px-2.5 rounded-lg text-sm transition-colors ${
                           isBooking
                             ? "bg-[#E31C59]/10 text-[#E31C59] font-bold hover:bg-[#E31C59]/15"
-                            : "text-gray-700 hover:text-[#E31C59] hover:bg-[#E31C59]/5 font-medium"
+                            : "text-gray-800 hover:text-[#E31C59] hover:bg-[#E31C59]/5 font-semibold"
                         }`}
                       >
                         <span>{item.name}</span>
-                        <ChevronRight className="w-3 h-3 text-gray-300 group-hover:text-[#E31C59] group-hover:translate-x-0.5 transition-all" />
+                        <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#E31C59] group-hover:translate-x-0.5 transition-all" />
                       </a>
                     </li>
                   );
@@ -92,25 +92,25 @@ export default function PatientInfoMegaMenu({
         </div>
 
         {/* Bottom Section: Need Help? */}
-        <div className="mt-6 pt-4 border-t border-gray-100 bg-[#F8FAFC] -mx-4 -mb-6 px-4 sm:px-6 lg:px-8 py-3.5 rounded-b-lg flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-gray-600">
+        <div className="mt-6 pt-4 border-t border-gray-100 bg-[#F8FAFC] -mx-4 -mb-6 px-4 sm:px-6 lg:px-8 py-3.5 rounded-b-lg flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs sm:text-sm">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-gray-700">
             <span className="font-bold text-[#123B63] uppercase tracking-wider">
               Need Help?
             </span>
             <div className="flex items-center space-x-1.5">
-              <Phone className="w-3.5 h-3.5 text-[#E31C59]" />
+              <Phone className="w-4 h-4 text-[#E31C59]" />
               <span>Information Desk:</span>
-              <a href={`tel:${HOSPITAL_CONTACTS.generalEnquiry}`} className="font-semibold text-gray-900 hover:text-[#E31C59]">
+              <a href={`tel:${HOSPITAL_CONTACTS.generalEnquiry}`} className="font-bold text-gray-900 hover:text-[#E31C59]">
                 {HOSPITAL_CONTACTS.generalEnquiry}
               </a>
             </div>
             <span className="text-gray-300 hidden sm:inline">•</span>
             <div>
               <span>Patient Relations:</span>{" "}
-              <span className="font-semibold text-gray-900">{HOSPITAL_CONTACTS.patientRelations}</span>
+              <span className="font-bold text-gray-900">{HOSPITAL_CONTACTS.patientRelations}</span>
             </div>
             <span className="text-gray-300 hidden sm:inline">•</span>
-            <a href="/contact-us" onClick={onClose} className="font-medium text-[#E31C59] hover:underline">
+            <a href="/contact-us" onClick={onClose} className="font-semibold text-[#E31C59] hover:underline">
               Contact Us
             </a>
           </div>
@@ -118,10 +118,10 @@ export default function PatientInfoMegaMenu({
           <a
             href="/patient-info/patient-guide"
             onClick={onClose}
-            className="inline-flex items-center space-x-1 font-semibold text-[#E31C59] hover:text-[#c4144b] transition-colors"
+            className="inline-flex items-center space-x-1.5 font-bold text-[#E31C59] hover:text-[#c4144b] transition-colors"
           >
             <span>View Patient Guide</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-4 h-4" />
           </a>
         </div>
       </div>

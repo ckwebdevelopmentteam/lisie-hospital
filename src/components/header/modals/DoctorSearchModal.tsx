@@ -27,19 +27,15 @@ export default function DoctorSearchModal({
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      setTimeout(() => inputRef.current?.focus(), 50);
-    } else {
+    if (!isOpen) {
       setSearchTerm("");
       setSelectedSpecialty(null);
+      document.body.style.overflow = "";
+      return;
     }
-  }, [isOpen]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const timer = setTimeout(() => inputRef.current?.focus(), 50);
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -51,8 +47,10 @@ export default function DoctorSearchModal({
     };
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
-      document.body.style.overflow = originalOverflow;
+      clearTimeout(timer);
+      document.body.style.overflow = "";
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };

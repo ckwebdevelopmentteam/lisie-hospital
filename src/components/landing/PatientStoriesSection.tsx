@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
-import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { Quote, Star } from "lucide-react";
 
 interface Story {
   id: string;
-  initials: string;
   name: string;
-  rating: number;
   quote: string;
   department: string;
   location: string;
@@ -16,147 +15,201 @@ interface Story {
 const stories: Story[] = [
   {
     id: "story-1",
-    initials: "AK",
     name: "Ananya Kurian",
-    rating: 5,
-    quote:
-      "The warmth of the nursing team at Lisie Heart Institute made our father’s coronary bypass experience reassuring. The surgical skill was unmatched, and he recovered ahead of schedule.",
-    department: "Cardiology • Kaloor",
+    quote: "The warmth of the nursing team at Lisie Heart Institute made our father's coronary bypass experience reassuring. The surgical skill was unmatched.",
+    department: "Cardiology",
     location: "Kottayam",
   },
   {
     id: "story-2",
-    initials: "RM",
     name: "Rahul Menon",
-    rating: 5,
-    quote:
-      "Delivered our baby girl at Lisie Mother and Child. The neonatal care was exemplary, rooms were pristine, and the consultants took personal care every day.",
+    quote: "Delivered our baby girl at Lisie Mother and Child. The neonatal care was exemplary, rooms were pristine, and the consultants took personal care every day.",
     department: "Obstetrics & NICU",
     location: "Ernakulam",
   },
   {
     id: "story-3",
-    initials: "TJ",
     name: "Thomas Joseph",
-    rating: 5,
-    quote:
-      "Transparent billing and prompt insurance approval without unnecessary delays. Lisie maintains the true spirit of service without commercialization.",
+    quote: "Transparent billing and prompt insurance approval without unnecessary delays. Lisie maintains the true spirit of service without commercialization.",
     department: "Nephrology",
     location: "Thrissur",
   },
   {
     id: "story-4",
-    initials: "FA",
     name: "Faisal Al-Otaibi",
-    rating: 5,
-    quote:
-      "Traveled from Muscat for knee arthroplasty. The international patient care coordinator handled our visa letter, airport pickup, and post-op follow-ups seamlessly.",
+    quote: "Traveled from Muscat for knee arthroplasty. The international patient care coordinator handled our stay and post-operative follow-ups seamlessly.",
     department: "Orthopaedics",
     location: "Muscat, Oman",
+  },
+  {
+    id: "story-5",
+    name: "Meera Nair",
+    quote: "Every question was answered with patience. From admission to discharge, the team made a difficult time feel calm and well cared for.",
+    department: "Oncology",
+    location: "Kochi",
+  },
+  {
+    id: "story-6",
+    name: "George Mathew",
+    quote: "The doctors explained every step before my procedure. I felt safe, informed, and back on my feet much sooner than I expected.",
+    department: "Gastroenterology",
+    location: "Alappuzha",
+  },
+  {
+    id: "story-7",
+    name: "Shalini Das",
+    quote: "Our family was deeply grateful for the attentive emergency care. The team moved quickly and kept us updated through every moment.",
+    department: "Emergency Medicine",
+    location: "Kozhikode",
+  },
+  {
+    id: "story-8",
+    name: "Vivek Pillai",
+    quote: "The physiotherapy team gave me confidence after surgery. Their encouragement and structured care made recovery feel achievable.",
+    department: "Rehabilitation",
+    location: "Kollam",
+  },
+  {
+    id: "story-9",
+    name: "Latha Varghese",
+    quote: "The specialist listened carefully and created a plan that truly suited me. The entire visit was organised, kind, and reassuring.",
+    department: "Endocrinology",
+    location: "Muvattupuzha",
+  },
+  {
+    id: "story-10",
+    name: "Nikhil Suresh",
+    quote: "From the first consultation to follow-up, every interaction was professional and compassionate. I would confidently recommend Lisie.",
+    department: "Neurology",
+    location: "Palakkad",
   },
 ];
 
 export default function PatientStoriesSection() {
-  const [activeStoryIndex, setActiveStoryIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [activeStoryIndex, setActiveStoryIndex] = useState(1);
 
-  const handlePrev = () => {
-    setActiveStoryIndex((prev) => (prev === 0 ? stories.length - 1 : prev - 1));
+  useEffect(() => {
+    const container = carouselRef.current;
+    if (!container) return;
+    const item = container.querySelector<HTMLElement>('[data-story-index="1"]');
+    if (!item) return;
+    const scrollLeft = item.offsetLeft - (container.clientWidth - item.clientWidth) / 2;
+    container.scrollTo({ left: Math.max(0, scrollLeft), behavior: "instant" });
+  }, []);
+
+  const scrollStories = (direction: "left" | "right") => {
+    setActiveStoryIndex((currentIndex) => {
+      const nextIndex = direction === "left"
+        ? (currentIndex - 1 + stories.length) % stories.length
+        : (currentIndex + 1) % stories.length;
+
+      const container = carouselRef.current;
+      if (container) {
+        const item = container.querySelector<HTMLElement>(`[data-story-index="${nextIndex}"]`);
+        if (item) {
+          const scrollLeft = item.offsetLeft - (container.clientWidth - item.clientWidth) / 2;
+          container.scrollTo({ left: Math.max(0, scrollLeft), behavior: "smooth" });
+        }
+      }
+
+      return nextIndex;
+    });
   };
 
-  const handleNext = () => {
-    setActiveStoryIndex((prev) => (prev === stories.length - 1 ? 0 : prev + 1));
+  const selectStory = (index: number) => {
+    setActiveStoryIndex(index);
+    const container = carouselRef.current;
+    if (container) {
+      const item = container.querySelector<HTMLElement>(`[data-story-index="${index}"]`);
+      if (item) {
+        const scrollLeft = item.offsetLeft - (container.clientWidth - item.clientWidth) / 2;
+        container.scrollTo({ left: Math.max(0, scrollLeft), behavior: "smooth" });
+      }
+    }
   };
 
   return (
-    <section
-      className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-warmgray-50"
-      id="testimonials"
-    >
-      <div className="w-full max-w-[1536px] mx-auto">
-        {/* Section Header */}
-        <div className="text-center max-w-xl mx-auto mb-5 sm:mb-6">
-          <span className="inline-block px-3 py-0.5 rounded-full bg-stone-200/70 text-stone-700 text-[11px] font-semibold uppercase tracking-wider mb-2 font-sans">
-            Patient Stories
-          </span>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-serif font-medium text-stone-900 tracking-tight">
-            Words of Hope and Healing
-          </h2>
-          <p className="text-stone-500 text-xs mt-1 font-sans">
-            Real experiences shared by patients and their families from across India and abroad.
-          </p>
+    <section className="relative py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#f3f7fc] font-sans overflow-hidden" id="testimonials">
+      <div className="relative mx-auto w-full max-w-[1536px]">
+        <div className="relative min-h-[320px] overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-[#f8fbff] to-[#e9f2fb] px-5 py-11 shadow-[0_22px_60px_rgba(66,100,135,0.10)] sm:min-h-[345px] sm:px-10 sm:py-12 lg:px-14">
+          <div className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full border-[28px] border-[#d11f53]/[0.05]" />
+          <div className="pointer-events-none absolute -bottom-24 -left-20 h-52 w-52 rounded-full bg-[#2378bd]/[0.05]" />
+          <Quote className="pointer-events-none absolute left-7 top-10 h-24 w-24 fill-slate-100 text-slate-100 sm:left-12 sm:top-12 sm:h-32 sm:w-32" strokeWidth={0} />
 
-          {/* Carousel navigation buttons */}
-          <div className="flex items-center justify-center space-x-1.5 mt-3.5">
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label="Previous review"
-              className="w-7 h-7 rounded-full border border-stone-300 bg-white flex items-center justify-center text-stone-600 hover:bg-stone-900 hover:text-white transition-colors shadow-xs"
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-            </button>
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label="Next review"
-              className="w-7 h-7 rounded-full bg-stone-900 text-white flex items-center justify-center hover:bg-burgundy-700 transition-colors shadow-xs"
-            >
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
+          <div className="relative z-10 text-center font-sans">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#d11f53] sm:text-xs">
+              Patient Stories
+            </p>
+            <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">
+              What Our Patients Say!
+            </h2>
+            <div className="mt-3 flex justify-center gap-1" aria-hidden="true">
+              <span className="h-0.5 w-11 bg-[#d11f53]" />
+              <span className="h-0.5 w-4 bg-[#d11f53]/70" />
+              <span className="h-0.5 w-2 bg-[#d11f53]/35" />
+            </div>
           </div>
         </div>
 
-        {/* 4 Testimonial Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5 font-sans">
-          {stories.map((story, idx) => {
-            const isSelected = idx === activeStoryIndex;
-            return (
-              <div
-                key={story.id}
-                onClick={() => setActiveStoryIndex(idx)}
-                className={`bg-white p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between cursor-pointer ${
-                  isSelected
-                    ? "ring-2 ring-burgundy-700/60 border-burgundy-200 shadow-sm"
-                    : "border-stone-200/80 shadow-xs hover:shadow-sm hover:border-stone-300"
-                }`}
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-2.5">
-                      <div className="w-8 h-8 rounded-full bg-burgundy-100 text-burgundy-700 font-bold flex items-center justify-center text-xs">
-                        {story.initials}
-                      </div>
-                      <div>
-                        <h4 className="text-xs sm:text-sm font-semibold text-stone-900">
-                          {story.name}
-                        </h4>
-                        <div className="flex items-center space-x-0.5 text-amber-400">
-                          {Array.from({ length: story.rating }).map((_, i) => (
-                            <Star
-                              key={i}
-                              className="w-2.5 h-2.5 fill-amber-400 text-amber-400"
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <Quote className="w-4 h-4 text-stone-300" />
-                  </div>
+        <div className="relative left-1/2 z-20 -mt-24 w-screen -translate-x-1/2 sm:-mt-28">
+          <div className="relative mx-auto max-w-[1536px] px-12 sm:px-14">
+            <button
+              type="button"
+              aria-label="Previous patient stories"
+              onClick={() => scrollStories("left")}
+              className="absolute left-0 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center transition-transform hover:scale-110 sm:h-16 sm:w-16"
+            >
+              <Image src="/images/leftarrow1.png" alt="" width={52} height={52} />
+            </button>
 
-                  <p className="text-stone-600 text-xs leading-relaxed mb-4">
+            <div
+              ref={carouselRef}
+              className="flex snap-x snap-mandatory items-center gap-5 overflow-x-auto pb-10 pt-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-6"
+            >
+              {stories.map((story, index) => (
+                <article
+                  key={story.id}
+                  data-story-index={index}
+                  onClick={() => selectStory(index)}
+                  className={`relative flex min-h-[280px] w-[260px] shrink-0 snap-center flex-col rounded-sm bg-white p-8 text-center shadow-[0_12px_30px_rgba(54,83,112,0.13)] transition-all duration-500 cursor-pointer sm:w-[320px] sm:p-9 lg:min-h-[310px] lg:w-[420px] lg:p-10 ${
+                    index === activeStoryIndex
+                      ? "z-10 scale-[1.04] opacity-100"
+                      : "scale-[0.82] opacity-75 hover:opacity-100"
+                  }`}
+                >
+                  {index === activeStoryIndex && (
+                    <div className="flex justify-center gap-1 text-[#d11f53]" aria-label="Five star review">
+                      {Array.from({ length: 5 }).map((_, starIndex) => (
+                        <Star
+                          key={starIndex}
+                          className={`h-5 w-5 ${starIndex === 4 ? "fill-slate-300 text-slate-300" : "fill-[#d11f53]"}`}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  <p className={`leading-relaxed text-stone-600 ${index === activeStoryIndex ? "mt-8 text-sm sm:text-base" : "my-auto text-[11px]"}`}>
                     &ldquo;{story.quote}&rdquo;
                   </p>
-                </div>
+                  <p className={`font-semibold text-stone-800 ${index === activeStoryIndex ? "mt-7 text-sm" : "mt-5 text-[10px]"}`}>
+                    {story.name} · {story.location}
+                  </p>
+                  {index === activeStoryIndex && (
+                    <Quote className="pointer-events-none absolute -bottom-7 right-6 h-16 w-16 fill-[#d11f53] text-[#d11f53] sm:h-20 sm:w-20" strokeWidth={0} />
+                  )}
+                </article>
+              ))}
+            </div>
 
-                <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-400">
-                  <span className="font-medium text-stone-600">{story.department}</span>
-                  <span className="font-medium text-stone-500">
-                    {story.location}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+            <button
+              type="button"
+              aria-label="Next patient stories"
+              onClick={() => scrollStories("right")}
+              className="absolute right-0 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center transition-transform hover:scale-110 sm:h-16 sm:w-16"
+            >
+              <Image src="/images/rightarrow.png" alt="" width={52} height={52} />
+            </button>
+          </div>
         </div>
       </div>
     </section>

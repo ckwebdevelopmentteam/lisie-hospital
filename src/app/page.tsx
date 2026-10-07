@@ -1,8 +1,9 @@
 import HeroSection from "@/components/hero/HeroSection";
 import LegacyStorySection from "@/components/landing/LegacyStorySection";
 import CareEcosystemSection from "@/components/landing/CareEcosystemSection";
+import PatientExperienceSection from "@/components/landing/PatientExperienceSection";
 import PatientStoriesSection from "@/components/landing/PatientStoriesSection";
-import BookingConsultationSection from "@/components/landing/BookingConsultationSection";
+import NewsArticlesSection from "@/components/landing/NewsArticlesSection";
 
 export default function Home() {
   return (
@@ -10,8 +11,10 @@ export default function Home() {
       <HeroSection />
       <LegacyStorySection />
       <CareEcosystemSection />
+      <PatientExperienceSection />
       <PatientStoriesSection />
-      <BookingConsultationSection />
+      <NewsArticlesSection />
     </main>
   );
 }
+

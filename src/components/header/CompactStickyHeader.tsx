@@ -92,7 +92,7 @@ export default function CompactStickyHeader({
                   type="button"
                   onClick={() => setActiveMenu(isActive ? null : item.id)}
                   aria-expanded={isActive}
-                  className={`flex items-center space-x-1 px-3 py-1.5 text-xs font-semibold rounded transition-colors ${
+                  className={`flex items-center space-x-1 px-3 py-1.5 text-xs xl:text-sm font-semibold rounded transition-colors ${
                     isActive
                       ? "text-[#1677B8] bg-blue-50"
                       : "text-gray-700 hover:text-[#1677B8] hover:bg-gray-50"
@@ -100,7 +100,7 @@ export default function CompactStickyHeader({
                 >
                   <span>{item.label}</span>
                   <ChevronDown
-                    className={`w-3 h-3 transition-transform ${
+                    className={`w-3.5 h-3.5 transition-transform ${
                       isActive ? "rotate-180 text-[#1677B8]" : "text-gray-400"
                     }`}
                   />
