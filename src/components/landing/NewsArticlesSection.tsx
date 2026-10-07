@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -12,6 +12,9 @@ import {
   Share2,
   Check,
   User,
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 export interface NewsArticle {
@@ -91,6 +94,30 @@ export const newsArticles: NewsArticle[] = [
 export default function NewsArticlesSection() {
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [activeBlogIndex, setActiveBlogIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToIndex = (index: number) => {
+    const nextIdx = Math.max(0, Math.min(newsArticles.length - 1, index));
+    setActiveBlogIndex(nextIdx);
+    if (carouselRef.current) {
+      const card = carouselRef.current.children[nextIdx] as HTMLElement;
+      if (card) {
+        card.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      }
+    }
+  };
+
+  const handleScroll = () => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const scrollLeft = container.scrollLeft;
+    const cardWidth = container.offsetWidth * 0.82;
+    const newIndex = Math.round(scrollLeft / cardWidth);
+    if (newIndex >= 0 && newIndex < newsArticles.length && newIndex !== activeBlogIndex) {
+      setActiveBlogIndex(newIndex);
+    }
+  };
 
   const handleCopyLink = (id: string) => {
     if (typeof window !== "undefined") {
@@ -147,8 +174,121 @@ export default function NewsArticlesSection() {
           </div>
         </div>
 
-        {/* 3 News Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* Mobile Carousel (md:hidden) */}
+        <div className="md:hidden">
+          <div
+            ref={carouselRef}
+            onScroll={handleScroll}
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-3 pt-1 -mx-4 px-4"
+            style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch", scrollbarWidth: "none" }}
+          >
+            {newsArticles.map((article) => (
+              <article
+                key={article.id}
+                onClick={() => setSelectedArticle(article)}
+                className="w-[84vw] max-w-[325px] shrink-0 snap-center group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm transition-all duration-300 active:scale-[0.99] cursor-pointer"
+              >
+                {/* Image */}
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 rounded-t-2xl">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    fill
+                    sizes="(max-width: 768px) 85vw, 33vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute top-3 left-3 z-10">
+                    <span className="inline-block rounded-full bg-[#d11f53] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs">
+                      {article.category}
+                    </span>
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
+                </div>
+
+                {/* Card Body */}
+                <div className="flex flex-1 flex-col p-4">
+                  {/* Date & Read time */}
+                  <div className="mb-2 flex items-center justify-between text-[11px] text-slate-500 font-medium">
+                    <span className="flex items-center gap-1.5">
+                      <Calendar className="w-3 h-3 text-[#1677B8]" />
+                      {article.date}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="w-3 h-3 text-slate-400" />
+                      {article.readTime}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-base font-bold leading-snug text-[#1a324c] line-clamp-2 mb-2">
+                    {article.title}
+                  </h3>
+
+                  {/* Snippet */}
+                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-2 mb-4 flex-1">
+                    {article.excerpt}
+                  </p>
+
+                  {/* Footer */}
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between mt-auto">
+                    <span className="text-[11px] font-bold text-[#d11f53]">
+                      {article.authorShort}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#1a324c]">
+                      <span>Read</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {/* Mobile Carousel Indicators & Arrows */}
+          <div className="mt-3 flex items-center justify-between px-1">
+            {/* Dots */}
+            <div className="flex items-center gap-1.5">
+              {newsArticles.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  aria-label={`Go to article ${idx + 1}`}
+                  onClick={() => scrollToIndex(idx)}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    idx === activeBlogIndex
+                      ? "w-7 bg-[#d11f53]"
+                      : "w-2 bg-slate-300 hover:bg-slate-400"
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Arrows */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                aria-label="Previous article"
+                onClick={() => scrollToIndex(activeBlogIndex - 1)}
+                disabled={activeBlogIndex === 0}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-700 disabled:opacity-35 border border-slate-200/80 active:scale-95 transition-all shadow-xs"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                aria-label="Next article"
+                onClick={() => scrollToIndex(activeBlogIndex + 1)}
+                disabled={activeBlogIndex === newsArticles.length - 1}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-700 disabled:opacity-35 border border-slate-200/80 active:scale-95 transition-all shadow-xs"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop 3 Articles Grid (hidden on mobile, visible on md+) */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {newsArticles.map((article) => (
             <article
               key={article.id}
