@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   ArrowUpRight,
@@ -15,6 +15,26 @@ import { useModal } from "@/context/ModalContext";
 
 export default function CareEcosystemSection() {
   const { openModal } = useModal();
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const services = [
     {
@@ -75,6 +95,7 @@ export default function CareEcosystemSection() {
 
   return (
     <section
+      ref={sectionRef}
       className="relative isolate min-h-[620px] w-full overflow-hidden px-5 py-10 text-white sm:px-8 sm:py-12 lg:h-[85vh] lg:min-h-[580px] lg:px-12 lg:py-12"
       id="services"
     >
@@ -92,7 +113,15 @@ export default function CareEcosystemSection() {
 
       <div className="relative z-10 mr-auto flex h-full w-full max-w-[960px] flex-col">
         <div className="grid grid-cols-1 border-t border-white/35 font-sans sm:grid-cols-2 lg:grid-cols-2 ">
-          <div className="min-h-[165px] border-b border-white/35 py-6 text-shadow-hero sm:px-6 lg:min-h-0 lg:border-r lg:px-0 lg:py-6">
+          <div
+            className="min-h-[165px] border-b border-white/35 py-6 text-shadow-hero sm:px-6 lg:min-h-0 lg:border-r lg:px-0 lg:py-6"
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? "translateY(0)" : "translateY(24px)",
+              transition: "opacity 600ms cubic-bezier(0.25, 1, 0.5, 1), transform 600ms cubic-bezier(0.25, 1, 0.5, 1)",
+              transitionDelay: isVisible ? "0ms" : "0ms",
+            }}
+          >
             <div className="mb-4 flex items-center gap-3">
               <span className="h-px w-20 bg-[#d11f53]" />
               <span className="text-xs font-semibold uppercase tracking-wide text-white">
@@ -105,7 +134,7 @@ export default function CareEcosystemSection() {
             </h2>
           </div>
 
-          {services.slice(0, 5).map((service) => {
+          {services.slice(0, 5).map((service, index) => {
             const Icon = service.icon;
             return (
               <button
@@ -113,6 +142,12 @@ export default function CareEcosystemSection() {
                 key={service.id}
                 onClick={service.action}
                 className="group min-h-[148px] border-b border-white/35 py-6 text-left transition-colors duration-200 hover:bg-white/10 sm:px-6 lg:min-h-0 lg:px-6 lg:py-6 lg:[&:nth-child(odd)]:border-r"
+                style={{
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? "translateY(0)" : "translateY(24px)",
+                  transition: "opacity 600ms cubic-bezier(0.25, 1, 0.5, 1), transform 600ms cubic-bezier(0.25, 1, 0.5, 1)",
+                  transitionDelay: isVisible ? `${(index + 1) * 500}ms` : "0ms",
+                }}
               >
                 <div className="flex gap-4">
                   <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/15 transition-transform duration-200 group-hover:scale-110">
@@ -138,7 +173,15 @@ export default function CareEcosystemSection() {
 
       </div>
 
-      <div className="absolute inset-x-0 bottom-10 z-10 text-center font-sans sm:bottom-12">
+      <div
+        className="absolute inset-x-0 bottom-10 z-10 text-center font-sans sm:bottom-12"
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 600ms cubic-bezier(0.25, 1, 0.5, 1), transform 600ms cubic-bezier(0.25, 1, 0.5, 1)",
+          transitionDelay: isVisible ? "3000ms" : "0ms",
+        }}
+      >
         <button
           type="button"
           onClick={() => openModal("doctor-search")}

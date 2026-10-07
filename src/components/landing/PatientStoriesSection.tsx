@@ -1,13 +1,12 @@
 "use client";
 
-import React from "react";
-import { ArrowUpRight, Quote } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { Quote, Star } from "lucide-react";
 
 interface Story {
   id: string;
-  initials: string;
   name: string;
-  rating: number;
   quote: string;
   department: string;
   location: string;
@@ -16,100 +15,201 @@ interface Story {
 const stories: Story[] = [
   {
     id: "story-1",
-    initials: "AK",
     name: "Ananya Kurian",
-    rating: 5,
-    quote:
-      "The warmth of the nursing team at Lisie Heart Institute made our father’s coronary bypass experience reassuring. The surgical skill was unmatched, and he recovered ahead of schedule.",
-    department: "Cardiology • Kaloor",
+    quote: "The warmth of the nursing team at Lisie Heart Institute made our father's coronary bypass experience reassuring. The surgical skill was unmatched.",
+    department: "Cardiology",
     location: "Kottayam",
   },
   {
     id: "story-2",
-    initials: "RM",
     name: "Rahul Menon",
-    rating: 5,
-    quote:
-      "Delivered our baby girl at Lisie Mother and Child. The neonatal care was exemplary, rooms were pristine, and the consultants took personal care every day.",
+    quote: "Delivered our baby girl at Lisie Mother and Child. The neonatal care was exemplary, rooms were pristine, and the consultants took personal care every day.",
     department: "Obstetrics & NICU",
     location: "Ernakulam",
   },
   {
     id: "story-3",
-    initials: "TJ",
     name: "Thomas Joseph",
-    rating: 5,
-    quote:
-      "Transparent billing and prompt insurance approval without unnecessary delays. Lisie maintains the true spirit of service without commercialization.",
+    quote: "Transparent billing and prompt insurance approval without unnecessary delays. Lisie maintains the true spirit of service without commercialization.",
     department: "Nephrology",
     location: "Thrissur",
   },
   {
     id: "story-4",
-    initials: "FA",
     name: "Faisal Al-Otaibi",
-    rating: 5,
-    quote:
-      "Traveled from Muscat for knee arthroplasty. The international patient care coordinator handled our visa letter, airport pickup, and post-op follow-ups seamlessly.",
+    quote: "Traveled from Muscat for knee arthroplasty. The international patient care coordinator handled our stay and post-operative follow-ups seamlessly.",
     department: "Orthopaedics",
     location: "Muscat, Oman",
+  },
+  {
+    id: "story-5",
+    name: "Meera Nair",
+    quote: "Every question was answered with patience. From admission to discharge, the team made a difficult time feel calm and well cared for.",
+    department: "Oncology",
+    location: "Kochi",
+  },
+  {
+    id: "story-6",
+    name: "George Mathew",
+    quote: "The doctors explained every step before my procedure. I felt safe, informed, and back on my feet much sooner than I expected.",
+    department: "Gastroenterology",
+    location: "Alappuzha",
+  },
+  {
+    id: "story-7",
+    name: "Shalini Das",
+    quote: "Our family was deeply grateful for the attentive emergency care. The team moved quickly and kept us updated through every moment.",
+    department: "Emergency Medicine",
+    location: "Kozhikode",
+  },
+  {
+    id: "story-8",
+    name: "Vivek Pillai",
+    quote: "The physiotherapy team gave me confidence after surgery. Their encouragement and structured care made recovery feel achievable.",
+    department: "Rehabilitation",
+    location: "Kollam",
+  },
+  {
+    id: "story-9",
+    name: "Latha Varghese",
+    quote: "The specialist listened carefully and created a plan that truly suited me. The entire visit was organised, kind, and reassuring.",
+    department: "Endocrinology",
+    location: "Muvattupuzha",
+  },
+  {
+    id: "story-10",
+    name: "Nikhil Suresh",
+    quote: "From the first consultation to follow-up, every interaction was professional and compassionate. I would confidently recommend Lisie.",
+    department: "Neurology",
+    location: "Palakkad",
   },
 ];
 
 export default function PatientStoriesSection() {
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [activeStoryIndex, setActiveStoryIndex] = useState(1);
+
+  useEffect(() => {
+    const container = carouselRef.current;
+    if (!container) return;
+    const item = container.querySelector<HTMLElement>('[data-story-index="1"]');
+    if (!item) return;
+    const scrollLeft = item.offsetLeft - (container.clientWidth - item.clientWidth) / 2;
+    container.scrollTo({ left: Math.max(0, scrollLeft), behavior: "instant" });
+  }, []);
+
+  const scrollStories = (direction: "left" | "right") => {
+    setActiveStoryIndex((currentIndex) => {
+      const nextIndex = direction === "left"
+        ? (currentIndex - 1 + stories.length) % stories.length
+        : (currentIndex + 1) % stories.length;
+
+      const container = carouselRef.current;
+      if (container) {
+        const item = container.querySelector<HTMLElement>(`[data-story-index="${nextIndex}"]`);
+        if (item) {
+          const scrollLeft = item.offsetLeft - (container.clientWidth - item.clientWidth) / 2;
+          container.scrollTo({ left: Math.max(0, scrollLeft), behavior: "smooth" });
+        }
+      }
+
+      return nextIndex;
+    });
+  };
+
+  const selectStory = (index: number) => {
+    setActiveStoryIndex(index);
+    const container = carouselRef.current;
+    if (container) {
+      const item = container.querySelector<HTMLElement>(`[data-story-index="${index}"]`);
+      if (item) {
+        const scrollLeft = item.offsetLeft - (container.clientWidth - item.clientWidth) / 2;
+        container.scrollTo({ left: Math.max(0, scrollLeft), behavior: "smooth" });
+      }
+    }
+  };
+
   return (
-    <section
-      className="bg-white px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
-      id="testimonials"
-    >
-      <div className="w-full max-w-[1536px] mx-auto">
-        <div className="mb-10 flex items-start justify-between gap-6 sm:mb-12">
-          <div className="flex items-start gap-4 sm:gap-6">
-            <ArrowUpRight className="mt-1 h-10 w-10 shrink-0 text-[#d11f53] sm:h-12 sm:w-12" strokeWidth={1.5} />
-            <div className="font-sans">
-              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                Patient Stories
-              </span>
-              <h2 className="mt-1 max-w-2xl font-serif text-3xl font-medium leading-tight tracking-tight text-[#233f47] sm:text-4xl lg:text-5xl">
-                Words of Hope and Healing
-              </h2>
-              <p className="mt-2 max-w-xl text-sm leading-relaxed text-stone-500 sm:text-base">
-                Real experiences shared by patients and their families from across India and abroad.
-              </p>
+    <section className="overflow-hidden bg-[#f3f7fc] px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24" id="testimonials">
+      <div className="relative mx-auto max-w-[1120px]">
+        <div className="relative min-h-[320px] overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-[#f8fbff] to-[#e9f2fb] px-5 py-11 shadow-[0_22px_60px_rgba(66,100,135,0.10)] sm:min-h-[345px] sm:px-10 sm:py-12 lg:px-14">
+          <div className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full border-[28px] border-[#d11f53]/[0.05]" />
+          <div className="pointer-events-none absolute -bottom-24 -left-20 h-52 w-52 rounded-full bg-[#2378bd]/[0.05]" />
+          <Quote className="pointer-events-none absolute left-7 top-10 h-24 w-24 fill-slate-100 text-slate-100 sm:left-12 sm:top-12 sm:h-32 sm:w-32" strokeWidth={0} />
+
+          <div className="relative z-10 text-center font-sans">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#d11f53] sm:text-xs">
+              Patient Stories
+            </p>
+            <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">
+              What Our Patients Say!
+            </h2>
+            <div className="mt-3 flex justify-center gap-1" aria-hidden="true">
+              <span className="h-0.5 w-11 bg-[#d11f53]" />
+              <span className="h-0.5 w-4 bg-[#d11f53]/70" />
+              <span className="h-0.5 w-2 bg-[#d11f53]/35" />
             </div>
           </div>
-          <button
-            type="button"
-            className="mt-1 inline-flex shrink-0 items-center gap-1.5 rounded-md bg-[#d11f53] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#b81444]"
-          >
-            View all
-            <ArrowUpRight className="h-3.5 w-3.5" />
-          </button>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 font-sans sm:grid-cols-2 lg:grid-cols-4">
-          {stories.map((story) => (
-            <article
-              key={story.id}
-              className="flex min-h-[320px] flex-col rounded-[1.35rem] bg-[#29464e] p-6 text-white sm:p-7"
+        <div className="relative left-1/2 z-20 -mt-24 w-screen -translate-x-1/2 sm:-mt-28">
+          <div className="relative mx-auto max-w-[1380px] px-12 sm:px-14">
+            <button
+              type="button"
+              aria-label="Previous patient stories"
+              onClick={() => scrollStories("left")}
+              className="absolute left-0 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center transition-transform hover:scale-110 sm:h-16 sm:w-16"
             >
-              <Quote className="h-10 w-10 fill-white" strokeWidth={0} />
-              <p className="my-auto pt-8 text-sm leading-relaxed text-white sm:text-[15px]">
-                &ldquo;{story.quote}&rdquo;
-              </p>
-              <div className="mt-7 flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#d11f53] text-sm font-bold text-white">
-                  {story.name.charAt(0)}
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-white">{story.name}</h3>
-                  <p className="mt-0.5 text-xs text-white/65">
-                    {story.department} · {story.location}
+              <Image src="/images/leftarrow1.png" alt="" width={52} height={52} />
+            </button>
+
+            <div
+              ref={carouselRef}
+              className="flex snap-x snap-mandatory items-center gap-5 overflow-x-auto pb-10 pt-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-6"
+            >
+              {stories.map((story, index) => (
+                <article
+                  key={story.id}
+                  data-story-index={index}
+                  onClick={() => selectStory(index)}
+                  className={`relative flex min-h-[280px] w-[260px] shrink-0 snap-center flex-col rounded-sm bg-white p-8 text-center shadow-[0_12px_30px_rgba(54,83,112,0.13)] transition-all duration-500 cursor-pointer sm:w-[320px] sm:p-9 lg:min-h-[310px] lg:w-[420px] lg:p-10 ${
+                    index === activeStoryIndex
+                      ? "z-10 scale-[1.04] opacity-100"
+                      : "scale-[0.82] opacity-75 hover:opacity-100"
+                  }`}
+                >
+                  {index === activeStoryIndex && (
+                    <div className="flex justify-center gap-1 text-[#d11f53]" aria-label="Five star review">
+                      {Array.from({ length: 5 }).map((_, starIndex) => (
+                        <Star
+                          key={starIndex}
+                          className={`h-5 w-5 ${starIndex === 4 ? "fill-slate-300 text-slate-300" : "fill-[#d11f53]"}`}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  <p className={`leading-relaxed text-stone-600 ${index === activeStoryIndex ? "mt-8 text-sm sm:text-base" : "my-auto text-[11px]"}`}>
+                    &ldquo;{story.quote}&rdquo;
                   </p>
-                </div>
-              </div>
-            </article>
-          ))}
+                  <p className={`font-semibold text-stone-800 ${index === activeStoryIndex ? "mt-7 text-sm" : "mt-5 text-[10px]"}`}>
+                    {story.name} · {story.location}
+                  </p>
+                  {index === activeStoryIndex && (
+                    <Quote className="pointer-events-none absolute -bottom-7 right-6 h-16 w-16 fill-[#d11f53] text-[#d11f53] sm:h-20 sm:w-20" strokeWidth={0} />
+                  )}
+                </article>
+              ))}
+            </div>
+
+            <button
+              type="button"
+              aria-label="Next patient stories"
+              onClick={() => scrollStories("right")}
+              className="absolute right-0 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center transition-transform hover:scale-110 sm:h-16 sm:w-16"
+            >
+              <Image src="/images/rightarrow.png" alt="" width={52} height={52} />
+            </button>
+          </div>
         </div>
       </div>
     </section>
