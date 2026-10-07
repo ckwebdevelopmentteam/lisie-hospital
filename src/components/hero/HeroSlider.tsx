@@ -208,9 +208,11 @@ export default function HeroSlider({
               className="max-w-3xl lg:max-w-4xl text-white animate-in fade-in slide-in-from-left-4 duration-500 fill-mode-both pointer-events-auto"
             >
               {/* Main Headline: Guaranteed 2-line structure */}
-              <h1 className="text-2xl sm:text-4xl md:text-[44px] lg:text-[48px] font-extrabold tracking-tight text-white leading-[1.14] drop-shadow-lg">
-                <span className="block">{currentSlide.titleLine1}</span>
-                <span className="block mt-1 sm:mt-1.5 text-white">
+              <h1 className="text-2xl sm:text-[32px] md:text-[38px] lg:text-[42px] xl:text-[46px] font-extrabold tracking-tight text-white leading-[1.14] drop-shadow-lg">
+                <span className="block whitespace-normal md:whitespace-nowrap">
+                  {currentSlide.titleLine1}
+                </span>
+                <span className="block mt-1 sm:mt-1.5 text-white whitespace-normal md:whitespace-nowrap">
                   {currentSlide.titleLine2}
                 </span>
               </h1>
