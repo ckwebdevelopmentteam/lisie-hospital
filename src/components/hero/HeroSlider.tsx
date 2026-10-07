@@ -138,12 +138,10 @@ export default function HeroSlider({
                 backgroundPosition: "center 35%",
               }}
             />
-            {/* Dark vignette left to right for high contrast text readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/25" />
-            {/* Bottom dark gradient for the overlapping cards */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
-            {/* Soft clinical blue tint overlay */}
-            <div className="absolute inset-0 bg-[#07162c]/35 mix-blend-multiply" />
+            {/* Light, natural gradient on the left for text contrast, keeping the background bright like CIMAR */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/20 to-transparent" />
+            {/* Gentle bottom gradient for subtle card transition */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
           </div>
         );
       })}
@@ -208,7 +206,7 @@ export default function HeroSlider({
               className="max-w-3xl lg:max-w-4xl text-white animate-in fade-in slide-in-from-left-4 duration-500 fill-mode-both pointer-events-auto"
             >
               {/* Main Headline: Guaranteed 2-line structure */}
-              <h1 className="text-2xl sm:text-[32px] md:text-[38px] lg:text-[42px] xl:text-[46px] font-extrabold tracking-tight text-white leading-[1.14] drop-shadow-lg">
+              <h1 className="text-2xl sm:text-[32px] md:text-[38px] lg:text-[42px] xl:text-[46px] font-extrabold tracking-tight text-white leading-[1.14] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
                 <span className="block whitespace-normal md:whitespace-nowrap">
                   {currentSlide.titleLine1}
                 </span>
@@ -219,14 +217,14 @@ export default function HeroSlider({
 
               {/* Tagline / Descriptive Content */}
               {currentSlide.tagline && (
-                <p className="mt-3.5 sm:mt-4 text-sm sm:text-base lg:text-[17px] text-slate-200/90 leading-relaxed font-normal max-w-2xl">
+                <p className="mt-3.5 sm:mt-4 text-sm sm:text-base lg:text-[17px] text-white leading-relaxed font-medium max-w-2xl drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)]">
                   {currentSlide.tagline}
                 </p>
               )}
 
               {/* Real Timing / Stats highlight */}
               {currentSlide.timings && (
-                <div className="mt-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-xs sm:text-[13px] text-blue-200 font-medium">
+                <div className="mt-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/55 backdrop-blur-md border border-white/25 text-xs sm:text-[13px] text-white font-medium shadow-md">
                   <Clock className="w-3.5 h-3.5 text-[#67B2E4] shrink-0" />
                   <span>{currentSlide.timings}</span>
                 </div>
