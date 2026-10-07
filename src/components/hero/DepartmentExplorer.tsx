@@ -1,9 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useMemo, useRef } from "react";
 import {
   Heart,
   Brain,
@@ -14,8 +11,6 @@ import {
   Microscope,
   Baby,
   Stethoscope,
-  ChevronLeft,
-  ChevronRight,
   ChevronDown,
   ChevronUp,
   Search,
@@ -28,49 +23,7 @@ import { useModal } from "@/context/ModalContext";
 import NotchedProjectCard from "@/components/ui/NotchedProjectCard";
 
 // ==========================================
-// 1. DATA: PROMOTIONAL SHOWCASE BANNERS
-// ==========================================
-interface PromoBanner {
-  id: string;
-  title: string;
-  image: string;
-  alt: string;
-  href: string;
-}
-
-const PROMO_BANNERS: PromoBanner[] = [
-  {
-    id: "liver-transplant",
-    title: "More Than 90% Success Rate in Liver Transplant",
-    image: "/images/banners/banner-1.jpg",
-    alt: "Lisie Hospital - More Than 90% Success Rate in Liver Transplant",
-    href: "/institutes",
-  },
-  {
-    id: "heart-transplant",
-    title: "Successfully Performed 33 Heart Transplants",
-    image: "/images/banners/banner-2.jpg",
-    alt: "Lisie Heart Institute - Successfully Performed 33 Heart Transplants",
-    href: "/institutes/heart-institute",
-  },
-  {
-    id: "care-with-love",
-    title: "Care with Love - World-Class Healthcare",
-    image: "/images/banners/banner-3.jpg",
-    alt: "Lisie Hospital - Care with Love",
-    href: "/about",
-  },
-  {
-    id: "campus-panoramic",
-    title: "Lisie Hospital Main Campus Overview",
-    image: "/images/banners/banner-4.jpg",
-    alt: "Lisie Hospital Main Campus Ernakulam",
-    href: "/contact",
-  },
-];
-
-// ==========================================
-// 2. DATA: ALL 33+ CLINICAL DEPARTMENTS DIRECTORY
+// CLINICAL DEPARTMENTS DIRECTORY
 // ==========================================
 export type DepartmentCategory =
   | "all"
@@ -433,38 +386,6 @@ const ALL_DEPARTMENTS_DATA: DirectoryDepartment[] = [
 export default function DepartmentExplorer() {
   const { openModal } = useModal();
 
-  // Banner Slider state
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const slideCount = PROMO_BANNERS.length;
-
-  // Auto-play banner slider
-  useEffect(() => {
-    if (isPaused) return;
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slideCount);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isPaused, slideCount]);
-
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slideCount);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slideCount) % slideCount);
-
-  // Touch swipe support for mobile
-  const [touchStartX, setTouchStartX] = useState<number | null>(null);
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStartX(e.touches[0].clientX);
-  };
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX === null) return;
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) {
-      if (diff > 0) nextSlide();
-      else prevSlide();
-    }
-    setTouchStartX(null);
-  };
-
   // Directory filter & search state
   const [activeTab, setActiveTab] = useState<DepartmentCategory>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -516,174 +437,78 @@ export default function DepartmentExplorer() {
       <div className="w-full max-w-[1536px] mx-auto">
 
         {/* ---------------------------------------------------- */}
-        {/* SECTION HEADER                                       */}
+        {/* UNIFIED MODERN SECTION HEADER & INTEGRATED SEARCH     */}
         {/* ---------------------------------------------------- */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 sm:gap-6 pb-8 sm:pb-10 border-b border-slate-200/80">
-          <div className="max-w-3xl">
-            <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-slate-500 mb-2 sm:mb-4 block">
-              Centres of Excellence & Clinical Departments
-            </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-[#123B63] tracking-tight">
-              World-Class Medical Departments, Dedicated to Every Life.
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 sm:gap-6 pb-6 sm:pb-8 border-b border-slate-200/80">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-2 mb-2 sm:mb-2.5">
+              <span className="h-0.5 w-6 sm:w-8 bg-[#E31C59]" />
+              <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-[#E31C59]">
+                Centres of Excellence & Clinical Specialties
+              </span>
+            </div>
+
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#123B63] tracking-tight leading-[1.18]">
+              World-Class Medical Care, <br className="hidden sm:inline" />
+              <span className="text-[#E31C59]">Dedicated to Every Life.</span>
             </h2>
-            <p className="mt-2.5 sm:mt-3 text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed">
-              Experience the harmony of compassionate healthcare and surgical precision.
-              Explore our 6 flagship institutes and over 35 specialized medical departments.
+
+            <p className="mt-2 text-xs sm:text-sm lg:text-[15px] text-slate-600 leading-relaxed">
+              Explore 6 flagship institutes and 35+ specialized clinical, surgical, and diagnostic departments designed around your healing.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
-            <button
-              type="button"
-              onClick={() => openModal("appointment")}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[#E31C59] hover:bg-[#c4144b] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all active:scale-95"
-            >
-              <Calendar className="w-4 h-4" />
-              <span>Book OPD Token</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => openModal("doctor-search")}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white hover:bg-slate-50 text-[#123B63] border border-slate-200 text-xs sm:text-sm font-bold shadow-xs hover:shadow transition-all"
-            >
-              <Users className="w-4 h-4 text-[#E31C59]" />
-              <span>Find Doctor</span>
-            </button>
-          </div>
-        </div>
-
-        {/* ---------------------------------------------------- */}
-        {/* PART 1: PURE BANNER IMAGE SLIDER (ZERO CONTENT OVERLAY) */}
-        {/* ---------------------------------------------------- */}
-        <div className="mt-8 sm:mt-10">
-          <div
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            className="group relative w-full aspect-[1920/446] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-slate-200/90 bg-slate-950"
-            style={{ aspectRatio: "1920 / 446" }}
-          >
-            {/* Banner Slide with smooth crossfade */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlide}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.45, ease: "easeInOut" }}
-                className="absolute inset-0 w-full h-full"
-              >
-                <Link
-                  href={PROMO_BANNERS[currentSlide].href}
-                  className="block relative w-full h-full cursor-pointer focus:outline-none"
-                  aria-label={PROMO_BANNERS[currentSlide].title}
-                >
-                  <Image
-                    src={PROMO_BANNERS[currentSlide].image}
-                    alt={PROMO_BANNERS[currentSlide].alt}
-                    fill
-                    priority={currentSlide === 0}
-                    sizes="(max-width: 1536px) 100vw, 1536px"
-                    className="object-cover object-center select-none"
-                  />
-                </Link>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Left Nav Button */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                prevSlide();
-              }}
-              aria-label="Previous banner"
-              className="absolute left-2.5 sm:left-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/45 hover:bg-black/75 text-white shadow-lg backdrop-blur-md flex items-center justify-center transition-all opacity-80 sm:opacity-0 group-hover:opacity-100 hover:scale-105 active:scale-95 border border-white/20 cursor-pointer"
-            >
-              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
-
-            {/* Right Nav Button */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                nextSlide();
-              }}
-              aria-label="Next banner"
-              className="absolute right-2.5 sm:right-5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-black/45 hover:bg-black/75 text-white shadow-lg backdrop-blur-md flex items-center justify-center transition-all opacity-80 sm:opacity-0 group-hover:opacity-100 hover:scale-105 active:scale-95 border border-white/20 cursor-pointer"
-            >
-              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
-
-            {/* Pagination Indicators */}
-            <div className="absolute bottom-2.5 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2 px-3 py-1 sm:py-1.5 rounded-full bg-black/45 backdrop-blur-md border border-white/20">
-              {PROMO_BANNERS.map((banner, dotIdx) => (
-                <button
-                  key={banner.id}
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setCurrentSlide(dotIdx);
-                  }}
-                  aria-label={`Go to slide ${dotIdx + 1}`}
-                  className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                    dotIdx === currentSlide
-                      ? "w-5 sm:w-7 bg-[#E31C59] shadow-xs"
-                      : "w-1.5 sm:w-2 bg-white/60 hover:bg-white"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* ---------------------------------------------------- */}
-        {/* PART 2: ORGANIZED MULTI-COLUMN NOTCHED CARDS GRID   */}
-        {/* ---------------------------------------------------- */}
-        <div ref={directoryRef} className="mt-16 pt-10 border-t border-slate-200/90">
-          
-          {/* Header & Search */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-6">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#E31C59] block">
-                Clinical Departments & Specialties
-              </span>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-[#123B63]">
-                Explore Our Medical & Surgical Departments
-              </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Discover expert healthcare across 35+ specialized departments, diagnostic units, and surgical excellence centres.
-              </p>
-            </div>
-
+          {/* Right Side: Instant Search & Action Buttons */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 shrink-0 w-full lg:w-auto">
             {/* Instant Search Bar */}
-            <div className="relative w-full lg:w-80">
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <div className="relative w-full sm:w-72 lg:w-80">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search department, specialty or treatment..."
+                placeholder="Search department, specialty..."
                 aria-label="Search departments or procedures"
-                className="w-full pl-9 pr-8 py-2 text-xs bg-white border border-slate-200 rounded-lg shadow-xs focus:outline-none focus:ring-1.5 focus:ring-[#E31C59] focus:border-transparent transition-all placeholder:text-slate-400"
+                className="w-full pl-10 pr-9 py-2.5 text-xs sm:text-sm bg-white border border-slate-200 rounded-full shadow-xs focus:outline-none focus:ring-2 focus:ring-[#E31C59]/20 focus:border-[#E31C59] transition-all placeholder:text-slate-400"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-0.5 cursor-pointer"
                   aria-label="Clear search"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
               )}
             </div>
+
+            {/* Quick Action CTA Buttons */}
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => openModal("appointment")}
+                className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full bg-[#E31C59] hover:bg-[#c4144b] text-white text-xs sm:text-sm font-bold shadow-xs hover:shadow transition-all active:scale-95 cursor-pointer"
+              >
+                <Calendar className="w-3.5 h-3.5" />
+                <span>Book OPD Token</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => openModal("doctor-search")}
+                className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full bg-white hover:bg-slate-50 text-[#123B63] border border-slate-200 text-xs sm:text-sm font-bold shadow-2xs hover:shadow-xs transition-all cursor-pointer"
+              >
+                <Users className="w-3.5 h-3.5 text-[#E31C59]" />
+                <span>Find Doctor</span>
+              </button>
+            </div>
           </div>
+        </div>
+
+        {/* ---------------------------------------------------- */}
+        {/* DEPARTMENTS DIRECTORY & TABS                          */}
+        {/* ---------------------------------------------------- */}
+        <div ref={directoryRef} className="mt-6 sm:mt-8">
 
           {/* Category Tabs: Smooth horizontal swipe reel on mobile */}
           <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-6 border-b border-slate-200/80 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4 sm:mx-0 sm:px-0">
