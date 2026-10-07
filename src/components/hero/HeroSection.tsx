@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import HeroSlider from "./HeroSlider";
 import OverlappingCards from "./OverlappingCards";
 import QuickFeaturesBar from "./QuickFeaturesBar";
+import HospitalStatsBar from "./HospitalStatsBar";
 import DepartmentExplorer from "./DepartmentExplorer";
 import SpecialtyModal from "./SpecialtyModal";
 import { useModal } from "@/context/ModalContext";
@@ -29,13 +30,16 @@ export default function HeroSection() {
         campuses={LISIE_INSTITUTES}
       />
 
-      {/* 3. Quick Features & Hospital Statistics Row */}
+      {/* 3. Quick Features Bar */}
       <QuickFeaturesBar
         onOpenAppointment={() => openModal("appointment")}
         onOpenDoctorSearch={() => openModal("doctor-search")}
         onOpenOPTimings={() => openModal("op-timings")}
         onOpenEmergency={() => openModal("emergency")}
       />
+
+      {/* 4. Hospital Statistics Row */}
+      <HospitalStatsBar />
 
       <DepartmentExplorer />
 
