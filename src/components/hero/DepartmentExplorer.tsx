@@ -524,10 +524,10 @@ export default function DepartmentExplorer() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E31C59]/10 text-[#E31C59] text-xs font-bold uppercase tracking-wider mb-3">
               <span className="w-2 h-2 rounded-full bg-[#E31C59] animate-pulse" />
-              <span>Centres of Excellence & Clinical Disciplines</span>
+              <span>Centres of Excellence & Clinical Departments</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#123B63] tracking-tight">
-              World-Class Specialties, Dedicated to Every Life.
+              World-Class Medical Departments, Dedicated to Every Life.
             </h2>
             <p className="mt-3 text-base sm:text-lg text-slate-600 leading-relaxed">
               Experience the harmony of compassionate healthcare and surgical precision.
@@ -654,13 +654,13 @@ export default function DepartmentExplorer() {
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 mb-6">
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-[#E31C59] block">
-                Comprehensive Directory
+                Clinical Departments & Specialties
               </span>
               <h3 className="text-xl sm:text-2xl font-extrabold text-[#123B63]">
-                Browse All Medical Disciplines
+                Explore Our Medical & Surgical Departments
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Find specialties, sub-specialty clinics, and common treatment procedures.
+                Discover expert healthcare across 35+ specialized departments, diagnostic units, and surgical excellence centres.
               </p>
             </div>
 
@@ -671,7 +671,7 @@ export default function DepartmentExplorer() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search specialty or treatment..."
+                placeholder="Search department, specialty or treatment..."
                 aria-label="Search departments or procedures"
                 className="w-full pl-9 pr-8 py-2 text-xs bg-white border border-slate-200 rounded-lg shadow-xs focus:outline-none focus:ring-1.5 focus:ring-[#E31C59] focus:border-transparent transition-all placeholder:text-slate-400"
               />
@@ -691,9 +691,9 @@ export default function DepartmentExplorer() {
           {/* Category Tabs */}
           <div className="flex flex-wrap items-center gap-1.5 pb-3 mb-6 border-b border-slate-200/80">
             {[
-              { id: "all", label: "All Disciplines", count: counts.all },
+              { id: "all", label: "All Departments", count: counts.all },
               { id: "clinical", label: "Clinical Specialties", count: counts.clinical },
-              { id: "surgical", label: "Surgical Disciplines", count: counts.surgical },
+              { id: "surgical", label: "Surgical Specialties", count: counts.surgical },
               { id: "centers", label: "Centers of Excellence", count: counts.centers },
               { id: "diagnostics", label: "Diagnostics & Support", count: counts.diagnostics },
             ].map((tab) => {
@@ -732,7 +732,7 @@ export default function DepartmentExplorer() {
             <span>
               Showing <strong className="text-[#123B63]">{displayedDepartments.length}</strong> of{" "}
               <strong className="text-[#123B63]">{filteredDepartments.length}</strong>{" "}
-              specialties {searchQuery ? `matching "${searchQuery}"` : ""}
+              departments {searchQuery ? `matching "${searchQuery}"` : ""}
             </span>
             {searchQuery && (
               <button

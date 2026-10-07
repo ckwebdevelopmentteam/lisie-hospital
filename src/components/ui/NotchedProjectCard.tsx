@@ -52,7 +52,7 @@ export function NotchedProjectCard({
     >
       {/* Cover with Notch cutout */}
       <div className="relative">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-[24px] bg-slate-200 shadow-sm border border-slate-200/60">
+        <div className="relative aspect-[16/10] overflow-hidden rounded-[24px] bg-slate-200 border border-slate-200/60">
           <img
             src={image}
             alt={imageAlt || title}
@@ -114,7 +114,7 @@ export function NotchedProjectCard({
         {/* The Arrow Disc nested in the notch */}
         <span
           aria-hidden="true"
-          className="absolute bottom-0 right-0 z-20 flex items-center justify-center rounded-full bg-white text-[#123B63] shadow-md border border-slate-200/80 transition-all duration-300 group-hover:scale-105 group-hover:bg-[#E31C59] group-hover:text-white group-hover:border-[#E31C59]"
+          className="absolute bottom-0 right-0 z-20 flex items-center justify-center rounded-full bg-white text-[#123B63] border border-slate-200/80 transition-all duration-300 group-hover:scale-105 group-hover:bg-[#E31C59] group-hover:text-white group-hover:border-[#E31C59]"
           style={
             {
               width: DISC,
