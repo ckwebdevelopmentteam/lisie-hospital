@@ -20,9 +20,12 @@ export default function QualitySafetyMenu({ onClose }: QualitySafetyMenuProps) {
           <div className="flex items-center space-x-2.5">
             <ShieldCheck className="w-5 h-5 text-emerald-600" />
             <div>
-              <h2 className="text-sm font-bold uppercase tracking-wider text-[#123B63]">
-                Quality & Patient Safety
-              </h2>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#E31C59]" />
+                <h2 className="text-sm font-bold uppercase tracking-wider text-[#123B63]">
+                  Quality & Patient Safety
+                </h2>
+              </div>
               <p className="text-xs text-gray-500 mt-0.5">
                 NABH and NABL accredited hospital dedicated to continuous safety monitoring and patient protection.
               </p>

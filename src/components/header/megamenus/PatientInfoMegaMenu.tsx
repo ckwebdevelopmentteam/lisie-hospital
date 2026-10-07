@@ -25,9 +25,12 @@ export default function PatientInfoMegaMenu({
         {/* Top Header */}
         <div className="pb-4 border-b border-gray-100 flex items-center justify-between">
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-wider text-[#123B63]">
-              Patient Information & Services
-            </h2>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#E31C59]" />
+              <h2 className="text-sm font-bold uppercase tracking-wider text-[#123B63]">
+                Patient Information & Services
+              </h2>
+            </div>
             <p className="text-xs text-gray-500 mt-0.5">
               Everything you need to plan your outpatient visit, admission, or hospital stay.
             </p>
@@ -35,7 +38,7 @@ export default function PatientInfoMegaMenu({
           <a
             href="/patient-guide"
             onClick={onClose}
-            className="hidden sm:inline-flex items-center space-x-1 text-xs font-semibold text-[#1677B8] hover:text-[#125F94]"
+            className="hidden sm:inline-flex items-center space-x-1 text-xs font-semibold text-[#E31C59] hover:text-[#c4144b]"
           >
             <span>Complete Patient Guide</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -73,12 +76,12 @@ export default function PatientInfoMegaMenu({
                         }}
                         className={`group flex items-center justify-between py-1.5 px-2 rounded text-xs transition-colors ${
                           isBooking
-                            ? "bg-blue-50 text-[#1677B8] font-bold hover:bg-blue-100"
-                            : "text-gray-700 hover:text-[#1677B8] hover:bg-slate-50 font-medium"
+                            ? "bg-[#E31C59]/10 text-[#E31C59] font-bold hover:bg-[#E31C59]/15"
+                            : "text-gray-700 hover:text-[#E31C59] hover:bg-[#E31C59]/5 font-medium"
                         }`}
                       >
                         <span>{item.name}</span>
-                        <ChevronRight className="w-3 h-3 text-gray-300 group-hover:text-[#1677B8] group-hover:translate-x-0.5 transition-all" />
+                        <ChevronRight className="w-3 h-3 text-gray-300 group-hover:text-[#E31C59] group-hover:translate-x-0.5 transition-all" />
                       </a>
                     </li>
                   );
@@ -95,9 +98,9 @@ export default function PatientInfoMegaMenu({
               Need Help?
             </span>
             <div className="flex items-center space-x-1.5">
-              <Phone className="w-3.5 h-3.5 text-[#1677B8]" />
+              <Phone className="w-3.5 h-3.5 text-[#E31C59]" />
               <span>Information Desk:</span>
-              <a href={`tel:${HOSPITAL_CONTACTS.generalEnquiry}`} className="font-semibold text-gray-900 hover:text-[#1677B8]">
+              <a href={`tel:${HOSPITAL_CONTACTS.generalEnquiry}`} className="font-semibold text-gray-900 hover:text-[#E31C59]">
                 {HOSPITAL_CONTACTS.generalEnquiry}
               </a>
             </div>
@@ -107,7 +110,7 @@ export default function PatientInfoMegaMenu({
               <span className="font-semibold text-gray-900">{HOSPITAL_CONTACTS.patientRelations}</span>
             </div>
             <span className="text-gray-300 hidden sm:inline">•</span>
-            <a href="/contact-us" onClick={onClose} className="font-medium text-[#1677B8] hover:underline">
+            <a href="/contact-us" onClick={onClose} className="font-medium text-[#E31C59] hover:underline">
               Contact Us
             </a>
           </div>
@@ -115,7 +118,7 @@ export default function PatientInfoMegaMenu({
           <a
             href="/patient-info/patient-guide"
             onClick={onClose}
-            className="inline-flex items-center space-x-1 font-semibold text-[#1677B8] hover:text-[#125F94] transition-colors"
+            className="inline-flex items-center space-x-1 font-semibold text-[#E31C59] hover:text-[#c4144b] transition-colors"
           >
             <span>View Patient Guide</span>
             <ArrowRight className="w-3.5 h-3.5" />

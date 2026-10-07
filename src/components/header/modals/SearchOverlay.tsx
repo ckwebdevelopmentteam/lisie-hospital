@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { Search, X, ArrowRight, User, Building2, Stethoscope, Clock, ShieldCheck, BookOpen } from "lucide-react";
 import { SEARCH_INDEX } from "../data/hospitalData";
 import { SearchResultItem } from "../types";
@@ -23,11 +24,17 @@ export default function SearchOverlay({
   onOpenOPTimingsModal,
 }: SearchOverlayProps) {
   const [query, setQuery] = useState("");
+  const [mounted, setMounted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     if (isOpen) {
+      document.body.style.overflow = "hidden";
       setTimeout(() => inputRef.current?.focus(), 60);
     } else {
       setQuery("");
@@ -36,6 +43,9 @@ export default function SearchOverlay({
 
   useEffect(() => {
     if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
@@ -47,12 +57,13 @@ export default function SearchOverlay({
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
+      document.body.style.overflow = originalOverflow;
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   const popularSearches = [
     { label: "Doctors", action: () => onOpenDoctorModal?.() },
@@ -88,8 +99,13 @@ export default function SearchOverlay({
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex flex-col justify-start animate-in fade-in duration-150">
+  return createPortal(
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site Search"
+      className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-xs flex flex-col justify-start animate-in fade-in duration-150"
+    >
       {/* Search Bar Container */}
       <div
         ref={containerRef}
@@ -157,7 +173,7 @@ export default function SearchOverlay({
           {query.trim() !== "" && (
             <div className="mt-6 pt-4 border-t border-gray-200 max-h-[50vh] overflow-y-auto custom-scrollbar">
               <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                {results.length} Results for "{query}"
+                <span className="text-[#E31C59] font-bold">{results.length}</span> Results for "{query}"
               </div>
 
               {results.length > 0 ? (
@@ -243,6 +259,7 @@ export default function SearchOverlay({
 
       {/* Dimmed backdrop area clicking closes overlay */}
       <div className="flex-1 cursor-pointer" onClick={onClose} />
-    </div>
+    </div>,
+    document.body
   );
 }

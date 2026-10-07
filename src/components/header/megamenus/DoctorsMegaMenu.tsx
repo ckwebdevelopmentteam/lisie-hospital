@@ -28,9 +28,12 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
         {/* Top Search bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-gray-100">
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-wider text-[#123B63]">
-              Doctors Directory
-            </h2>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#E31C59]" />
+              <h2 className="text-sm font-bold uppercase tracking-wider text-[#123B63]">
+                Doctors Directory
+              </h2>
+            </div>
             <p className="text-xs text-gray-500 mt-0.5">
               Consult with our eminent physicians, surgeons, and healthcare specialists.
             </p>
@@ -44,7 +47,7 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search doctor name or specialty..."
               aria-label="Search doctor name or specialty"
-              className="w-full pl-8 pr-3 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#1677B8] focus:bg-white"
+              className="w-full pl-8 pr-3 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#E31C59] focus:bg-white"
             />
           </div>
         </div>
@@ -62,15 +65,15 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
                   key={spec}
                   href={`/doctors?specialty=${encodeURIComponent(spec)}`}
                   onClick={onClose}
-                  className="group flex items-center justify-between p-2 rounded hover:bg-slate-50 text-xs text-gray-700 hover:text-[#1677B8] transition-colors"
+                  className="group flex items-center justify-between p-2 rounded hover:bg-slate-50 text-xs text-gray-700 hover:text-[#E31C59] transition-colors"
                 >
                   <span className="font-medium">{spec}</span>
-                  <ChevronRight className="w-3 h-3 text-gray-300 group-hover:text-[#1677B8] group-hover:translate-x-0.5 transition-all" />
+                  <ChevronRight className="w-3 h-3 text-gray-300 group-hover:text-[#E31C59] group-hover:translate-x-0.5 transition-all" />
                 </a>
               ))}
             </div>
 
-            <div className="mt-4 p-3 bg-blue-50/60 rounded-lg border border-blue-100 text-xs text-gray-600">
+            <div className="mt-4 p-3 bg-[#E31C59]/5 rounded-lg border border-[#E31C59]/20 text-xs text-gray-600">
               <span className="font-semibold text-[#123B63] block mb-1">
                 Need help finding the right doctor?
               </span>
@@ -91,13 +94,13 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
               {filteredDoctors.slice(0, 6).map((doc) => (
                 <div
                   key={doc.name}
-                  className="p-3 border border-gray-100 hover:border-blue-200 hover:bg-blue-50/30 rounded-lg transition-colors flex items-start space-x-3 group"
+                  className="p-3 border border-gray-100 hover:border-[#E31C59]/30 hover:bg-[#E31C59]/5 rounded-lg transition-colors flex items-start space-x-3 group"
                 >
-                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 mt-0.5 text-gray-600 group-hover:bg-[#1677B8] group-hover:text-white transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center shrink-0 mt-0.5 text-gray-600 group-hover:bg-[#E31C59] group-hover:text-white transition-colors">
                     <User className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-[#123B63] group-hover:text-[#1677B8] transition-colors">
+                    <h4 className="text-xs font-bold text-[#123B63] group-hover:text-[#E31C59] transition-colors">
                       {doc.name}
                     </h4>
                     <p className="text-[11px] text-gray-500">{doc.designation}</p>
@@ -117,7 +120,7 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
             <a
               href="/doctors"
               onClick={onClose}
-              className="hover:text-[#1677B8] underline-offset-2 hover:underline font-medium"
+              className="hover:text-[#E31C59] underline-offset-2 hover:underline font-medium"
             >
               Doctor Directory
             </a>
@@ -125,7 +128,7 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
             <a
               href="/departments"
               onClick={onClose}
-              className="hover:text-[#1677B8] underline-offset-2 hover:underline font-medium"
+              className="hover:text-[#E31C59] underline-offset-2 hover:underline font-medium"
             >
               Doctors by Department
             </a>
@@ -133,7 +136,7 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
             <a
               href="/specialties"
               onClick={onClose}
-              className="hover:text-[#1677B8] underline-offset-2 hover:underline font-medium"
+              className="hover:text-[#E31C59] underline-offset-2 hover:underline font-medium"
             >
               Doctors by Specialty
             </a>
@@ -153,7 +156,7 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
             <a
               href="/doctors"
               onClick={onClose}
-              className="inline-flex items-center space-x-1 font-semibold text-white bg-[#1677B8] hover:bg-[#125F94] px-3.5 py-1.5 rounded transition-colors shadow-2xs"
+              className="inline-flex items-center space-x-1 font-semibold text-white bg-[#E31C59] hover:bg-[#c4144b] px-3.5 py-1.5 rounded transition-colors shadow-2xs"
             >
               <span>View All Doctors</span>
               <ArrowRight className="w-3.5 h-3.5" />

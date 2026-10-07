@@ -55,6 +55,73 @@ export const DIAGNOSTIC_SUPPORT_SERVICES = [
   { name: "Licensed Blood Center & Transfusion Medicine", href: "/services/blood-bank" },
 ];
 
+export interface DepartmentExplorerItem {
+  id: string;
+  name: string;
+  slug: string;
+  image: string;
+  shortDescription: string;
+  description: string;
+  href: string;
+  group: string;
+  availability?: string;
+}
+
+const EXPLORER_IMAGE_FALLBACKS = [
+  "/images/hero/card-main-hospital.jpg",
+  "/images/stitch/campus-kaloor.jpg",
+  "/images/hero/card-kochi.jpg",
+  "/images/stitch/campus-palarivattom.jpg",
+  "/images/stitch/campus-kakkanad.jpg",
+];
+
+const EXPLORER_IMAGE_OVERRIDES: Record<string, string> = {
+  Cardiology: "/images/hero/card-heart-institute.jpg",
+  "Lisie Heart Institute": "/images/hero/card-heart-institute.jpg",
+  "Medical Oncology": "/images/hero/card-cancer-centre.jpg",
+  "Comprehensive Cancer Care (Oncology)": "/images/hero/card-cancer-centre.jpg",
+};
+
+type ExplorerSourceItem = {
+  name: string;
+  href: string;
+  description?: string;
+};
+
+const explorerSources: Array<{ group: string; items: ExplorerSourceItem[] }> = [
+  { group: "Clinical specialty", items: CLINICAL_SPECIALTIES },
+  { group: "Surgical specialty", items: SURGICAL_SPECIALTIES },
+  { group: "Centre of excellence", items: SUPER_SPECIALTY_CENTERS },
+  {
+    group: "Diagnostic service",
+    items: DIAGNOSTIC_SUPPORT_SERVICES.map((service) => ({
+      ...service,
+      description: service.name,
+    })),
+  },
+];
+
+export const DEPARTMENT_EXPLORER_ITEMS: DepartmentExplorerItem[] = explorerSources.flatMap(
+  ({ group, items }) =>
+    items.map((item, index) => {
+      const slug = item.href.split("/").filter(Boolean).pop() ?? item.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      const description = item.description ?? item.name;
+      const fallbackImage = EXPLORER_IMAGE_FALLBACKS[index % EXPLORER_IMAGE_FALLBACKS.length];
+
+      return {
+        id: `${group.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${slug}`,
+        name: item.name,
+        slug,
+        image: EXPLORER_IMAGE_OVERRIDES[item.name] ?? fallbackImage,
+        shortDescription: description,
+        description,
+        href: item.href,
+        group,
+        availability: item.name.includes("Emergency") ? "24/7 service" : undefined,
+      };
+    }),
+);
+
 export const POPULAR_SPECIALTIES = [
   "Cardiology",
   "Neurology",

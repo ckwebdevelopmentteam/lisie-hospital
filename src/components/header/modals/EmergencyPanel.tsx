@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Siren, PhoneCall, AlertTriangle, MapPin, X, ShieldAlert } from "lucide-react";
 import { HOSPITAL_CONTACTS } from "../data/hospitalData";
 
@@ -11,9 +12,17 @@ interface EmergencyPanelProps {
 
 export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
@@ -25,20 +34,24 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
+      document.body.style.overflow = originalOverflow;
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/55 backdrop-blur-xs animate-in fade-in duration-150">
+  return createPortal(
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="emergency-panel-title"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-xs animate-in fade-in duration-200"
+    >
       <div
         ref={panelRef}
-        role="dialog"
-        aria-labelledby="emergency-panel-title"
-        className="w-full max-w-lg bg-white rounded-xl shadow-2xl border border-red-200 overflow-hidden"
+        className="relative w-full max-w-lg my-auto bg-white rounded-2xl shadow-2xl border border-red-200 overflow-hidden animate-in zoom-in-95 duration-150 flex flex-col max-h-[90vh]"
       >
         {/* Header */}
         <div className="p-6 bg-gradient-to-r from-[#991B1B] to-[#C5221F] text-white">
@@ -149,6 +162,7 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
