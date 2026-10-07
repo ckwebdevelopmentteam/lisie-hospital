@@ -167,11 +167,10 @@ export default function UtilityBar({
                       setLanguage("en");
                       setIsLangDropdownOpen(false);
                     }}
-                    className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 transition-colors flex items-center justify-between ${
-                      language === "en"
-                        ? "text-[#1677B8] font-bold bg-blue-50/50"
-                        : "text-gray-700"
-                    }`}
+                    className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 transition-colors flex items-center justify-between ${language === "en"
+                      ? "text-[#1677B8] font-bold bg-blue-50/50"
+                      : "text-gray-700"
+                      }`}
                   >
                     <span>English</span>
                     {language === "en" && <span className="text-[10px]">✓</span>}
@@ -186,11 +185,10 @@ export default function UtilityBar({
                       setLanguage("ml");
                       setIsLangDropdownOpen(false);
                     }}
-                    className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 transition-colors flex items-center justify-between ${
-                      language === "ml"
-                        ? "text-[#1677B8] font-bold bg-blue-50/50"
-                        : "text-gray-700"
-                    }`}
+                    className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 transition-colors flex items-center justify-between ${language === "ml"
+                      ? "text-[#1677B8] font-bold bg-blue-50/50"
+                      : "text-gray-700"
+                      }`}
                   >
                     <span>മലയാളം</span>
                     {language === "ml" && <span className="text-[10px]">✓</span>}
