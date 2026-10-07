@@ -522,10 +522,9 @@ export default function DepartmentExplorer() {
         {/* ---------------------------------------------------- */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-slate-200/80">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E31C59]/10 text-[#E31C59] text-xs font-bold uppercase tracking-wider mb-3">
-              <span className="w-2 h-2 rounded-full bg-[#E31C59] animate-pulse" />
-              <span>Centres of Excellence & Clinical Departments</span>
-            </div>
+            <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-slate-500 mb-3 sm:mb-4 block">
+              Centres of Excellence & Clinical Departments
+            </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#123B63] tracking-tight">
               World-Class Medical Departments, Dedicated to Every Life.
             </h2>
