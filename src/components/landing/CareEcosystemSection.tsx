@@ -96,7 +96,7 @@ export default function CareEcosystemSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate w-full overflow-hidden px-4 py-8 text-white sm:px-8 sm:py-12 lg:h-[85vh] lg:min-h-[580px] lg:px-12 lg:py-12"
+      className="relative isolate w-full overflow-hidden px-4 py-8 text-white sm:px-8 sm:py-12 lg:h-[90vh] lg:min-h-[580px] lg:px-12 lg:py-12"
       id="services"
     >
       <div id="specialties" className="absolute -top-12 left-0" />
