@@ -1,44 +1,519 @@
+export interface DoctorRecommendation {
+  id: string;
+  slug: string;
+  name: string;
+  designation: string;
+  qualifications: string;
+  department: string;
+  image: string;
+  experienceYears: number;
+  room: string;
+  availableSlot: string;
+  conditionMatch?: string;
+}
+
+export interface BookingConfirmation {
+  patientName: string;
+  phone: string;
+  doctorName: string;
+  department: string;
+  time: string;
+  token: string;
+  room: string;
+}
+
 export interface ChatAction {
   label: string;
   icon?: string;
-  type: "modal" | "link" | "call" | "message";
-  payload: string; // modal name (e.g. 'appointment', 'doctor-search') or URL or phone number or query
+  type: "modal" | "link" | "call" | "message" | "book_doctor" | "next_doctor" | "show_booking";
+  payload: string;
+  doctor?: DoctorRecommendation;
 }
 
 export interface BotResponse {
   text: string;
   actions?: ChatAction[];
   quickReplies?: string[];
+  doctor?: DoctorRecommendation;
+  showBookingForm?: boolean;
+  bookingTargetDoctor?: DoctorRecommendation;
+  bookingConfirmation?: BookingConfirmation;
+  isInitialGreeting?: boolean;
 }
 
-export const INITIAL_QUICK_REPLIES = [
-  "📅 Book Appointment",
-  "👨‍⚕️ Find a Doctor",
-  "🕒 OP Timings",
-  "🚨 24/7 Emergency",
-  "🏥 Specialties",
-  "📍 Location & Metro",
-  "💳 Insurance & TPA",
-  "🧪 Lab & Diagnostics",
+export interface IntroCard {
+  id: string;
+  title: string;
+  subtitle: string;
+  icon: string;
+  query: string;
+}
+
+export const INTRO_CARDS: IntroCard[] = [
+  {
+    id: "find-doctor",
+    title: "Find a Doctor",
+    subtitle: "Search by specialty or name",
+    icon: "Stethoscope",
+    query: "Find a Doctor",
+  },
+  {
+    id: "book-appointment",
+    title: "Book an Appointment",
+    subtitle: "Reserve OPD slot & token",
+    icon: "Calendar",
+    query: "Book an Appointment",
+  },
+  {
+    id: "find-department",
+    title: "Find a Department",
+    subtitle: "Explore 35+ departments",
+    icon: "Building2",
+    query: "Find a Department",
+  },
+  {
+    id: "describe-problem",
+    title: "Describe a Problem",
+    subtitle: "Tell us symptoms like fever",
+    icon: "MessageSquareHeart",
+    query: "Describe a Problem",
+  },
 ];
+
+export const INITIAL_QUICK_REPLIES = [
+  "Find a Doctor",
+  "Book an Appointment",
+  "Find a Department",
+  "Describe a Problem",
+];
+
+// Curated list of doctors for interactive recommendations
+export const RECOMMENDED_DOCTORS: Record<string, DoctorRecommendation[]> = {
+  fever: [
+    {
+      id: "abraham-mathew",
+      slug: "abraham-mathew",
+      name: "Dr. Abraham Mathew",
+      designation: "Senior Consultant Physician & Diabetologist",
+      qualifications: "MD (General Medicine), FRCP (Glasg)",
+      department: "General Medicine",
+      image: "/images/doctors/doctor-senior-male.jpg",
+      experienceYears: 31,
+      room: "General Medicine OPD, Level 1, Room 1",
+      availableSlot: "Today at 06:00 PM",
+      conditionMatch: "Fever & Internal Medicine",
+    },
+    {
+      id: "geetha-k",
+      slug: "geetha-k",
+      name: "Dr. Geetha K.",
+      designation: "Senior Consultant Internal Medicine",
+      qualifications: "MD, DNB (General Medicine), FICP",
+      department: "General Medicine",
+      image: "/images/doctors/doctor-female-physician.jpg",
+      experienceYears: 24,
+      room: "General Medicine OPD, Level 1, Room 3",
+      availableSlot: "Today at 06:30 PM",
+      conditionMatch: "Infectious Diseases & Fevers",
+    },
+  ],
+  heart: [
+    {
+      id: "jacob-joseph",
+      slug: "jacob-joseph",
+      name: "Dr. Jacob Joseph",
+      designation: "Chief Interventional Cardiologist",
+      qualifications: "MD, DM (Cardiology), FACC",
+      department: "Cardiology",
+      image: "/images/doctors/doctor-cardiac-surgeon.jpg",
+      experienceYears: 28,
+      room: "Lisie Heart Institute, Level 2, Room 12",
+      availableSlot: "Today at 05:30 PM",
+      conditionMatch: "Chest Pain & Heart Care",
+    },
+    {
+      id: "ronney-thomas",
+      slug: "ronney-thomas",
+      name: "Dr. Ronney Thomas",
+      designation: "Senior Consultant Cardiologist",
+      qualifications: "MD, DM (Cardiology), FSCAI",
+      department: "Cardiology",
+      image: "/images/doctors/doctor-specialist-male.jpg",
+      experienceYears: 19,
+      room: "Lisie Heart Institute, Level 2, Room 14",
+      availableSlot: "Today at 06:00 PM",
+      conditionMatch: "Cardiology",
+    },
+  ],
+  neuro: [
+    {
+      id: "mathew-thomas",
+      slug: "mathew-thomas",
+      name: "Dr. Mathew Thomas",
+      designation: "Chief Neurosurgeon & Spine Specialist",
+      qualifications: "MCh (Neurosurgery), DNB, FINR",
+      department: "Neurosciences",
+      image: "/images/doctors/doctor-specialist-male.jpg",
+      experienceYears: 22,
+      room: "Neurosciences Centre, Level 3, Room 5",
+      availableSlot: "Today at 05:00 PM",
+      conditionMatch: "Headache & Neurological Issues",
+    },
+  ],
+  ortho: [
+    {
+      id: "thomas-mathew",
+      slug: "thomas-mathew",
+      name: "Dr. Thomas Mathew",
+      designation: "Senior Consultant Orthopaedic Surgeon",
+      qualifications: "MS (Ortho), DNB, MCh (Ortho UK)",
+      department: "Orthopaedics",
+      image: "/images/doctors/doctor-specialist-male.jpg",
+      experienceYears: 26,
+      room: "Orthopaedics OPD, Level 2, Room 8",
+      availableSlot: "Today at 06:00 PM",
+      conditionMatch: "Bone, Knee & Joint Pain",
+    },
+  ],
+  child: [
+    {
+      id: "suresh-kumar-p",
+      slug: "suresh-kumar-p",
+      name: "Dr. Suresh Kumar P.",
+      designation: "Senior Consultant Paediatrician",
+      qualifications: "MD (Paediatrics), DCH, FIAP",
+      department: "Paediatrics",
+      image: "/images/doctors/doctor-pediatrician.jpg",
+      experienceYears: 25,
+      room: "Paediatrics OPD, Level 1, Room 10",
+      availableSlot: "Today at 05:00 PM",
+      conditionMatch: "Child Health & Paediatrics",
+    },
+  ],
+};
+
+// Global index tracking to alternate doctors when "Find Another Doctor" is clicked
+let currentDoctorIndex = 0;
 
 export function getBotResponse(userQuery: string): BotResponse {
   const query = userQuery.toLowerCase().trim();
 
-  // 1. Emergency & Urgent Care
+  // ========================================================
+  // 1. FEVER & SYMPTOM SEARCH (User says "fever" during demo)
+  // ========================================================
+  if (
+    query.includes("fever") ||
+    query.includes("temperature") ||
+    query.includes("chills") ||
+    query.includes("pyrexia") ||
+    query.includes("body hot")
+  ) {
+    currentDoctorIndex = 0;
+    const doctor = RECOMMENDED_DOCTORS.fever[0];
+    return {
+      text: `🌡️ **You have a fever?**\n\nHere is a doctor recommended from our **General Medicine** department to diagnose and treat your condition:`,
+      doctor,
+      actions: [
+        {
+          label: "📅 Book Appointment",
+          type: "show_booking",
+          payload: "abraham-mathew",
+          doctor,
+        },
+        {
+          label: "🔄 Find Another Doctor",
+          type: "next_doctor",
+          payload: "fever:1",
+        },
+        {
+          label: "👨‍⚕️ View Doctor Profile",
+          type: "link",
+          payload: `/doctor/${doctor.slug}`,
+        },
+      ],
+      quickReplies: ["📅 Book Appointment", "🔄 Find Another Doctor", "🕒 OP Timings"],
+    };
+  }
+
+  // ========================================================
+  // 2. FIND ANOTHER DOCTOR (Toggles to Dr. Geetha K. or next doctor)
+  // ========================================================
+  if (
+    query.includes("another doctor") ||
+    query.includes("next doctor") ||
+    query.includes("different doctor") ||
+    query.startsWith("next_doctor")
+  ) {
+    currentDoctorIndex = currentDoctorIndex === 0 ? 1 : 0;
+    const doctor = RECOMMENDED_DOCTORS.fever[currentDoctorIndex];
+    return {
+      text: `👨‍⚕️ **Here is another senior specialist from General Medicine:**`,
+      doctor,
+      actions: [
+        {
+          label: "📅 Book Appointment",
+          type: "show_booking",
+          payload: doctor.id,
+          doctor,
+        },
+        {
+          label: "🔄 Find Another Doctor",
+          type: "next_doctor",
+          payload: `fever:${currentDoctorIndex === 0 ? 1 : 0}`,
+        },
+        {
+          label: "👨‍⚕️ View Doctor Profile",
+          type: "link",
+          payload: `/doctor/${doctor.slug}`,
+        },
+      ],
+      quickReplies: ["📅 Book Appointment", "🔄 Find Another Doctor", "🕒 OP Timings"],
+    };
+  }
+
+  // ========================================================
+  // 3. DESCRIBE A PROBLEM / SYMPTOM INTAKE
+  // ========================================================
+  if (
+    query.includes("describe a problem") ||
+    query.includes("describe problem") ||
+    query.includes("problem") ||
+    query.includes("symptom") ||
+    query.includes("sick") ||
+    query.includes("not feeling well")
+  ) {
+    return {
+      text: `🩺 **Please describe your symptom or health issue:**\n\nYou can type your symptom in the chat (for example: **fever**, **cough**, **chest pain**, **headache**, **knee pain**) or choose a common symptom below:`,
+      actions: [
+        { label: "🤒 Fever & Chills", type: "message", payload: "I have a fever" },
+        { label: "❤️ Chest Pain", type: "message", payload: "I have chest pain" },
+        { label: "🧠 Severe Headache", type: "message", payload: "Severe headache" },
+        { label: "🦴 Joint & Knee Pain", type: "message", payload: "Knee and joint pain" },
+        { label: "👶 Child Health", type: "message", payload: "Child health issue" },
+      ],
+      quickReplies: [
+        "🤒 Fever & Chills",
+        "❤️ Chest Pain",
+        "🧠 Headache",
+        "🦴 Joint Pain",
+        "👶 Child Health",
+      ],
+    };
+  }
+
+  // ========================================================
+  // 4. FIND A DOCTOR (Specialty Selection)
+  // ========================================================
+  if (
+    query.includes("find a doctor") ||
+    query.includes("find doctor") ||
+    query.includes("search doctor") ||
+    query.includes("specialist")
+  ) {
+    return {
+      text: `👨‍⚕️ **Which specialty or doctor are you looking for?**\n\nSelect a clinical department below or type the doctor's name or symptom (e.g. *fever*, *cardiology*):`,
+      actions: [
+        { label: "🤒 General Medicine (Fever/Cold)", type: "message", payload: "fever" },
+        { label: "❤️ Cardiology (Heart)", type: "message", payload: "Cardiology" },
+        { label: "🧠 Neurosciences (Brain & Spine)", type: "message", payload: "Neurology" },
+        { label: "🦴 Orthopaedics (Bones & Joints)", type: "message", payload: "Orthopaedics" },
+        { label: "👶 Paediatrics (Child Care)", type: "message", payload: "Paediatrics" },
+      ],
+      quickReplies: [
+        "🤒 General Medicine (Fever)",
+        "❤️ Cardiology",
+        "🧠 Neurosciences",
+        "🦴 Orthopaedics",
+      ],
+    };
+  }
+
+  // ========================================================
+  // 5. FIND A DEPARTMENT
+  // ========================================================
+  if (
+    query.includes("find a department") ||
+    query.includes("find department") ||
+    query.includes("department") ||
+    query.includes("specialt")
+  ) {
+    return {
+      text: `🏥 **Centers of Clinical Excellence at Lisie Hospital:**\n\nChoose a department to view specialists, treatments, and outpatient timings:`,
+      actions: [
+        { label: "🩺 General Medicine", type: "message", payload: "fever" },
+        { label: "❤️ Lisie Heart Institute", type: "message", payload: "Cardiology" },
+        { label: "🧠 Neurosciences & Spine", type: "message", payload: "Neurology" },
+        { label: "🦴 Bone & Joint Care", type: "message", payload: "Orthopaedics" },
+        { label: "🎗️ Oncology (Cancer Care)", type: "modal", payload: "doctor-search" },
+        { label: "🚨 24/7 Emergency", type: "modal", payload: "emergency" },
+      ],
+      quickReplies: [
+        "🩺 General Medicine",
+        "❤️ Heart Institute",
+        "🧠 Neurosciences",
+        "🦴 Orthopaedics",
+      ],
+    };
+  }
+
+  // ========================================================
+  // 6. BOOK AN APPOINTMENT (Opens inline booking form)
+  // ========================================================
+  if (
+    query.includes("book an appointment") ||
+    query.includes("book appointment") ||
+    query.includes("book op") ||
+    query === "book" ||
+    query.startsWith("book_doctor")
+  ) {
+    const doctor = RECOMMENDED_DOCTORS.fever[0];
+    return {
+      text: `📅 **Book an Outpatient Appointment:**\n\nPlease fill in the quick details below to reserve your OPD token and confirmed time slot:`,
+      showBookingForm: true,
+      bookingTargetDoctor: doctor,
+      actions: [
+        { label: "👨‍⚕️ Search Other Doctors", type: "modal", payload: "doctor-search" },
+        { label: "🕒 Check OP Timings", type: "modal", payload: "op-timings" },
+      ],
+      quickReplies: ["🕒 OP Timings", "👨‍⚕️ Find a Doctor", "💳 Insurance & TPA"],
+    };
+  }
+
+  // ========================================================
+  // 7. CHEST PAIN & CARDIOLOGY
+  // ========================================================
+  if (
+    query.includes("chest pain") ||
+    query.includes("heart") ||
+    query.includes("cardio") ||
+    query.includes("palpitation")
+  ) {
+    const doctor = RECOMMENDED_DOCTORS.heart[0];
+    return {
+      text: `❤️ **Cardiac Care Recommendation:**\n\nFor chest discomfort or cardiac concerns, we recommend our **Lisie Heart Institute** specialists:`,
+      doctor,
+      actions: [
+        {
+          label: "📅 Book Cardiac Consultation",
+          type: "show_booking",
+          payload: doctor.id,
+          doctor,
+        },
+        {
+          label: "📞 Emergency Helpline (+91 9895 756 164)",
+          type: "call",
+          payload: "+919895756164",
+        },
+        {
+          label: "👨‍⚕️ View Doctor Profile",
+          type: "link",
+          payload: `/doctor/${doctor.slug}`,
+        },
+      ],
+      quickReplies: ["📅 Book Appointment", "🚨 Emergency Line", "🕒 OP Timings"],
+    };
+  }
+
+  // ========================================================
+  // 8. HEADACHE & NEUROLOGY
+  // ========================================================
+  if (
+    query.includes("headache") ||
+    query.includes("migraine") ||
+    query.includes("brain") ||
+    query.includes("neuro") ||
+    query.includes("spine")
+  ) {
+    const doctor = RECOMMENDED_DOCTORS.neuro[0];
+    return {
+      text: `🧠 **Neurosciences Recommendation:**\n\nFor persistent headaches, spine pain, or neurological symptoms, we recommend:`,
+      doctor,
+      actions: [
+        {
+          label: "📅 Book Neuro Consultation",
+          type: "show_booking",
+          payload: doctor.id,
+          doctor,
+        },
+        {
+          label: "👨‍⚕️ View Doctor Profile",
+          type: "link",
+          payload: `/doctor/${doctor.slug}`,
+        },
+      ],
+      quickReplies: ["📅 Book Appointment", "🕒 OP Timings", "👨‍⚕️ Find Doctor"],
+    };
+  }
+
+  // ========================================================
+  // 9. JOINT & KNEE PAIN (ORTHOPAEDICS)
+  // ========================================================
+  if (
+    query.includes("joint") ||
+    query.includes("knee") ||
+    query.includes("bone") ||
+    query.includes("ortho") ||
+    query.includes("fracture")
+  ) {
+    const doctor = RECOMMENDED_DOCTORS.ortho[0];
+    return {
+      text: `🦴 **Orthopaedics & Joint Care Recommendation:**\n\nFor joint pain, knee stiffness, or bone injuries, we recommend:`,
+      doctor,
+      actions: [
+        {
+          label: "📅 Book Ortho Consultation",
+          type: "show_booking",
+          payload: doctor.id,
+          doctor,
+        },
+        {
+          label: "👨‍⚕️ View Doctor Profile",
+          type: "link",
+          payload: `/doctor/${doctor.slug}`,
+        },
+      ],
+      quickReplies: ["📅 Book Appointment", "🕒 OP Timings", "👨‍⚕️ Find Doctor"],
+    };
+  }
+
+  // ========================================================
+  // 10. CHILD & PAEDIATRICS
+  // ========================================================
+  if (query.includes("child") || query.includes("baby") || query.includes("pediatric") || query.includes("paediatric")) {
+    const doctor = RECOMMENDED_DOCTORS.child[0];
+    return {
+      text: `👶 **Paediatrics & Child Health Care:**\n\nFor paediatric consultations and infant care, we recommend:`,
+      doctor,
+      actions: [
+        {
+          label: "📅 Book Paediatric Slot",
+          type: "show_booking",
+          payload: doctor.id,
+          doctor,
+        },
+        {
+          label: "👨‍⚕️ View Doctor Profile",
+          type: "link",
+          payload: `/doctor/${doctor.slug}`,
+        },
+      ],
+      quickReplies: ["📅 Book Appointment", "🕒 OP Timings", "👨‍⚕️ Find Doctor"],
+    };
+  }
+
+  // ========================================================
+  // 11. EMERGENCY & CASUALTY
+  // ========================================================
   if (
     query.includes("emergency") ||
     query.includes("ambulance") ||
     query.includes("casualty") ||
     query.includes("trauma") ||
     query.includes("urgent") ||
-    query.includes("accident") ||
-    query.includes("chest pain") ||
-    query.includes("stroke") ||
-    query.includes("heart attack")
+    query.includes("stroke")
   ) {
     return {
-      text: "🚨 **24/7 Emergency & Trauma Helpline:**\n\nFor immediate emergency assistance, contact our Emergency Care team:\n\n• **Emergency Direct Line:** +91 9895 756 164\n• **Ambulance Service:** 0484 2402044\n• **Location:** Ground Floor, Lisie Hospital, Kaloor, Kochi\n\nOur Level-1 Emergency Department is equipped with specialized resuscitation bays, advanced life-support ambulances, and round-the-clock emergency physicians and trauma surgeons.",
+      text: `🚨 **24/7 Emergency & Trauma Helpline:**\n\nFor immediate emergency assistance, contact our Emergency Care team:\n\n• **Emergency Direct Line:** +91 9895 756 164\n• **Ambulance Service:** 0484 2402044\n• **Location:** Ground Floor, Lisie Hospital, Kaloor, Kochi\n\nOur Level-1 Emergency Department is equipped with specialized resuscitation bays, advanced life-support ambulances, and round-the-clock emergency physicians.`,
       actions: [
         { label: "📞 Call Emergency (+91 9895 756 164)", type: "call", payload: "+919895756164" },
         { label: "🚑 Call Ambulance (0484 2402044)", type: "call", payload: "04842402044" },
@@ -48,190 +523,40 @@ export function getBotResponse(userQuery: string): BotResponse {
     };
   }
 
-  // 2. Appointments & Consultations
-  if (
-    query.includes("appointment") ||
-    query.includes("book") ||
-    query.includes("consult") ||
-    query.includes("token") ||
-    query.includes("schedule") ||
-    query.includes("register")
-  ) {
-    return {
-      text: "📅 **Doctor Appointment Booking:**\n\nYou can book appointments at Lisie Hospital through multiple convenient options:\n\n1. **Online Instant Booking:** Click below to open our interactive booking portal.\n2. **Telephone Booking:** Call **0484 2401141** or **0484 2402044** (Mon–Sat, 7:00 AM – 7:00 PM).\n3. **Hospital Counter:** Registration counters open daily at 7:00 AM on the Ground Floor.\n\n*Would you like to open the booking form right now?*",
-      actions: [
-        { label: "📅 Book Appointment Now", type: "modal", payload: "appointment" },
-        { label: "👨‍⚕️ Search Doctors First", type: "modal", payload: "doctor-search" },
-        { label: "🕒 Check OP Timings", type: "modal", payload: "op-timings" },
-        { label: "📞 Call Desk (0484 2401141)", type: "call", payload: "04842401141" },
-      ],
-      quickReplies: ["🕒 OP Timings", "👨‍⚕️ Find a Doctor", "💳 Insurance & TPA"],
-    };
-  }
-
-  // 3. OP Timings & Doctor Schedule
+  // ========================================================
+  // 12. OP TIMINGS
+  // ========================================================
   if (
     query.includes("timing") ||
     query.includes("timings") ||
     query.includes("op timing") ||
     query.includes("opd") ||
-    query.includes("working hour") ||
-    query.includes("open") ||
-    query.includes("close")
+    query.includes("working hour")
   ) {
     return {
-      text: "🕒 **Outpatient (OP) Timings:**\n\n• **Morning Session:** Monday to Saturday: 8:00 AM – 1:00 PM\n• **Evening Session:** Monday to Saturday: 3:00 PM – 5:00 PM\n• **Registration Counters:** Open from 7:00 AM onwards\n• **Emergency & Trauma:** Open 24 Hours, 365 Days\n• **Pharmacy & Clinical Lab:** Open 24/7\n\n*Note: Timings for super-specialty consultants may vary based on operative schedules.*",
+      text: `🕒 **Outpatient (OP) Timings:**\n\n• **Morning Session:** Monday to Saturday: 8:00 AM – 1:00 PM\n• **Evening Session:** Monday to Saturday: 3:00 PM – 5:00 PM\n• **Registration Counters:** Open from 7:00 AM onwards\n• **Emergency & Trauma:** Open 24 Hours, 365 Days\n• **Pharmacy & Clinical Lab:** Open 24/7`,
       actions: [
         { label: "🕒 View Detailed OP Timings", type: "modal", payload: "op-timings" },
-        { label: "📅 Book Appointment", type: "modal", payload: "appointment" },
-        { label: "👨‍⚕️ View Doctor Schedule", type: "modal", payload: "doctor-search" },
+        { label: "📅 Book Appointment", type: "show_booking", payload: "abraham-mathew" },
+        { label: "👨‍⚕️ Search Doctors", type: "modal", payload: "doctor-search" },
       ],
       quickReplies: ["📅 Book Appointment", "👨‍⚕️ Find a Doctor", "📍 Visiting Hours"],
     };
   }
 
-  // 4. Visiting Hours
-  if (
-    query.includes("visiting") ||
-    query.includes("visit hour") ||
-    query.includes("visitor") ||
-    query.includes("see patient")
-  ) {
-    return {
-      text: "🕒 **Patient Visiting Hours:**\n\n• **General Wards & Private Rooms:**\n  - Evening: 4:30 PM – 7:00 PM (Daily)\n• **Intensive Care Units (ICUs / CCU / CICU):**\n  - Morning: 11:00 AM – 12:00 PM\n  - Evening: 5:00 PM – 6:00 PM\n\n*Please note:* Only one visitor per patient is allowed in the ICUs at a time to ensure infection control and patient rest.",
-      actions: [
-        { label: "📍 Hospital Directions", type: "modal", payload: "patient-help" },
-        { label: "📞 Reception Desk", type: "call", payload: "04842402044" },
-      ],
-      quickReplies: ["📅 Book Appointment", "🕒 OP Timings", "📍 Location & Metro"],
-    };
-  }
-
-  // 5. Doctors & Specialists
-  if (
-    query.includes("doctor") ||
-    query.includes("physician") ||
-    query.includes("surgeon") ||
-    query.includes("specialist") ||
-    query.includes("consultant")
-  ) {
-    return {
-      text: "👨‍⚕️ **Renowned Specialists at Lisie Hospital:**\n\nWe have over 150+ senior consultants and surgeons across 35+ departments:\n\n• **Cardiology:** Dr. Jacob Joseph, Dr. Ronney Thomas\n• **Neurosurgery & Spine:** Dr. Mathew Thomas\n• **Medical Oncology:** Dr. George K. Andrews\n• **Obstetrics & Gynaecology:** Dr. Mary Varghese\n• **Paediatrics & Neonatology:** Dr. Suresh Kumar P.\n• **General Medicine:** Dr. Abraham Mathew\n\nYou can search for doctors by specialty, name, or qualification below.",
-      actions: [
-        { label: "🔍 Search All Doctors", type: "modal", payload: "doctor-search" },
-        { label: "📅 Book an Appointment", type: "modal", payload: "appointment" },
-      ],
-      quickReplies: ["❤️ Cardiology", "🎗️ Cancer Care", "🧠 Neurosciences", "🦴 Orthopaedics"],
-    };
-  }
-
-  // 6. Cardiology & Lisie Heart Institute
-  if (
-    query.includes("heart") ||
-    query.includes("cardio") ||
-    query.includes("cardiac") ||
-    query.includes("ecg") ||
-    query.includes("angio") ||
-    query.includes("bypass")
-  ) {
-    return {
-      text: "❤️ **Lisie Heart Institute:**\n\nOne of South India's premier cardiac centers with state-of-the-art cath labs and pioneering heart care:\n\n• Advanced Interventional Cardiology (Angiography, Angioplasty, TAVI)\n• Cardiothoracic & Vascular Surgery (Adult & Paediatric Open Heart, CABG)\n• Heart Failure & Heart Transplant Programme\n• 24/7 Dedicated Cardiac Emergency & Intensive Care\n\n**Key Doctors:** Dr. Jacob Joseph, Dr. Ronney Thomas",
-      actions: [
-        { label: "📅 Book Cardiac Consultation", type: "modal", payload: "appointment" },
-        { label: "👨‍⚕️ View Cardiologists", type: "modal", payload: "doctor-search" },
-      ],
-      quickReplies: ["🕒 OP Timings", "🚨 Emergency Line", "📅 Book Appointment"],
-    };
-  }
-
-  // 7. Cancer / Oncology
-  if (
-    query.includes("cancer") ||
-    query.includes("oncol") ||
-    query.includes("chemo") ||
-    query.includes("tumor") ||
-    query.includes("radiation")
-  ) {
-    return {
-      text: "🎗️ **Comprehensive Cancer Care at Lisie:**\n\nOur Cancer Centre provides compassionate, multidisciplinary oncology services:\n\n• **Medical Oncology:** Targeted chemotherapy, immunotherapy, precision regimens.\n• **Surgical Oncology:** Organ-preserving and minimally invasive cancer surgeries.\n• **Tumor Board:** Multi-specialist case discussions for personalized treatment plans.\n• **Daycare Chemotherapy Unit & Cancer Screening**\n\n**Lead Oncologist:** Dr. George K. Andrews",
-      actions: [
-        { label: "📅 Book Oncology Appointment", type: "modal", payload: "appointment" },
-        { label: "🔍 View Oncology Team", type: "modal", payload: "doctor-search" },
-      ],
-      quickReplies: ["📅 Book Appointment", "🕒 OP Timings", "💳 Insurance & TPA"],
-    };
-  }
-
-  // 8. Neurosciences & Spine
-  if (
-    query.includes("neuro") ||
-    query.includes("brain") ||
-    query.includes("spine") ||
-    query.includes("stroke") ||
-    query.includes("paralysis") ||
-    query.includes("neurology")
-  ) {
-    return {
-      text: "🧠 **Lisie Institute of Neurosciences & Spine:**\n\nExpert neurological care for acute and chronic conditions:\n\n• Microscopic Brain & Spine Surgery\n• Rapid Intervention Acute Stroke Unit (24/7 Thrombolysis)\n• Epilepsy, Parkinson's & Movement Disorder Clinic\n• Dedicated Neuro-Intensive Care Unit (Neuro-ICU)\n\n**Chief Neurosurgeon:** Dr. Mathew Thomas",
-      actions: [
-        { label: "📅 Book Neuro Consultation", type: "modal", payload: "appointment" },
-        { label: "👨‍⚕️ Search Specialists", type: "modal", payload: "doctor-search" },
-      ],
-      quickReplies: ["📅 Book Appointment", "🕒 OP Timings", "🚨 Emergency Line"],
-    };
-  }
-
-  // 9. Nephrology & Kidney Transplant
-  if (
-    query.includes("kidney") ||
-    query.includes("nephro") ||
-    query.includes("dialysis") ||
-    query.includes("transplant") ||
-    query.includes("urology") ||
-    query.includes("stone")
-  ) {
-    return {
-      text: "💧 **Nephrology & Renal Transplant Center:**\n\n• NABH accredited kidney care and renal transplantation programme\n• State-of-the-art Dialysis Center operating around the clock\n• Laser Endourology & Kidney Stone Management\n• Paediatric and adult nephrology services",
-      actions: [
-        { label: "📅 Book Nephrology Visit", type: "modal", payload: "appointment" },
-        { label: "🔍 View Specialists", type: "modal", payload: "doctor-search" },
-      ],
-      quickReplies: ["📅 Book Appointment", "🕒 OP Timings", "💳 Insurance & TPA"],
-    };
-  }
-
-  // 10. Orthopaedics & Joint Replacement
-  if (
-    query.includes("ortho") ||
-    query.includes("bone") ||
-    query.includes("joint") ||
-    query.includes("knee") ||
-    query.includes("fracture") ||
-    query.includes("hip")
-  ) {
-    return {
-      text: "🦴 **Center for Bone & Joint Surgery:**\n\n• Computer-navigated & Robotic Knee & Hip Replacement\n• Arthroscopy & Sports Medicine (ACL/Ligament reconstruction)\n• 24/7 Complex Trauma & Polytrauma Care\n• Paediatric Orthopaedics & Spine Surgery",
-      actions: [
-        { label: "📅 Book Orthopaedic Appointment", type: "modal", payload: "appointment" },
-        { label: "👨‍⚕️ Find Orthopaedic Doctors", type: "modal", payload: "doctor-search" },
-      ],
-      quickReplies: ["📅 Book Appointment", "🕒 OP Timings", "🧪 Lab & Scans"],
-    };
-  }
-
-  // 11. Location, Address & Metro
+  // ========================================================
+  // 13. LOCATION & ADDRESS
+  // ========================================================
   if (
     query.includes("location") ||
     query.includes("address") ||
     query.includes("where") ||
     query.includes("reach") ||
     query.includes("metro") ||
-    query.includes("kaloor") ||
-    query.includes("direction") ||
-    query.includes("map")
+    query.includes("kaloor")
   ) {
     return {
-      text: "📍 **Hospital Location & Accessibility:**\n\n• **Address:** Lisie Hospital, Lisie Hospital Road, Kaloor, Kochi, Ernakulam, Kerala - 682017\n• **Metro Station:** Town Hall Metro Station (Just 200m walking distance)\n• **Railway Stations:**\n  - Ernakulam Town (North) Station: ~1.2 km\n  - Ernakulam Junction (South) Station: ~3.5 km\n• **Airport:** Cochin International Airport (COK): ~27 km\n• **Parking:** Multi-level and visitor car parking available within hospital premises.",
+      text: `📍 **Hospital Location & Accessibility:**\n\n• **Address:** Lisie Hospital, Lisie Hospital Road, Kaloor, Kochi, Kerala - 682017\n• **Metro Station:** Town Hall Metro Station (Just 200m walking distance)\n• **Railway Stations:** Ernakulam Town (North) ~1.2 km, Ernakulam Junction ~3.5 km\n• **Airport:** Cochin International Airport (COK): ~27 km\n• **Parking:** Multi-level and visitor car parking available within hospital premises.`,
       actions: [
         {
           label: "🗺️ Open in Google Maps",
@@ -244,21 +569,19 @@ export function getBotResponse(userQuery: string): BotResponse {
     };
   }
 
-  // 12. Insurance & Cashless / TPA
+  // ========================================================
+  // 14. INSURANCE & TPA
+  // ========================================================
   if (
     query.includes("insurance") ||
     query.includes("tpa") ||
     query.includes("cashless") ||
     query.includes("mediclaim") ||
-    query.includes("claim") ||
-    query.includes("karunya") ||
     query.includes("ayushman") ||
-    query.includes("pmjay") ||
-    query.includes("echs") ||
-    query.includes("cghs")
+    query.includes("karunya")
   ) {
     return {
-      text: "💳 **Insurance & Cashless Hospitalization (TPA Desk):**\n\nLisie Hospital is empanelled with all major private and public insurance providers:\n\n• **Private TPAs:** Star Health, Medi Assist, ICICI Lombard, Vidal Health, MDIndia, Heritage, Paramount, etc.\n• **Government Schemes:** Ayushman Bharat (PM-JAY), Karunya Health Scheme (KASP), ECHS, CGHS, and government pensioner schemes.\n• **Insurance Helpdesk:** Located at the Main Admission Lounge (Ground Floor).\n• **Contact TPA Desk:** 0484 2402044 Ext. 2150",
+      text: `💳 **Insurance & Cashless Hospitalization (TPA Desk):**\n\nLisie Hospital is empanelled with all major private and public insurance providers:\n\n• **Private TPAs:** Star Health, Medi Assist, ICICI Lombard, Vidal Health, MDIndia, Paramount.\n• **Government Schemes:** Ayushman Bharat (PM-JAY), Karunya Health Scheme (KASP), ECHS, CGHS.\n• **TPA Desk:** Located at Main Admission Lounge (Ground Floor).\n• **Contact TPA Desk:** 0484 2402044 Ext. 2150`,
       actions: [
         { label: "ℹ️ Patient Help & Billing", type: "modal", payload: "patient-help" },
         { label: "📞 Call TPA Desk", type: "call", payload: "04842402044" },
@@ -267,85 +590,9 @@ export function getBotResponse(userQuery: string): BotResponse {
     };
   }
 
-  // 13. Lab, Pharmacy, Diagnostics
-  if (
-    query.includes("lab") ||
-    query.includes("test") ||
-    query.includes("blood") ||
-    query.includes("mri") ||
-    query.includes("ct scan") ||
-    query.includes("x-ray") ||
-    query.includes("ultrasound") ||
-    query.includes("pharmacy") ||
-    query.includes("medicine")
-  ) {
-    return {
-      text: "🧪 **Diagnostic & Support Services (24/7):**\n\n• **NABL Clinical Laboratory:** 24/7 high-precision automated pathology, biochemistry & microbiology.\n• **Radiology & Imaging:** 128-Slice CT, 1.5 Tesla MRI, 3D/4D Ultrasound, Digital X-Ray, Mammography.\n• **24/7 In-House Pharmacy:** Fully stocked pharmacy counters at Ground Floor and Inpatient blocks.\n• **Blood Center:** Licensed component blood bank with round-the-clock availability.",
-      actions: [
-        { label: "🕒 View OP Timings", type: "modal", payload: "op-timings" },
-        { label: "📞 Lab Enquiry Desk", type: "call", payload: "04842402044" },
-      ],
-      quickReplies: ["📅 Book Appointment", "👨‍⚕️ Find Doctor", "📍 Location"],
-    };
-  }
-
-  // 14. Health Checkups
-  if (
-    query.includes("checkup") ||
-    query.includes("package") ||
-    query.includes("master health") ||
-    query.includes("executive")
-  ) {
-    return {
-      text: "🩺 **Comprehensive Preventive Health Checkups:**\n\nInvest in your health with customized screening packages:\n\n• **Executive Health Checkup** (Complete lipid, renal, liver, ECG, ultrasound, physician consult)\n• **Master Cardiac Screening** (Echo, TMT, lipid profile, cardiologist consultation)\n• **Diabetic Wellness Package** (HbA1c, microalbumin, retina check, diet counseling)\n• **Senior Citizen & Well-Woman Health Packages**\n\n*Advance appointment is recommended for fasting lab parameters.*",
-      actions: [
-        { label: "📅 Book Health Checkup", type: "modal", payload: "appointment" },
-        { label: "📞 Enquire at Checkup Desk", type: "call", payload: "04842402044" },
-      ],
-      quickReplies: ["🕒 OP Timings", "👨‍⚕️ Find Doctor", "💳 Insurance & TPA"],
-    };
-  }
-
-  // 15. Hospital History & About
-  if (
-    query.includes("about") ||
-    query.includes("history") ||
-    query.includes("who") ||
-    query.includes("founder") ||
-    query.includes("since") ||
-    query.includes("1956")
-  ) {
-    return {
-      text: "🏥 **About Lisie Hospital – 'Care Beyond Cure Since 1956':**\n\nFounded in 1956 by Msgr. Antony Chiramel, Lisie Hospital has grown from a humble clinic into one of Kerala's most trusted tertiary healthcare institutions.\n\n• Accredited by **NABH** and **NABL** for clinical quality and patient safety.\n• Non-profit healthcare mission serving over 1 million patients annually.\n• Home to leading institutes of excellence in Cardiac Sciences, Oncology, Neurosciences, and Organ Transplantation.",
-      actions: [
-        { label: "👨‍⚕️ Explore Doctors", type: "modal", payload: "doctor-search" },
-        { label: "📅 Book Appointment", type: "modal", payload: "appointment" },
-      ],
-      quickReplies: ["🏥 Specialties", "🕒 OP Timings", "📍 Location & Metro"],
-    };
-  }
-
-  // 16. Contact & Helpline
-  if (
-    query.includes("contact") ||
-    query.includes("phone") ||
-    query.includes("number") ||
-    query.includes("call") ||
-    query.includes("email") ||
-    query.includes("helpline")
-  ) {
-    return {
-      text: "📞 **Important Hospital Helplines:**\n\n• **24/7 Emergency Line:** +91 9895 756 164\n• **General Enquiry / Board:** 0484 2402044 / 2400200\n• **Appointment Desk:** 0484 2401141\n• **Patient Relations:** 0484 2402044 Ext. 2100\n• **Email:** contact@lisiehospital.org\n• **Website:** www.lisiehospital.org",
-      actions: [
-        { label: "📞 Call General Enquiry", type: "call", payload: "04842402044" },
-        { label: "🚨 Call 24/7 Emergency", type: "call", payload: "+919895756164" },
-        { label: "📅 Book Appointment", type: "modal", payload: "appointment" },
-      ],
-      quickReplies: ["📅 Book Appointment", "🕒 OP Timings", "👨‍⚕️ Find a Doctor"],
-    };
-  }
-
-  // 17. Greetings
+  // ========================================================
+  // 15. GREETINGS (Hi / Hello)
+  // ========================================================
   if (
     query === "hi" ||
     query === "hello" ||
@@ -353,26 +600,24 @@ export function getBotResponse(userQuery: string): BotResponse {
     query.includes("good morning") ||
     query.includes("good afternoon") ||
     query.includes("good evening") ||
-    query === "namaste" ||
     query.includes("help")
   ) {
     return {
-      text: "👋 **Hello and welcome to Lisie Hospital!**\n\nI am your virtual healthcare assistant, here 24/7 to help you navigate our services, find the right doctors, check outpatient timings, or book an appointment.\n\nHow can I help you today?",
+      text: `👋 **Hello and welcome to Lisie Hospital!**\n\nI am your AI Care Assistant. How can I assist you today? Please choose an option below or type your query:`,
+      isInitialGreeting: true,
       actions: [
-        { label: "📅 Book Appointment", type: "modal", payload: "appointment" },
-        { label: "👨‍⚕️ Find a Doctor", type: "modal", payload: "doctor-search" },
-        { label: "🕒 View OP Timings", type: "modal", payload: "op-timings" },
+        { label: "👨‍⚕️ Find a Doctor", type: "message", payload: "Find a Doctor" },
+        { label: "📅 Book an Appointment", type: "message", payload: "Book an Appointment" },
+        { label: "🏥 Find a Department", type: "message", payload: "Find a Department" },
+        { label: "💬 Describe a Problem", type: "message", payload: "Describe a Problem" },
       ],
-      quickReplies: [
-        "📅 Book Appointment",
-        "👨‍⚕️ Find a Doctor",
-        "🕒 OP Timings",
-        "🚨 Emergency Line",
-      ],
+      quickReplies: INITIAL_QUICK_REPLIES,
     };
   }
 
-  // 18. Gratitude / Farewell
+  // ========================================================
+  // 16. GRATITUDE & FAREWELL
+  // ========================================================
   if (
     query.includes("thank") ||
     query.includes("thx") ||
@@ -380,28 +625,26 @@ export function getBotResponse(userQuery: string): BotResponse {
     query.includes("bye")
   ) {
     return {
-      text: "🙏 **You're very welcome!**\n\nThank you for choosing Lisie Hospital. Wishing you and your loved ones good health. If you need anything else, feel free to ask anytime!\n\n*Care with Love & Ethics Since 1956.*",
+      text: `🙏 **You're very welcome!**\n\nThank you for choosing Lisie Hospital. Wishing you and your loved ones good health. If you need anything else, feel free to ask anytime!\n\n*Care Beyond Cure Since 1956.*`,
       actions: [
-        { label: "📅 Book Appointment", type: "modal", payload: "appointment" },
+        { label: "📅 Book Appointment", type: "show_booking", payload: "abraham-mathew" },
+        { label: "👨‍⚕️ Find a Doctor", type: "message", payload: "Find a Doctor" },
       ],
-      quickReplies: ["📅 Book Appointment", "🕒 OP Timings", "📍 Location"],
+      quickReplies: ["Find a Doctor", "Book an Appointment", "🕒 OP Timings"],
     };
   }
 
-  // Default fallback response
+  // ========================================================
+  // 17. DEFAULT FALLBACK
+  // ========================================================
   return {
-    text: `Thank you for reaching out to Lisie Hospital. Regarding **"${userQuery}"**, here are the best ways we can assist you:\n\n• Check doctor availability and book outpatient slots online\n• View specialty department services and timings\n• Connect directly with our patient relations helpdesk at **0484 2402044**\n\n*Please select one of the quick options below or rephrase your question.*`,
+    text: `Thank you for reaching out to Lisie Hospital. Regarding **"${userQuery}"**, how would you like to proceed?`,
     actions: [
-      { label: "📅 Book an Appointment", type: "modal", payload: "appointment" },
-      { label: "👨‍⚕️ Search Doctors", type: "modal", payload: "doctor-search" },
-      { label: "🕒 Check OP Timings", type: "modal", payload: "op-timings" },
-      { label: "📞 Call Reception", type: "call", payload: "04842402044" },
+      { label: "👨‍⚕️ Find a Doctor", type: "message", payload: "Find a Doctor" },
+      { label: "📅 Book an Appointment", type: "show_booking", payload: "abraham-mathew" },
+      { label: "🏥 Find a Department", type: "message", payload: "Find a Department" },
+      { label: "💬 Describe a Problem", type: "message", payload: "Describe a Problem" },
     ],
-    quickReplies: [
-      "📅 Book Appointment",
-      "👨‍⚕️ Find a Doctor",
-      "🕒 OP Timings",
-      "🚨 24/7 Emergency",
-    ],
+    quickReplies: INITIAL_QUICK_REPLIES,
   };
 }
