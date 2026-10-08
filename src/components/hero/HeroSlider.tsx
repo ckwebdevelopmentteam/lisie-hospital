@@ -136,20 +136,12 @@ export default function HeroSlider({
                 backgroundPosition: "center 35%",
               }}
             />
-            {idx === 0 ? (
-              <>
-                {/* Slide 1 (Campus exterior): Light, natural gradient keeping it bright and sunlit */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/20 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
-              </>
-            ) : (
-              <>
-                {/* Slides 2 & 3 (Indoor / Clinical suites): Deep dark overlays for dramatic high contrast */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/25" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
-                <div className="absolute inset-0 bg-[#07162c]/35 mix-blend-multiply" />
-              </>
-            )}
+            {/* Dark vignette left to right */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/20" />
+            {/* Subtle bottom dark gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/20" />
+            {/* Soft clinical blue tint overlay */}
+            <div className="absolute inset-0 bg-[#07162c]/30 mix-blend-multiply" />
           </div>
         );
       })}
