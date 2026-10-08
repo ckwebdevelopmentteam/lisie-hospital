@@ -341,7 +341,7 @@ export default function MobileHeader({
                 {expandedSection === "doctors" && (
                   <div className="pl-4 pr-2 pb-3 space-y-1 text-xs">
                     {POPULAR_SPECIALTIES.map((spec) => (
-                      <a
+                      <Link
                         key={spec}
                         href={`/doctors?specialty=${encodeURIComponent(spec)}`}
                         onClick={closeDrawer}
@@ -349,15 +349,15 @@ export default function MobileHeader({
                       >
                         <span>{spec} Doctors</span>
                         <ChevronRight className="w-3 h-3 text-gray-300" />
-                      </a>
+                      </Link>
                     ))}
-                    <a
+                    <Link
                       href="/doctors"
                       onClick={closeDrawer}
                       className="block text-center py-2 mt-2 bg-[#E31C59]/10 text-[#E31C59] font-bold rounded"
                     >
                       View All Doctors →
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>

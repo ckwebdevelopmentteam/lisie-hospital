@@ -10,6 +10,7 @@ export default function HospitalAssistant() {
   const [isGreetingVisible, setIsGreetingVisible] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const assistantRef = useRef<HTMLDivElement>(null);
   const reopenTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -24,16 +25,29 @@ export default function HospitalAssistant() {
     return () => clearTimeout(initialTimer);
   }, []);
 
+  // Listen to Chatbot Modal visibility state: when modal opens, hide mascot; when modal closes, show mascot again!
+  useEffect(() => {
+    const handleChatState = (e: Event) => {
+      const customEvent = e as CustomEvent<{ isOpen: boolean }>;
+      setIsChatOpen(Boolean(customEvent.detail?.isOpen));
+    };
+
+    window.addEventListener("chatbot-visibility-changed", handleChatState);
+    return () => {
+      window.removeEventListener("chatbot-visibility-changed", handleChatState);
+    };
+  }, []);
+
   // 10-second loop: automatically rotates through helpful nurse messages
   useEffect(() => {
-    if (!mounted || !isGreetingVisible || isPaused) return;
+    if (!mounted || !isGreetingVisible || isPaused || isChatOpen) return;
 
     const interval = setInterval(() => {
       setMessageIndex((prev) => (prev + 1) % COMPACT_MESSAGES.length);
     }, 10000);
 
     return () => clearInterval(interval);
-  }, [mounted, isGreetingVisible, isPaused]);
+  }, [mounted, isGreetingVisible, isPaused, isChatOpen]);
 
   // When user closes the speech bubble, automatically re-open after 5 seconds!
   const handleDismissGreeting = (e: React.MouseEvent) => {
@@ -51,16 +65,12 @@ export default function HospitalAssistant() {
     }, 5000);
   };
 
-  const handleNurseClick = () => {
+  // Clicking our doctor cartoon image opens Hafeez's chatbot modal
+  const handleOpenChatbot = () => {
     if (reopenTimerRef.current) {
       clearTimeout(reopenTimerRef.current);
     }
-    // Clicking toggles / advances speech bubble
-    if (!isGreetingVisible) {
-      setIsGreetingVisible(true);
-    } else {
-      setMessageIndex((prev) => (prev + 1) % COMPACT_MESSAGES.length);
-    }
+    window.dispatchEvent(new CustomEvent("open-chatbot"));
   };
 
   // Cleanup on unmount
@@ -72,7 +82,8 @@ export default function HospitalAssistant() {
     };
   }, []);
 
-  if (!mounted) return null;
+  // When chatbot modal is open, completely hide the cartoon picture!
+  if (!mounted || isChatOpen) return null;
 
   return (
     <aside
@@ -86,14 +97,15 @@ export default function HospitalAssistant() {
           isVisible={isGreetingVisible}
           messageIndex={messageIndex}
           onClose={handleDismissGreeting}
+          onClick={handleOpenChatbot}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         />
 
-        {/* Male Nurse Mascot placed in the bottom corner with generous padding */}
+        {/* Doctor Cartoon Image: clicking opens the chatbot modal, and the picture hides */}
         <AssistantLauncher
-          onClick={handleNurseClick}
-          ariaLabel="Lisie AI Male Nurse Assistant Mascot"
+          onClick={handleOpenChatbot}
+          ariaLabel="Click to open Lisie AI hospital chatbot"
         >
           <NurseMascot isGreetingVisible={isGreetingVisible} />
         </AssistantLauncher>

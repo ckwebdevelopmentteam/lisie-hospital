@@ -36,6 +36,7 @@ interface AssistantGreetingProps {
   isVisible: boolean;
   messageIndex: number;
   onClose: (e: React.MouseEvent) => void;
+  onClick?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 }
@@ -44,6 +45,7 @@ export default function AssistantGreeting({
   isVisible,
   messageIndex,
   onClose,
+  onClick,
   onMouseEnter,
   onMouseLeave,
 }: AssistantGreetingProps) {
@@ -107,7 +109,10 @@ Z`;
       </svg>
 
       {/* Spacious 2-line WhatsApp-style text inside the blue bubble body */}
-      <div className="absolute inset-x-0 top-0 h-[70px] px-4.5 sm:px-5 flex flex-col justify-center">
+      <div
+        onClick={onClick}
+        className="absolute inset-x-0 top-0 h-[70px] px-4.5 sm:px-5 flex flex-col justify-center cursor-pointer group"
+      >
         {/* Dismiss Button */}
         <button
           type="button"

@@ -3,31 +3,27 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  MessageSquare,
   X,
   Send,
-  Phone,
   RotateCcw,
-  Sparkles,
   Volume2,
   VolumeX,
   ExternalLink,
   ChevronDown,
   Minimize2,
   Calendar,
-  Stethoscope,
-  Clock,
-  AlertTriangle,
   MapPin,
   ShieldCheck,
   Bot,
   Heart,
-  Building2,
-  MessageSquareHeart,
-  User,
   CheckCircle2,
-  ArrowRight,
 } from "lucide-react";
+
+let messageIdCounter = 0;
+function createMsgId(prefix: string): string {
+  messageIdCounter += 1;
+  return `${prefix}-${messageIdCounter}`;
+}
 import { useModal } from "@/context/ModalContext";
 import {
   getBotResponse,
@@ -309,7 +305,6 @@ export default function ChatWidget() {
   const { openModal } = useModal();
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [showWelcomeBubble, setShowWelcomeBubble] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [inputText, setInputText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -337,13 +332,6 @@ export default function ChatWidget() {
 
   useEffect(() => {
     initWelcomeMessage();
-
-    // Show initial teaser bubble after 3 seconds if modal hasn't been opened
-    const timer = setTimeout(() => {
-      setShowWelcomeBubble(true);
-    }, 2800);
-
-    return () => clearTimeout(timer);
   }, [initWelcomeMessage]);
 
   // Scroll to bottom whenever messages change or typing changes
@@ -362,24 +350,34 @@ export default function ChatWidget() {
     }
   }, [isOpen, isMinimized]);
 
-  const handleOpen = () => {
+  const handleOpen = useCallback(() => {
     setIsOpen(true);
     setIsMinimized(false);
-    setShowWelcomeBubble(false);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setIsOpen(false);
     setIsMinimized(false);
-  };
+  }, []);
 
-  const handleToggle = () => {
-    if (isOpen) {
-      handleClose();
-    } else {
-      handleOpen();
-    }
-  };
+  // Global event integration: open/close via external triggers & broadcast state
+  useEffect(() => {
+    window.addEventListener("open-chatbot", handleOpen);
+    window.addEventListener("lisie-open-chat", handleOpen);
+    window.addEventListener("close-chatbot", handleClose);
+
+    return () => {
+      window.removeEventListener("open-chatbot", handleOpen);
+      window.removeEventListener("lisie-open-chat", handleOpen);
+      window.removeEventListener("close-chatbot", handleClose);
+    };
+  }, [handleOpen, handleClose]);
+
+  useEffect(() => {
+    window.dispatchEvent(
+      new CustomEvent("chatbot-visibility-changed", { detail: { isOpen } })
+    );
+  }, [isOpen]);
 
   const handleSend = (textToSend?: string) => {
     const messageText = (textToSend ?? inputText).trim();
@@ -390,7 +388,7 @@ export default function ChatWidget() {
 
     // Add user message
     const userMsg: MessageItem = {
-      id: `user-${Date.now()}`,
+      id: createMsgId("user"),
       sender: "user",
       text: messageText,
       timestamp: getFormattedTime(),
@@ -404,7 +402,7 @@ export default function ChatWidget() {
     setTimeout(() => {
       const response: BotResponse = getBotResponse(messageText);
       const botMsg: MessageItem = {
-        id: `bot-${Date.now()}`,
+        id: createMsgId("bot"),
         sender: "bot",
         text: response.text,
         timestamp: getFormattedTime(),
@@ -427,7 +425,7 @@ export default function ChatWidget() {
       openModal(action.payload as ActiveModal);
       setIsMinimized(true);
     } else if (action.type === "call") {
-      window.location.href = `tel:${action.payload}`;
+      window.open(`tel:${action.payload}`, "_self");
     } else if (action.type === "link") {
       window.open(action.payload, "_blank", "noopener,noreferrer");
     } else if (action.type === "message") {
@@ -444,7 +442,7 @@ export default function ChatWidget() {
   const handleOpenBookingForm = (doctor?: DoctorRecommendation) => {
     playSound("send", isMuted);
     const userMsg: MessageItem = {
-      id: `user-${Date.now()}`,
+      id: createMsgId("user-book"),
       sender: "user",
       text: `📅 Book Appointment with ${doctor?.name || "Doctor"}`,
       timestamp: getFormattedTime(),
@@ -454,7 +452,7 @@ export default function ChatWidget() {
 
     setTimeout(() => {
       const botMsg: MessageItem = {
-        id: `bot-${Date.now()}`,
+        id: createMsgId("bot-book"),
         sender: "bot",
         text: `📅 **Book Appointment with ${doctor?.name || "Doctor"}:**\n\nPlease fill in your basic details below to confirm your token:`,
         timestamp: getFormattedTime(),
@@ -534,78 +532,7 @@ export default function ChatWidget() {
   return (
     <>
       {/* ======================================================== */}
-      {/* 1. FLOATING CHAT BUTTON (Bottom-Right Corner)            */}
-      {/* ======================================================== */}
-      <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end select-none">
-        {/* Floating Greeting Pill / Teaser */}
-        <AnimatePresence>
-          {showWelcomeBubble && !isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.9 }}
-              className="mb-3 mr-1 bg-white/95 backdrop-blur-md text-[#123B63] px-3.5 py-2 rounded-2xl shadow-xl border border-blue-100 flex items-center space-x-2 text-xs font-medium max-w-[260px] relative group cursor-pointer hover:border-[#1677B8] transition-colors"
-              onClick={handleOpen}
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <p className="leading-snug">
-                👋 Need help? Chat with <strong className="text-[#1677B8]">Lisie Care</strong>
-              </p>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowWelcomeBubble(false);
-                }}
-                className="text-gray-400 hover:text-gray-600 p-0.5 rounded-full"
-                aria-label="Dismiss message"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-              <div className="absolute -bottom-1.5 right-6 w-3 h-3 bg-white rotate-45 border-r border-b border-blue-100" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Main Floating Trigger Button */}
-        <motion.button
-          onClick={handleToggle}
-          whileHover={{ scale: 1.06 }}
-          whileTap={{ scale: 0.94 }}
-          aria-label={isOpen ? "Close hospital chat" : "Open hospital chat assistant"}
-          className={`relative group flex items-center justify-center w-14 h-14 sm:w-15 sm:h-15 rounded-full text-white shadow-[0_8px_30px_rgba(18,59,99,0.38)] focus:outline-none focus:ring-4 focus:ring-[#1677B8]/40 transition-all duration-300 ${
-            isOpen
-              ? "bg-[#0E2A47] hover:bg-[#123B63] ring-2 ring-white/40"
-              : "bg-gradient-to-tr from-[#0E2A47] via-[#123B63] to-[#1677B8] hover:shadow-[0_12px_36px_rgba(22,119,184,0.45)]"
-          }`}
-        >
-          {!isOpen && (
-            <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-[#1677B8] to-[#8C1138] opacity-30 blur-sm group-hover:opacity-50 transition duration-500 animate-pulse" />
-          )}
-
-          <span className="absolute top-0.5 right-0.5 flex h-3.5 w-3.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white"></span>
-          </span>
-
-          <div className="relative z-10 flex items-center justify-center">
-            {isOpen ? (
-              <X className="w-6 h-6 transition-transform duration-200 rotate-0 group-hover:rotate-90" />
-            ) : (
-              <div className="relative">
-                <MessageSquare className="w-6 h-6 text-white" />
-                <Sparkles className="w-3 h-3 text-amber-300 absolute -top-1 -right-1 animate-bounce" />
-              </div>
-            )}
-          </div>
-        </motion.button>
-      </div>
-
-      {/* ======================================================== */}
-      {/* 2. CORNER CHAT MODAL / FLOATING WINDOW                  */}
+      {/* CHATBOT MODAL (Controlled by Lisie Doctor Mascot)       */}
       {/* ======================================================== */}
       <AnimatePresence>
         {isOpen && (
@@ -619,7 +546,7 @@ export default function ChatWidget() {
             }}
             exit={{ opacity: 0, y: 25, scale: 0.94 }}
             transition={{ type: "spring", damping: 26, stiffness: 320 }}
-            className="fixed bottom-22 sm:bottom-24 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-[410px] md:w-[430px] max-h-[calc(100vh-120px)] bg-white rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_-15px_rgba(14,42,71,0.38)] border border-slate-200/90 overflow-hidden flex flex-col"
+            className="fixed bottom-6 right-4 sm:right-6 md:right-8 z-50 w-[calc(100vw-2rem)] sm:w-[410px] md:w-[430px] max-h-[calc(100vh-80px)] bg-white rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_-15px_rgba(14,42,71,0.38)] border border-slate-200/90 overflow-hidden flex flex-col"
           >
             {/* ----------------- MODAL HEADER ----------------- */}
             <div className="bg-gradient-to-r from-[#0E2A47] via-[#123B63] to-[#1677B8] text-white p-4 sm:px-5 sm:py-3.5 flex items-center justify-between shadow-md relative z-10">

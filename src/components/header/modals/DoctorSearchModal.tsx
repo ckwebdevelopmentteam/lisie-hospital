@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import Link from "next/link";
 import { Stethoscope, Search, ArrowRight, X, User } from "lucide-react";
 import { POPULAR_SPECIALTIES, SAMPLE_DOCTORS } from "../data/hospitalData";
 
@@ -173,13 +174,13 @@ export default function DoctorSearchModal({
                       <User className="w-5 h-5 text-[#1677B8]" />
                     </div>
                     <div>
-                      <a
-                        href={`/doctor/${(doc as any).slug || doc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+                      <Link
+                        href={`/doctor/${(doc as { slug?: string }).slug || doc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
                         onClick={onClose}
                         className="text-sm font-bold text-[#123B63] hover:text-[#1677B8] transition-colors hover:underline"
                       >
                         {doc.name}
-                      </a>
+                      </Link>
                       <p className="text-xs text-gray-500">{doc.qualification}</p>
                       <div className="flex items-center space-x-2 mt-1">
                         <span className="text-xs font-medium text-gray-700">
@@ -192,14 +193,14 @@ export default function DoctorSearchModal({
                   </div>
 
                   <div className="flex items-center space-x-2 shrink-0">
-                    <a
-                      href={`/doctor/${(doc as any).slug || doc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+                    <Link
+                      href={`/doctor/${(doc as { slug?: string }).slug || doc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
                       onClick={onClose}
                       className="text-xs font-medium text-gray-600 hover:text-[#123B63] bg-gray-100 hover:bg-gray-200 px-2.5 py-1.5 rounded-md transition-colors"
                     >
                       Profile
-                    </a>
-                    <a
+                    </Link>
+                    <Link
                       href="/appointments"
                       onClick={(e) => {
                         if (onSelectDoctor) {
@@ -210,7 +211,7 @@ export default function DoctorSearchModal({
                       className="text-xs font-semibold text-[#1677B8] hover:text-[#125F94] bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-md transition-colors"
                     >
                       Consult →
-                    </a>
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -234,22 +235,22 @@ export default function DoctorSearchModal({
         {/* Footer Navigation Links */}
         <div className="px-6 py-3.5 bg-gray-50 border-t border-gray-200 flex flex-wrap items-center justify-between text-xs gap-3">
           <div className="flex items-center space-x-4 text-gray-600">
-            <a href="/departments" className="hover:text-[#1677B8] underline-offset-2 hover:underline">
+            <Link href="/departments" className="hover:text-[#1677B8] underline-offset-2 hover:underline">
               Doctors by Department
-            </a>
+            </Link>
             <span className="text-gray-300">•</span>
-            <a href="/doctors" className="hover:text-[#1677B8] underline-offset-2 hover:underline">
+            <Link href="/doctors" className="hover:text-[#1677B8] underline-offset-2 hover:underline">
               All Doctors
-            </a>
+            </Link>
           </div>
 
-          <a
+          <Link
             href="/doctors"
             className="inline-flex items-center space-x-1.5 font-semibold text-[#1677B8] hover:text-[#125F94] transition-colors"
           >
             <span>View All Doctors</span>
             <ArrowRight className="w-3.5 h-3.5" />
-          </a>
+          </Link>
         </div>
       </div>
     </div>,

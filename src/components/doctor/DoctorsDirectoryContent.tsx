@@ -7,12 +7,9 @@ import { useSearchParams, useRouter } from "next/navigation";
 import {
   Search,
   Filter,
-  User,
   Clock,
-  Calendar,
   ChevronRight,
   Home,
-  CheckCircle2,
   Stethoscope,
   Sparkles,
   ArrowRight,

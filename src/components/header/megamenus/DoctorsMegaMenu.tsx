@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { POPULAR_SPECIALTIES, SAMPLE_DOCTORS } from "../data/hospitalData";
 import { DOCTORS_DATABASE } from "@/data/doctorsData";
 import { ArrowRight, Search, User, ChevronRight } from "lucide-react";
@@ -93,10 +94,10 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               {filteredDoctors.slice(0, 8).map((doc) => {
-                const doctorSlug = (doc as any).slug || doc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                const doctorSlug = (doc as { slug?: string }).slug || doc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
                 const matchedDoctor = DOCTORS_DATABASE.find((d) => d.slug === doctorSlug || d.name === doc.name);
                 return (
-                  <a
+                  <Link
                     key={doc.name}
                     href={`/doctor/${doctorSlug}`}
                     onClick={onClose}
@@ -124,7 +125,7 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
                         {doc.specialty}
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 );
               })}
             </div>
@@ -134,29 +135,29 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
         {/* Bottom links */}
         <div className="mt-6 pt-4 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4 text-xs sm:text-sm">
           <div className="flex items-center space-x-4 text-gray-700">
-            <a
+            <Link
               href="/doctors"
               onClick={onClose}
               className="hover:text-[#E31C59] underline-offset-2 hover:underline font-semibold"
             >
               Doctor Directory
-            </a>
+            </Link>
             <span className="text-gray-300">•</span>
-            <a
+            <Link
               href="/departments"
               onClick={onClose}
               className="hover:text-[#E31C59] underline-offset-2 hover:underline font-semibold"
             >
               Doctors by Department
-            </a>
+            </Link>
             <span className="text-gray-300">•</span>
-            <a
+            <Link
               href="/specialties"
               onClick={onClose}
               className="hover:text-[#E31C59] underline-offset-2 hover:underline font-semibold"
             >
               Doctors by Specialty
-            </a>
+            </Link>
           </div>
 
           <div className="flex items-center space-x-3">
@@ -170,14 +171,14 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
             >
               Search by Filter
             </button>
-            <a
+            <Link
               href="/doctors"
               onClick={onClose}
               className="inline-flex items-center space-x-1.5 font-bold text-white bg-[#E31C59] hover:bg-[#c4144b] px-4 py-2 rounded-lg transition-colors shadow-2xs text-xs sm:text-sm"
             >
               <span>View All Doctors</span>
               <ArrowRight className="w-4 h-4" />
-            </a>
+            </Link>
           </div>
         </div>
       </div>
