@@ -102,7 +102,7 @@ export const LISIE_HERO_SLIDES: HeroSlide[] = [
 export const LISIE_INSTITUTES: CampusCard[] = [
   {
     id: "lisie-heart-institute",
-    name: "LISIE HEART INSTITUTE",
+    name: "LISIE MEDCITY",
     subTitle: "14,000+ Heart Surgeries & South India's Premier Cardiac Centre",
     location: "Kaloor, Kochi",
     phone: "0484 2401141",
@@ -125,7 +125,7 @@ export const LISIE_INSTITUTES: CampusCard[] = [
   },
   {
     id: "lisie-main-hospital",
-    name: "LISIE MAIN HOSPITAL",
+    name: "LISIE HOSPITAL",
     subTitle: "1,000+ Bedded NABH & NABL Tertiary Care Centre Since 1956",
     location: "Kaloor, Kochi",
     phone: "0484 2402044",

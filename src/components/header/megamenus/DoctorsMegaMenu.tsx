@@ -86,7 +86,7 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
           {/* Right: Senior Consultants Preview (8 cols) */}
           <div className="md:col-span-8">
             <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#123B63] pb-2.5 mb-3 border-b border-gray-100 flex items-center justify-between">
-              <span>Featured Consultants</span>
+              <span>Our Consultants</span>
               <span className="text-xs text-gray-400 font-normal">
                 OP Consultations Mon – Sat
               </span>
