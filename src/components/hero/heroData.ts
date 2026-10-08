@@ -61,13 +61,41 @@ export const LISIE_HERO_SLIDES: HeroSlide[] = [
     titleLine2: "Care with Love Since 1956",
     tagline:
       "Premier 1,000+ bedded NABH & NABL accredited tertiary multi-super specialty hospital in Kochi, Kerala. Living expression of apostolic concern, delivering compassionate, ethical, and advanced healing to millions.",
-    badgeText: "HEART TRANSPLANT & CARDIAC CARE",
+    badgeText: "CARE WITH LOVE • SINCE 1956",
     badgeColor: "bg-[#E31C59] hover:bg-[#C4144B]",
     image: "/images/hero/hero-slide-1.jpg",
     timings: "Emergency & Casualty 24/7 • OPD: Mon–Sat 8:00 AM – 5:00 PM",
     statsHighlight: "1,000+ Beds • 45+ Specialties",
     ctaText: "Explore Departments",
     ctaLink: "#departments",
+  },
+  {
+    id: "slide-2",
+    titleLine1: "Lisie Heart Institute,",
+    titleLine2: "Heart Transplant & Cardiac Care",
+    tagline:
+      "South India's premier cardiothoracic centre with over 14,000 open-heart surgeries, successfully performed heart transplants, 24/7 ECMO unit, and pioneering minimally invasive valve interventions.",
+    badgeText: "HEART TRANSPLANT & CARDIAC CARE",
+    badgeColor: "bg-[#E31C59] hover:bg-[#C4144B]",
+    image: "/images/hero/hero-slide-3.jpg",
+    timings: "24/7 Acute Coronary Emergency • Cath Lab 24x7",
+    statsHighlight: "14,000+ Surgeries • Heart Transplant Centre",
+    ctaText: "Lisie Heart Institute",
+    ctaLink: "/lisie-heart-institute",
+  },
+  {
+    id: "slide-3",
+    titleLine1: "Comprehensive Oncology & Neurosciences,",
+    titleLine2: "TrueBeam Oncology & Stroke Care",
+    tagline:
+      "Equipped with advanced Varian TrueBeam Linear Accelerator radiotherapy, multidisciplinary tumor board, molecular imaging, and round-the-clock golden-hour stroke thrombectomy saving lives daily.",
+    badgeText: "TRUEBEAM ONCOLOGY & NEUROSCIENCES",
+    badgeColor: "bg-[#E31C59] hover:bg-[#C4144B]",
+    image: "/images/news/stroke-thrombectomy-network.jpg",
+    timings: "Comprehensive Oncology: 8:30 AM – 5:30 PM • 24/7 Stroke Alert",
+    statsHighlight: "TrueBeam Linac • Golden-Hour Stroke Care",
+    ctaText: "Lisie Cancer Centre",
+    ctaLink: "/lisie-cancer-centre",
   },
 ];
 

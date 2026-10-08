@@ -173,9 +173,13 @@ export default function DoctorSearchModal({
                       <User className="w-5 h-5 text-[#1677B8]" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-[#123B63] group-hover:text-[#1677B8] transition-colors">
+                      <a
+                        href={`/doctor/${(doc as any).slug || doc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+                        onClick={onClose}
+                        className="text-sm font-bold text-[#123B63] hover:text-[#1677B8] transition-colors hover:underline"
+                      >
                         {doc.name}
-                      </h4>
+                      </a>
                       <p className="text-xs text-gray-500">{doc.qualification}</p>
                       <div className="flex items-center space-x-2 mt-1">
                         <span className="text-xs font-medium text-gray-700">
@@ -187,18 +191,27 @@ export default function DoctorSearchModal({
                     </div>
                   </div>
 
-                  <a
-                    href="/appointments"
-                    onClick={(e) => {
-                      if (onSelectDoctor) {
-                        e.preventDefault();
-                        onSelectDoctor(doc.name);
-                      }
-                    }}
-                    className="text-xs font-semibold text-[#1677B8] hover:text-[#125F94] bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-md transition-colors shrink-0"
-                  >
-                    Consult →
-                  </a>
+                  <div className="flex items-center space-x-2 shrink-0">
+                    <a
+                      href={`/doctor/${(doc as any).slug || doc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+                      onClick={onClose}
+                      className="text-xs font-medium text-gray-600 hover:text-[#123B63] bg-gray-100 hover:bg-gray-200 px-2.5 py-1.5 rounded-md transition-colors"
+                    >
+                      Profile
+                    </a>
+                    <a
+                      href="/appointments"
+                      onClick={(e) => {
+                        if (onSelectDoctor) {
+                          e.preventDefault();
+                          onSelectDoctor(doc.name);
+                        }
+                      }}
+                      className="text-xs font-semibold text-[#1677B8] hover:text-[#125F94] bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-md transition-colors"
+                    >
+                      Consult →
+                    </a>
+                  </div>
                 </div>
               ))}
             </div>

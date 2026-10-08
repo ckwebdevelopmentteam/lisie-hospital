@@ -12,7 +12,6 @@ import {
   Share2,
   Check,
   User,
-  Sparkles,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";

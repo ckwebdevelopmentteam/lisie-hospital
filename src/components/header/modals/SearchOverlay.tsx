@@ -181,16 +181,19 @@ export default function SearchOverlay({
                       key={res.id}
                       href={res.url}
                       onClick={(e) => {
-                        e.preventDefault();
                         onClose();
-                        if (res.title.includes("Dr.")) {
-                          onOpenDoctorModal?.();
-                        } else if (res.title.includes("Appointment")) {
+                        if (res.category === "Doctor" || res.url.startsWith("/doctor")) {
+                          return;
+                        }
+                        e.preventDefault();
+                        if (res.title.includes("Appointment")) {
                           onOpenAppointmentModal?.();
                         } else if (res.title.includes("Emergency")) {
                           onOpenEmergencyModal?.();
                         } else if (res.title.includes("OP Timings")) {
                           onOpenOPTimingsModal?.();
+                        } else {
+                          window.location.href = res.url;
                         }
                       }}
                       className="p-3 rounded-lg border border-gray-100 hover:border-[#1677B8] hover:bg-blue-50/40 flex items-start justify-between transition-colors group"

@@ -6,6 +6,7 @@ import TopBar from "@/components/hero/TopBar";
 import StitchFooter from "@/components/footer/StitchFooter";
 import { ModalProvider } from "@/context/ModalContext";
 import HospitalAssistant from "@/components/assistant/HospitalAssistant";
+import ChatWidget from "@/components/chat/ChatWidget";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -54,6 +55,7 @@ export default function RootLayout({
           <div className="flex-1 flex flex-col">{children}</div>
           <StitchFooter />
           <HospitalAssistant />
+          <ChatWidget />
         </ModalProvider>
       </body>
     </html>
