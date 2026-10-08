@@ -35,7 +35,6 @@ import {
   ChatAction,
   DoctorRecommendation,
   BookingConfirmation,
-  INTRO_CARDS,
   INITIAL_QUICK_REPLIES,
 } from "./chatKnowledge";
 import { ActiveModal } from "@/components/header/types";
@@ -273,7 +272,7 @@ function InlineBookingForm({
                   key={slot}
                   type="button"
                   onClick={() => setSelectedSlot(slot)}
-                  className={`py-1.5 px-2 rounded-lg text-[11px] font-medium border text-center transition-all ${
+                  className={`py-1.5 px-2.5 rounded-full text-[11px] font-medium border text-center transition-all ${
                     isSelected
                       ? "bg-[#123B63] text-white border-[#123B63] shadow-xs"
                       : "bg-white text-slate-700 border-slate-200 hover:border-blue-300"
@@ -290,7 +289,7 @@ function InlineBookingForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full mt-2 bg-[#d11f53] hover:bg-[#b81444] active:scale-[0.98] text-white font-semibold py-2 px-3 rounded-xl text-xs shadow-md transition-all flex items-center justify-center space-x-1.5 cursor-pointer disabled:opacity-60"
+          className="w-full mt-2 bg-[#d11f53] hover:bg-[#b81444] active:scale-[0.98] text-white font-semibold py-2 px-3 rounded-full text-xs shadow-md transition-all flex items-center justify-center space-x-1.5 cursor-pointer disabled:opacity-60"
         >
           {isSubmitting ? (
             <span>Confirming Token...</span>
@@ -318,14 +317,19 @@ export default function ChatWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Initialize welcome message with 4 introductory cards
+  // Initialize welcome message with 4 introductory pill options
   const initWelcomeMessage = useCallback(() => {
     const welcomeMsg: MessageItem = {
       id: "welcome-1",
       sender: "bot",
       text: "👋 **Hello and welcome to Lisie Hospital!**\n\nI am your AI Care Assistant. How would you like to proceed today? Please choose an option below or type your query:",
       timestamp: getFormattedTime(),
-      isInitialGreeting: true,
+      actions: [
+        { label: "👨‍⚕️ Find a Doctor", type: "message", payload: "Find a Doctor" },
+        { label: "📅 Book an Appointment", type: "message", payload: "Book an Appointment" },
+        { label: "🏥 Find a Department", type: "message", payload: "Find a Department" },
+        { label: "💬 Describe a Problem", type: "message", payload: "Describe a Problem" },
+      ],
       quickReplies: INITIAL_QUICK_REPLIES,
     };
     setMessages([welcomeMsg]);
@@ -750,48 +754,6 @@ export default function ChatWidget() {
                             <>
                               <RenderBotText text={msg.text} />
 
-                              {/* ----------------- 4 INTRODUCTION CLICKABLE OPTIONS ----------------- */}
-                              {msg.isInitialGreeting && (
-                                <div className="mt-3 grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
-                                  {INTRO_CARDS.map((card) => {
-                                    return (
-                                      <button
-                                        key={card.id}
-                                        type="button"
-                                        onClick={() => handleSend(card.query)}
-                                        className="group bg-gradient-to-br from-white to-blue-50/50 hover:to-blue-100/70 border border-blue-200/80 hover:border-[#1677B8] rounded-xl p-2.5 text-left transition-all active:scale-[0.98] shadow-xs flex flex-col justify-between"
-                                      >
-                                        <div className="flex items-center justify-between mb-1">
-                                          <div className="w-7 h-7 rounded-lg bg-blue-50 group-hover:bg-[#123B63] group-hover:text-white text-[#1677B8] flex items-center justify-center transition-colors">
-                                            {card.id === "find-doctor" && (
-                                              <Stethoscope className="w-4 h-4" />
-                                            )}
-                                            {card.id === "book-appointment" && (
-                                              <Calendar className="w-4 h-4" />
-                                            )}
-                                            {card.id === "find-department" && (
-                                              <Building2 className="w-4 h-4" />
-                                            )}
-                                            {card.id === "describe-problem" && (
-                                              <MessageSquareHeart className="w-4 h-4" />
-                                            )}
-                                          </div>
-                                          <ArrowRight className="w-3 h-3 text-slate-400 group-hover:text-[#1677B8] group-hover:translate-x-0.5 transition-all" />
-                                        </div>
-                                        <div>
-                                          <span className="block font-semibold text-xs text-[#123B63] group-hover:text-[#1677B8] leading-tight">
-                                            {card.title}
-                                          </span>
-                                          <span className="block text-[10px] text-slate-500 leading-tight mt-0.5">
-                                            {card.subtitle}
-                                          </span>
-                                        </div>
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-                              )}
-
                               {/* ----------------- RICH DOCTOR RECOMMENDATION CARD ----------------- */}
                               {msg.doctor && (
                                 <div className="mt-3 bg-gradient-to-br from-white to-blue-50/40 border border-blue-200 rounded-2xl p-3 sm:p-3.5 shadow-sm text-slate-800">
@@ -813,10 +775,10 @@ export default function ChatWidget() {
                                         {msg.doctor.designation}
                                       </p>
                                       <div className="flex flex-wrap gap-1 mt-1.5">
-                                        <span className="inline-flex items-center text-[10px] font-medium bg-blue-50 text-[#123B63] px-2 py-0.5 rounded-md border border-blue-100">
+                                        <span className="inline-flex items-center text-[10px] font-medium bg-blue-50 text-[#123B63] px-2 py-0.5 rounded-full border border-blue-100">
                                           {msg.doctor.department}
                                         </span>
-                                        <span className="inline-flex items-center text-[10px] font-medium bg-amber-50 text-amber-800 px-2 py-0.5 rounded-md border border-amber-200/60">
+                                        <span className="inline-flex items-center text-[10px] font-medium bg-amber-50 text-amber-800 px-2 py-0.5 rounded-full border border-amber-200/60">
                                           {msg.doctor.experienceYears}+ Years Exp
                                         </span>
                                       </div>
@@ -829,18 +791,18 @@ export default function ChatWidget() {
                                       <MapPin className="w-3 h-3 text-[#1677B8] shrink-0" />
                                       <span className="truncate">{msg.doctor.room}</span>
                                     </div>
-                                    <span className="inline-flex items-center space-x-1 font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full shrink-0">
+                                    <span className="inline-flex items-center space-x-1 font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full shrink-0">
                                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                                       <span>{msg.doctor.availableSlot}</span>
                                     </span>
                                   </div>
 
-                                  {/* Embedded Doctor Action Buttons */}
+                                  {/* Embedded Doctor Action Buttons (Pill-shaped) */}
                                   <div className="mt-3 flex flex-wrap gap-1.5 pt-1">
                                     <button
                                       type="button"
                                       onClick={() => handleOpenBookingForm(msg.doctor)}
-                                      className="flex-1 min-w-[120px] bg-[#d11f53] hover:bg-[#b81444] text-white px-3 py-1.5 rounded-xl text-xs font-semibold shadow-xs hover:shadow transition-all flex items-center justify-center space-x-1.5 active:scale-95 cursor-pointer"
+                                      className="flex-1 min-w-[120px] bg-[#d11f53] hover:bg-[#b81444] text-white px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-xs hover:shadow transition-all flex items-center justify-center space-x-1.5 active:scale-95 cursor-pointer"
                                     >
                                       <Calendar className="w-3.5 h-3.5" />
                                       <span>Book Appointment</span>
@@ -848,7 +810,7 @@ export default function ChatWidget() {
                                     <button
                                       type="button"
                                       onClick={() => handleSend("🔄 Find Another Doctor")}
-                                      className="bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 px-2.5 py-1.5 rounded-xl text-xs font-medium transition-all flex items-center justify-center space-x-1 active:scale-95 cursor-pointer"
+                                      className="bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center justify-center space-x-1 active:scale-95 cursor-pointer"
                                     >
                                       <RotateCcw className="w-3 h-3 text-slate-500" />
                                       <span>Find Another</span>
@@ -886,7 +848,7 @@ export default function ChatWidget() {
                               key={aIdx}
                               type="button"
                               onClick={() => handleActionClick(action)}
-                              className="inline-flex items-center space-x-1.5 bg-white hover:bg-blue-50 border border-blue-200 text-[#123B63] hover:text-[#1677B8] px-2.5 py-1 rounded-full text-xs font-medium shadow-xs transition-all active:scale-95 group cursor-pointer"
+                              className="inline-flex items-center space-x-1.5 bg-white hover:bg-blue-50 border border-blue-200 hover:border-[#1677B8] text-[#123B63] hover:text-[#1677B8] px-3 py-1.5 rounded-full text-xs font-medium shadow-xs transition-all active:scale-95 group cursor-pointer"
                             >
                               <span>{action.label}</span>
                               {action.type === "link" && (
