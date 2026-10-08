@@ -12,7 +12,7 @@ export default function LegacyStorySection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-12 items-center">
           {/* Left Column: Narrative Content */}
           <div className="lg:col-span-5 flex flex-col justify-center items-start text-left pr-0 lg:pr-2">
-            <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-slate-500 mb-2 sm:mb-4">
+            <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-[#8d173b] mb-2 sm:mb-4">
               ABOUT US
             </span>
 

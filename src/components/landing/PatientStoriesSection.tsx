@@ -138,16 +138,16 @@ export default function PatientStoriesSection() {
           <Quote className="pointer-events-none absolute left-7 top-10 h-24 w-24 fill-slate-100 text-slate-100 sm:left-12 sm:top-12 sm:h-32 sm:w-32" strokeWidth={0} />
 
           <div className="relative z-10 text-center font-sans">
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#d11f53] sm:text-xs">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#8d173b] sm:text-xs">
               Patient Stories
             </p>
             <h2 className="text-2xl font-bold tracking-tight text-stone-900 sm:text-3xl">
               What Our Patients Say!
             </h2>
             <div className="mt-3 flex justify-center gap-1" aria-hidden="true">
-              <span className="h-0.5 w-11 bg-[#d11f53]" />
-              <span className="h-0.5 w-4 bg-[#d11f53]/70" />
-              <span className="h-0.5 w-2 bg-[#d11f53]/35" />
+              <span className="h-0.5 w-11 bg-[#8d173b]" />
+              <span className="h-0.5 w-4 bg-[#8d173b]/70" />
+              <span className="h-0.5 w-2 bg-[#8d173b]/35" />
             </div>
           </div>
         </div>

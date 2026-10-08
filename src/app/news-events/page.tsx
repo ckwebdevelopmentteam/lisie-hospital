@@ -29,7 +29,7 @@ export default function NewsEventsPage() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#d11f53] mb-3">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#8d173b] mb-3">
             <Bell className="h-4 w-4" />
             <span>Hospital Bulletin</span>
           </div>
