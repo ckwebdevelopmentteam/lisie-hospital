@@ -141,8 +141,8 @@ export default function NewsArticlesSection() {
           <div className="max-w-3xl">
             {/* Accent eyebrow line */}
             <div className="mb-3 flex items-center gap-3">
-              <span className="h-0.5 w-10 sm:w-14 bg-[#d11f53]" />
-              <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-[#d11f53]">
+              <span className="h-0.5 w-10 sm:w-14 bg-[#8d173b]" />
+              <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-[#8d173b]">
                 News & Medical Articles
               </span>
             </div>

@@ -520,7 +520,7 @@ export default function DepartmentExplorer() {
         {/* ---------------------------------------------------- */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 sm:gap-6 pb-8 sm:pb-10 border-b border-slate-200/80">
           <div className="max-w-3xl">
-            <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-slate-500 mb-2 sm:mb-4 block">
+            <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-[#8d173b] mb-2 sm:mb-4 block">
               Centres of Excellence & Clinical Departments
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-[#123B63] tracking-tight">
