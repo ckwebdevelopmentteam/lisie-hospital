@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Star, MapPin, ArrowUpRight, ChevronLeft, ChevronRight, Bed, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useModal } from "@/context/ModalContext";
 
 interface Campus {

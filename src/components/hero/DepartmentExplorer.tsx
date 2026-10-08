@@ -18,8 +18,6 @@ import {
   ChevronRight,
   ChevronDown,
   ChevronUp,
-  ArrowRight,
-  ArrowUpRight,
   Search,
   X,
   Calendar,
@@ -514,21 +512,21 @@ export default function DepartmentExplorer() {
 
 
   return (
-    <section id="departments" className="relative w-full py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC] border-t border-slate-100 overflow-hidden">
+    <section id="departments" className="relative w-full py-10 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-[#F8FAFC] border-t border-slate-100 overflow-hidden">
       <div className="w-full max-w-[1536px] mx-auto">
 
         {/* ---------------------------------------------------- */}
         {/* SECTION HEADER                                       */}
         {/* ---------------------------------------------------- */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-slate-200/80">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 sm:gap-6 pb-8 sm:pb-10 border-b border-slate-200/80">
           <div className="max-w-3xl">
-            <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-slate-500 mb-3 sm:mb-4 block">
+            <span className="text-xs sm:text-[13px] font-bold uppercase tracking-widest text-[#8d173b] mb-2 sm:mb-4 block">
               Centres of Excellence & Clinical Departments
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#123B63] tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-5xl font-extrabold text-[#123B63] tracking-tight">
               World-Class Medical Departments, Dedicated to Every Life.
             </h2>
-            <p className="mt-3 text-base sm:text-lg text-slate-600 leading-relaxed">
+            <p className="mt-2.5 sm:mt-3 text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed">
               Experience the harmony of compassionate healthcare and surgical precision.
               Explore our 6 flagship institutes and over 35 specialized medical departments.
             </p>
@@ -687,8 +685,8 @@ export default function DepartmentExplorer() {
             </div>
           </div>
 
-          {/* Category Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5 pb-3 mb-6 border-b border-slate-200/80">
+          {/* Category Tabs: Smooth horizontal swipe reel on mobile */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-6 border-b border-slate-200/80 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden -mx-4 px-4 sm:mx-0 sm:px-0">
             {[
               { id: "all", label: "All Departments", count: counts.all },
               { id: "clinical", label: "Clinical Specialties", count: counts.clinical },
@@ -705,7 +703,7 @@ export default function DepartmentExplorer() {
                     setActiveTab(tab.id as DepartmentCategory);
                     setShowAllDepartments(false);
                   }}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                  className={`shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
                     isActive
                       ? "bg-[#123B63] text-white shadow-xs"
                       : "bg-white hover:bg-slate-100 text-slate-700 border border-slate-200/70"
@@ -806,7 +804,7 @@ export default function DepartmentExplorer() {
               </div>
               <h4 className="text-base font-bold text-[#123B63]">No departments found</h4>
               <p className="text-xs text-slate-500 mt-1">
-                We couldn't find any specialties matching "{searchQuery}". Try searching for another term like "Heart", "Knee", or "Surgery".
+                We couldn&apos;t find any specialties matching &quot;{searchQuery}&quot;. Try searching for another term like &quot;Heart&quot;, &quot;Knee&quot;, or &quot;Surgery&quot;.
               </p>
               <button
                 type="button"

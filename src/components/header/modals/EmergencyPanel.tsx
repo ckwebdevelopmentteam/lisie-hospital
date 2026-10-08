@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Siren, PhoneCall, AlertTriangle, MapPin, X, ShieldAlert } from "lucide-react";
+import { Siren, PhoneCall, MapPin, X, ShieldAlert } from "lucide-react";
 import { HOSPITAL_CONTACTS } from "../data/hospitalData";
 
 interface EmergencyPanelProps {
@@ -34,7 +34,7 @@ export default function EmergencyPanel({ isOpen, onClose }: EmergencyPanelProps)
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = originalOverflow;
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };

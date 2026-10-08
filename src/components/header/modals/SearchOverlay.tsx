@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { Search, X, ArrowRight, User, Building2, Stethoscope, Clock, ShieldCheck, BookOpen } from "lucide-react";
+import { Search, X, ArrowRight, User, Building2, Stethoscope, Clock, BookOpen } from "lucide-react";
 import { SEARCH_INDEX } from "../data/hospitalData";
 import { SearchResultItem } from "../types";
 
@@ -171,7 +171,7 @@ export default function SearchOverlay({
           {query.trim() !== "" && (
             <div className="mt-6 pt-4 border-t border-gray-200 max-h-[50vh] overflow-y-auto custom-scrollbar">
               <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
-                <span className="text-[#E31C59] font-bold">{results.length}</span> Results for "{query}"
+                <span className="text-[#E31C59] font-bold">{results.length}</span> Results for &quot;{query}&quot;
               </div>
 
               {results.length > 0 ? (
@@ -217,9 +217,9 @@ export default function SearchOverlay({
                 </div>
               ) : (
                 <div className="text-center py-8 text-gray-500">
-                  <p className="text-sm">No results found for "{query}".</p>
+                  <p className="text-sm">No results found for &quot;{query}&quot;.</p>
                   <p className="text-xs text-gray-400 mt-1">
-                    Try searching for a specialty like "Cardiology", or "Dr. Jose Chacko", or "OP Timings".
+                    Try searching for a specialty like &quot;Cardiology&quot;, or &quot;Dr. Jose Chacko&quot;, or &quot;OP Timings&quot;.
                   </p>
                 </div>
               )}

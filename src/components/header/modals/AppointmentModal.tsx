@@ -2,11 +2,11 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import Link from "next/link";
 import {
   Calendar,
   UserCheck,
   Building2,
-  Activity,
   Phone,
   Clock,
   X,
@@ -53,7 +53,7 @@ export default function AppointmentModal({
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = originalOverflow;
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -102,7 +102,7 @@ export default function AppointmentModal({
           </div>
         </div>
 
-        {/* 3 Main Action Choices */}
+        {/* Main Action Choices */}
         <div className="p-6 space-y-4 overflow-y-auto">
           <div className="text-[11px] font-bold uppercase tracking-wider text-gray-500">
             Choose how you would like to proceed
@@ -127,7 +127,7 @@ export default function AppointmentModal({
                     Find a Doctor
                   </h3>
                   <p className="text-xs text-gray-500 mt-0.5">
-                    Know your specialist's name or browse by clinical department.
+                    Know your specialist&apos;s name or browse by clinical department.
                   </p>
                 </div>
               </div>
@@ -135,7 +135,7 @@ export default function AppointmentModal({
             </button>
 
             {/* 2. Find a Department */}
-            <a
+            <Link
               href="/departments"
               onClick={onClose}
               className="w-full p-4 border border-gray-200 rounded-xl hover:border-[#1677B8]/40 hover:bg-blue-50/40 transition-all flex items-center justify-between text-left group shadow-xs"
@@ -154,29 +154,7 @@ export default function AppointmentModal({
                 </div>
               </div>
               <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-[#1677B8] group-hover:translate-x-1 transition-all shrink-0 ml-2" />
-            </a>
-
-            {/* 3. Health Checkup */}
-            <a
-              href="/health-checkup"
-              onClick={onClose}
-              className="w-full p-4 border border-gray-200 rounded-xl hover:border-emerald-500/40 hover:bg-emerald-50/40 transition-all flex items-center justify-between text-left group shadow-xs"
-            >
-              <div className="flex items-center space-x-3.5">
-                <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors shrink-0">
-                  <Activity className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-[#123B63] group-hover:text-emerald-700 transition-colors">
-                    Health Checkup Packages
-                  </h3>
-                  <p className="text-xs text-gray-500 mt-0.5">
-                    Comprehensive master health checkup, cardiac wellness, and executive screening.
-                  </p>
-                </div>
-              </div>
-              <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-emerald-600 group-hover:translate-x-1 transition-all shrink-0 ml-2" />
-            </a>
+            </Link>
           </div>
 
           {/* Phone Booking Alternative */}

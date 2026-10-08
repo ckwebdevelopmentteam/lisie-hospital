@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { TextSize } from "../types";
-import { Sliders, Eye, ZapOff, Check, X } from "lucide-react";
+import { Sliders, Eye, ZapOff, X } from "lucide-react";
 
 interface AccessibilityPopoverProps {
   isOpen: boolean;

@@ -24,8 +24,8 @@ export default function OverlappingCards({ campuses }: OverlappingCardsProps) {
   return (
     <div className="relative z-30 w-full px-4 sm:px-6 lg:px-8 -mt-20 sm:-mt-28 md:-mt-32 lg:-mt-36">
       <div className="w-full max-w-[1536px] mx-auto">
-        {/* 3-Column Responsive Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+      {/* Responsive: Horizontal swipe reel on mobile (< md), 3-Column Grid on tablet/desktop (>= md) */}
+      <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-3 -mx-4 px-4 sm:mx-0 sm:px-0 md:grid md:grid-cols-3 md:gap-6 lg:gap-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {campuses.map((campus) => {
           const tag = getInstituteTag(campus.id);
 
@@ -33,7 +33,7 @@ export default function OverlappingCards({ campuses }: OverlappingCardsProps) {
             <Link
               key={campus.id}
               href={campus.link}
-              className="group relative w-full aspect-[16/11] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 cursor-pointer block bg-slate-950"
+              className="group relative w-[82vw] sm:w-[58vw] md:w-full shrink-0 snap-center aspect-[16/11] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 cursor-pointer block bg-slate-950"
             >
               {/* Full Background Photograph */}
               <img

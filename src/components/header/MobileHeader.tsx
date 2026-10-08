@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   Menu,
   X,
   Search,
-  PhoneCall,
   Calendar,
   Stethoscope,
   Siren,
@@ -16,7 +16,7 @@ import {
   Sliders,
   Globe,
 } from "lucide-react";
-import { HOSPITAL_CONTACTS, CLINICAL_SPECIALTIES, SURGICAL_SPECIALTIES, POPULAR_SPECIALTIES, PATIENT_INFO_SECTIONS, ABOUT_LISIE_SECTIONS, ACADEMICS_RESEARCH_SECTIONS, QUALITY_SAFETY_ITEMS } from "./data/hospitalData";
+import { CLINICAL_SPECIALTIES, SURGICAL_SPECIALTIES, POPULAR_SPECIALTIES, PATIENT_INFO_SECTIONS, ABOUT_LISIE_SECTIONS, ACADEMICS_RESEARCH_SECTIONS, QUALITY_SAFETY_ITEMS } from "./data/hospitalData";
 import { Language, TextSize } from "./types";
 import AccessibilityPopover from "./modals/AccessibilityPopover";
 
@@ -85,13 +85,13 @@ export default function MobileHeader({
           Single Clean Row
           ======================================================== */}
       <div className="hidden md:flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
-        <a href="/" className="flex items-center space-x-2 shrink-0">
+        <Link href="/" className="flex items-center space-x-2 shrink-0">
           <img
             src="/images/lisie-hospital-logo.png"
             alt="Lisie Hospital"
             className="h-8 w-auto object-contain"
           />
-        </a>
+        </Link>
 
         <div className="flex items-center space-x-2.5">
           <button
@@ -128,13 +128,13 @@ export default function MobileHeader({
           Single Clean Row
           ======================================================== */}
       <div className="md:hidden px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between">
-        <a href="/" className="flex items-center shrink-0">
+        <Link href="/" className="flex items-center shrink-0">
           <img
             src="/images/lisie-hospital-logo.png"
             alt="Lisie Hospital"
             className="h-7 w-auto object-contain"
           />
-        </a>
+        </Link>
 
         <div className="flex items-center space-x-1.5">
           <button
@@ -186,13 +186,13 @@ export default function MobileHeader({
           <div className="relative w-full max-w-sm sm:max-w-md bg-white h-full shadow-2xl flex flex-col z-10 animate-in slide-in-from-left duration-200">
             {/* Drawer Top Header */}
             <div className="p-4 bg-white border-b border-gray-100 flex items-center justify-between">
-              <a href="/" className="flex items-center space-x-2">
+              <Link href="/" className="flex items-center space-x-2">
                 <img
                   src="/images/lisie-hospital-logo.png"
                   alt="Lisie Hospital"
                   className="h-7 w-auto object-contain"
                 />
-              </a>
+              </Link>
               <button
                 type="button"
                 onClick={closeDrawer}
