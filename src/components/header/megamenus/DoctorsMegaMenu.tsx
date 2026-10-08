@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { POPULAR_SPECIALTIES, SAMPLE_DOCTORS } from "../data/hospitalData";
+import { DOCTORS_DATABASE } from "@/data/doctorsData";
 import { ArrowRight, Search, User, ChevronRight } from "lucide-react";
 
 interface DoctorsMegaMenuProps {
@@ -91,25 +92,41 @@ export default function DoctorsMegaMenu({ onClose, onOpenDoctorModal }: DoctorsM
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              {filteredDoctors.slice(0, 6).map((doc) => (
-                <div
-                  key={doc.name}
-                  className="p-3 border border-gray-100 hover:border-[#E31C59]/30 hover:bg-[#E31C59]/5 rounded-lg transition-colors flex items-start space-x-3.5 group"
-                >
-                  <div className="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center shrink-0 mt-0.5 text-gray-600 group-hover:bg-[#E31C59] group-hover:text-white transition-colors">
-                    <User className="w-4.5 h-4.5" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-[#123B63] group-hover:text-[#E31C59] transition-colors">
-                      {doc.name}
-                    </h4>
-                    <p className="text-xs text-gray-500 mt-0.5">{doc.designation}</p>
-                    <div className="text-xs font-semibold text-[#1677B8] mt-0.5">
-                      {doc.specialty}
+              {filteredDoctors.slice(0, 8).map((doc) => {
+                const doctorSlug = (doc as any).slug || doc.name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+                const matchedDoctor = DOCTORS_DATABASE.find((d) => d.slug === doctorSlug || d.name === doc.name);
+                return (
+                  <a
+                    key={doc.name}
+                    href={`/doctor/${doctorSlug}`}
+                    onClick={onClose}
+                    className="p-3 border border-gray-100 hover:border-[#E31C59]/30 hover:bg-[#E31C59]/5 rounded-lg transition-colors flex items-start space-x-3.5 group cursor-pointer"
+                  >
+                    {matchedDoctor?.image ? (
+                      <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 mt-0.5 border border-gray-200 shadow-2xs">
+                        <img
+                          src={matchedDoctor.image}
+                          alt={doc.name}
+                          className="w-full h-full object-cover object-top"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center shrink-0 mt-0.5 text-gray-600 group-hover:bg-[#E31C59] group-hover:text-white transition-colors">
+                        <User className="w-5 h-5" />
+                      </div>
+                    )}
+                    <div className="min-w-0">
+                      <h4 className="text-sm font-bold text-[#123B63] group-hover:text-[#E31C59] transition-colors truncate">
+                        {doc.name}
+                      </h4>
+                      <p className="text-xs text-gray-500 mt-0.5 truncate">{doc.designation}</p>
+                      <div className="text-xs font-semibold text-[#1677B8] mt-0.5 truncate">
+                        {doc.specialty}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>

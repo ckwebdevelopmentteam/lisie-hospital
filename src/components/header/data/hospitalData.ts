@@ -134,14 +134,15 @@ export const POPULAR_SPECIALTIES = [
 ];
 
 export const SAMPLE_DOCTORS = [
-  { name: "Dr. Jose Chacko Periappuram", specialty: "Cardiothoracic Surgery", qualification: "MS, MCh, FRCS (Glasg), FRCS (Edin)", designation: "Chairman & Chief CTVS Surgeon", department: "Lisie Heart Institute" },
-  { name: "Dr. Jacob Abraham", specialty: "Cardiology", qualification: "MD, DM (Cardio), FACC", designation: "Chief Interventional Cardiologist", department: "Cardiology" },
-  { name: "Dr. Roy J. Mampilly", specialty: "Orthopaedics", qualification: "MS (Ortho), DNB (Ortho)", designation: "Senior Consultant Joint Replacement", department: "Orthopaedics" },
-  { name: "Dr. Mathew Thomas", specialty: "Neurosurgery", qualification: "MCh (Neuro), DNB", designation: "Chief Neurosurgeon & Spine Surgeon", department: "Neurosurgery" },
-  { name: "Dr. Mary Varghese", specialty: "Gynaecology & Obstetrics", qualification: "MD (OBG), DGO", designation: "Senior Consultant Obstetrician", department: "Obstetrics & Gynaecology" },
-  { name: "Dr. Suresh Kumar P.", specialty: "Paediatrics & Neonatology", qualification: "MD (Paed), DCH", designation: "Chief Paediatrician", department: "Paediatrics" },
-  { name: "Dr. George K. Andrews", specialty: "Medical Oncology", qualification: "MD, DM (Oncology)", designation: "Chief Medical Oncologist", department: "Oncology" },
-  { name: "Dr. Abraham Mathew", specialty: "General Medicine", qualification: "MD (Gen Med)", designation: "Senior Consultant Physician", department: "General Medicine" },
+  { name: "Dr. Aiswarya R Kamath", specialty: "Psychiatry & Behavioural Health", qualification: "MBBS, MD, DNB", designation: "Senior Resident", department: "Psychiatry & Behavioural Health", slug: "aiswarya-r-kamath" },
+  { name: "Dr. Jose Chacko Periappuram", specialty: "Cardiothoracic Surgery", qualification: "MS, MCh, FRCS (Glasg), FRCS (Edin)", designation: "Chairman & Chief CTVS Surgeon", department: "Cardiology", slug: "jose-chacko-periappuram" },
+  { name: "Dr. Jacob Abraham", specialty: "Cardiology", qualification: "MD, DM (Cardio), FACC", designation: "Chief Interventional Cardiologist", department: "Cardiology", slug: "jacob-abraham" },
+  { name: "Dr. Roy J. Mampilly", specialty: "Orthopaedics", qualification: "MS (Ortho), DNB (Ortho)", designation: "Senior Consultant Joint Replacement", department: "Orthopaedics", slug: "roy-mampilly" },
+  { name: "Dr. Mathew Thomas", specialty: "Neurosurgery", qualification: "MCh (Neuro), DNB", designation: "Chief Neurosurgeon & Spine Surgeon", department: "Neurology", slug: "mathew-thomas" },
+  { name: "Dr. Mary Varghese", specialty: "Gynaecology & Obstetrics", qualification: "MD (OBG), DGO", designation: "Senior Consultant Obstetrician", department: "Gynaecology", slug: "mary-varghese" },
+  { name: "Dr. Suresh Kumar P.", specialty: "Paediatrics & Neonatology", qualification: "MD (Paed), DCH", designation: "Chief Paediatrician", department: "Paediatrics", slug: "suresh-kumar-p" },
+  { name: "Dr. George K. Andrews", specialty: "Medical Oncology", qualification: "MD, DM (Oncology)", designation: "Chief Medical Oncologist", department: "Oncology", slug: "george-k-andrews" },
+  { name: "Dr. Abraham Mathew", specialty: "General Medicine", qualification: "MD (Gen Med)", designation: "Senior Consultant Physician", department: "General Medicine", slug: "abraham-mathew" },
 ];
 
 export const PATIENT_INFO_SECTIONS = [
@@ -283,10 +284,11 @@ export const MORE_MENU_ITEMS = [
 ];
 
 export const SEARCH_INDEX = [
-  { id: "1", title: "Dr. Jose Chacko Periappuram", category: "Doctor" as const, subtitle: "Cardiothoracic Surgery - Lisie Heart Institute", url: "/doctors/jose-chacko" },
-  { id: "2", title: "Dr. Jacob Abraham", category: "Doctor" as const, subtitle: "Chief Interventional Cardiologist", url: "/doctors/jacob-abraham" },
-  { id: "3", title: "Dr. Roy J. Mampilly", category: "Doctor" as const, subtitle: "Senior Consultant Joint Replacement & Orthopaedics", url: "/doctors/roy-mampilly" },
-  { id: "4", title: "Dr. Mathew Thomas", category: "Doctor" as const, subtitle: "Chief Neurosurgeon & Spine Specialist", url: "/doctors/mathew-thomas" },
+  { id: "0", title: "Dr. Aiswarya R Kamath", category: "Doctor" as const, subtitle: "Senior Resident - Psychiatry & Behavioural Health", url: "/doctor/aiswarya-r-kamath" },
+  { id: "1", title: "Dr. Jose Chacko Periappuram", category: "Doctor" as const, subtitle: "Cardiothoracic Surgery - Lisie Heart Institute", url: "/doctor/jose-chacko-periappuram" },
+  { id: "2", title: "Dr. Jacob Abraham", category: "Doctor" as const, subtitle: "Chief Interventional Cardiologist", url: "/doctor/jacob-abraham" },
+  { id: "3", title: "Dr. Roy J. Mampilly", category: "Doctor" as const, subtitle: "Senior Consultant Joint Replacement & Orthopaedics", url: "/doctor/roy-mampilly" },
+  { id: "4", title: "Dr. Mathew Thomas", category: "Doctor" as const, subtitle: "Chief Neurosurgeon & Spine Specialist", url: "/doctor/mathew-thomas" },
   { id: "5", title: "Cardiology", category: "Department" as const, subtitle: "Lisie Heart Institute - Outpatient & Inpatient Care", url: "/departments/cardiology" },
   { id: "6", title: "Neurology & Neurosciences", category: "Department" as const, subtitle: "Stroke Unit, Epilepsy Clinic, Comprehensive Brain Care", url: "/departments/neurology" },
   { id: "7", title: "Orthopaedics & Joint Replacement", category: "Department" as const, subtitle: "Robotic Joint Care, Trauma, Sports Medicine", url: "/departments/orthopaedics" },
